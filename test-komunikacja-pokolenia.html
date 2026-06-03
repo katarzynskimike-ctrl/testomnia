@@ -173,6 +173,33 @@ button{font:inherit;cursor:pointer}a{color:inherit;text-decoration:none}
     {cat:"mixed",q:"Najczęstszy błąd menedżera w zespole pokoleniowo mieszanym to:",options:["Zbyt wiele spotkań","Zbyt duża transparentność wynagrodzeń","Traktowanie wszystkich tym samym językiem motywacyjnym","Zbyt różne wynagrodzenia per pokolenie"],correct:2,expl:"Tracisz 3 z 4 pokoleń. Każde ma swój język motywacji: Powojenni — stabilność, X — autonomia + pieniądze, Millennials — misja + rozwój, Z — wartości + well-being. Jeden język motywacji = jedno pokolenie zadowolone."}
   ];
 
+
+  // F3: SAVE PROGRESS (localStorage)
+  var SAVE_KEY = 'testomnia-' + location.pathname.replace(/[^a-z0-9-]/gi,'') + '-state';
+  function savePersist(){
+    try{
+      if(state && state.screen==='q' && Object.keys(state.answers||{}).length){
+        localStorage.setItem(SAVE_KEY, JSON.stringify({i:state.idx,a:state.answers,t:Date.now()}));
+      }
+    }catch(e){}
+  }
+  function clearPersist(){try{localStorage.removeItem(SAVE_KEY)}catch(e){}}
+  function hasPersist(){
+    try{
+      var r = localStorage.getItem(SAVE_KEY);
+      if(!r) return null;
+      var d = JSON.parse(r);
+      if(!d || !d.a || Object.keys(d.a).length===0) return null;
+      if(Date.now() - d.t > 1000*60*60*24*30) return null;
+      return d;
+    }catch(e){return null}
+  }
+  function showResumeModal(d){
+    var n = Object.keys(d.a).length;
+    var total = (state && state.qs ? state.qs.length : (typeof Q!=='undefined' ? Q.length : '?'));
+    return confirm('Mamy zapisany niedokończony test (pytanie ' + (d.i+1) + ' z ' + total + ', ' + n + ' odpowiedzi).\n\nKliknij OK żeby wznowić, Anuluj żeby zacząć od nowa.');
+  }
+
   const state = {screen:"intro",idx:0,answers:{}};
   const root = document.getElementById("root");
   function go(s){state.screen=s;render();window.scrollTo({top:0,behavior:"smooth"});}

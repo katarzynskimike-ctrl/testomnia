@@ -188,6 +188,33 @@ a{color:inherit;text-decoration:none}
 
   function shuffle(a){const c=[...a];for(let i=c.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[c[i],c[j]]=[c[j],c[i]];}return c;}
 
+
+  // F3: SAVE PROGRESS (localStorage)
+  var SAVE_KEY = 'testomnia-' + location.pathname.replace(/[^a-z0-9-]/gi,'') + '-state';
+  function savePersist(){
+    try{
+      if(state && state.screen==='q' && Object.keys(state.answers||{}).length){
+        localStorage.setItem(SAVE_KEY, JSON.stringify({i:state.idx,a:state.answers,t:Date.now()}));
+      }
+    }catch(e){}
+  }
+  function clearPersist(){try{localStorage.removeItem(SAVE_KEY)}catch(e){}}
+  function hasPersist(){
+    try{
+      var r = localStorage.getItem(SAVE_KEY);
+      if(!r) return null;
+      var d = JSON.parse(r);
+      if(!d || !d.a || Object.keys(d.a).length===0) return null;
+      if(Date.now() - d.t > 1000*60*60*24*30) return null;
+      return d;
+    }catch(e){return null}
+  }
+  function showResumeModal(d){
+    var n = Object.keys(d.a).length;
+    var total = (state && state.qs ? state.qs.length : (typeof Q!=='undefined' ? Q.length : '?'));
+    return confirm('Mamy zapisany niedokończony test (pytanie ' + (d.i+1) + ' z ' + total + ', ' + n + ' odpowiedzi).\n\nKliknij OK żeby wznowić, Anuluj żeby zacząć od nowa.');
+  }
+
   const state = {screen:"intro",idx:0,answers:{},qs:null};
   const root = document.getElementById("root");
 
