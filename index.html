@@ -31,6 +31,7 @@
 <meta name="twitter:image" content="https://testomnia.pl/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="testomnia-logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <title>Testomnia · Test bezpłatny. Raport za cenę kawy.</title>
 <style>
@@ -151,8 +152,68 @@ h2{font-size:clamp(28px,3.4vw,40px)}
 }
 
 :focus-visible{outline:2px solid var(--champagne);outline-offset:3px;border-radius:6px}
+.stickyCta{display:none}
+@media (max-width:759px){
+  .stickyCta{display:flex;position:fixed;bottom:14px;left:14px;right:14px;z-index:60;justify-content:center;pointer-events:none}
+  .stickyCta a{pointer-events:auto;background:linear-gradient(180deg,var(--champagne-soft),var(--champagne) 70%);color:#1A1109;border:0;border-radius:999px;padding:13px 22px;font-size:14px;font-weight:600;text-decoration:none;box-shadow:0 12px 28px -8px rgba(229,183,122,.5),inset 0 1px 0 rgba(255,255,255,.4);transition:transform .15s;display:inline-flex;align-items:center;gap:8px}
+  .stickyCta a:active{transform:scale(.97)}
+  body.in-testy .stickyCta{opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.001ms !important;animation-duration:.001ms !important;scroll-behavior:auto !important}}
 </style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://testomnia.pl/#org",
+      "name": "Testomnia",
+      "url": "https://testomnia.pl",
+      "logo": "https://testomnia.pl/testomnia-logo.png",
+      "description": "Profesjonalne testy rozwojowe i psychometryczne dla zespołów medycznych.",
+      "areaServed": "PL",
+      "knowsLanguage": "pl"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://testomnia.pl/#website",
+      "url": "https://testomnia.pl",
+      "name": "Testomnia",
+      "description": "Test bezpłatny. Raport za cenę kawy. 7 testów dla zespołów medycznych.",
+      "publisher": {"@id": "https://testomnia.pl/#org"},
+      "inLanguage": "pl-PL"
+    },
+    {
+      "@type": "Service",
+      "name": "Testy rozwojowe i psychometryczne dla zespołów medycznych",
+      "provider": {"@id": "https://testomnia.pl/#org"},
+      "areaServed": "PL",
+      "serviceType": "Testy rozwojowe",
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "Lekarze, menedżerowie praktyk medycznych, zespoły medyczne i stomatologiczne"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "PLN",
+        "description": "Test bezpłatny. Pełny raport PDF opcjonalny."
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type":"Question","name":"Czy testy są naprawdę za darmo?","acceptedAnswer":{"@type":"Answer","text":"Tak. Każdy z siedmiu testów wypełniasz bezpłatnie — bez konta, bez karty. Po teście otrzymujesz podstawowy wynik za darmo. Pełny raport PDF jest opcjonalny."}},
+        {"@type":"Question","name":"Co to znaczy 'podstawowy wynik'?","acceptedAnswer":{"@type":"Answer","text":"To Twój dominujący typ lub score plus krótki opis. Pełny raport to PDF z wykresami, analizą i planem rozwoju."}},
+        {"@type":"Question","name":"Czy to testy walidowane klinicznie?","acceptedAnswer":{"@type":"Answer","text":"Nie. Testomnia to narzędzia rozwojowe i psychometryczne. Nie stanowią diagnozy psychologicznej, medycznej ani orzeczniczej."}},
+        {"@type":"Question","name":"Ile trwa test?","acceptedAnswer":{"@type":"Answer","text":"Od 4 do 20 minut, zależnie od testu."}}
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -309,5 +370,19 @@ h2{font-size:clamp(28px,3.4vw,40px)}
   </div>
 </footer>
 
+
+<div class="stickyCta" role="complementary" aria-label="Skrót do testów">
+  <a href="#testy">Wybierz test →</a>
+</div>
+<script>
+(function(){
+  var s=document.getElementById('testy');var f=document.getElementById('faq');
+  if(!s||!('IntersectionObserver' in window))return;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){document.body.classList.toggle('in-testy',e.isIntersecting)});
+  },{threshold:0.05});
+  io.observe(s);if(f)io.observe(f);
+})();
+</script>
 </body>
 </html>

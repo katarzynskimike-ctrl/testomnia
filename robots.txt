@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://testomnia.pl/sitemap.xml
