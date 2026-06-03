@@ -5,6 +5,30 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080E18">
 <meta name="description" content="Testomnia · 7 testów rozwojowych i psychometrycznych dla zespołów medycznych. Test bezpłatny, pełny raport PDF opcjonalnie.">
+<link rel="canonical" href="https://testomnia.pl/">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="apple-touch-icon" sizes="192x192" href="favicon-192.png">
+<link rel="shortcut icon" href="favicon.ico">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pl_PL">
+<meta property="og:url" content="https://testomnia.pl/">
+<meta property="og:site_name" content="Testomnia">
+<meta property="og:title" content="Testomnia · Test bezpłatny. Raport za cenę kawy.">
+<meta property="og:description" content="7 testów rozwojowych i psychometrycznych dla zespołów medycznych. Test wypełniasz bezpłatnie, raport PDF opcjonalnie.">
+<meta property="og:image" content="https://testomnia.pl/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Testomnia · Test bezpłatny. Raport za cenę kawy.">
+<meta name="twitter:description" content="7 testów rozwojowych i psychometrycznych dla zespołów medycznych.">
+<meta name="twitter:image" content="https://testomnia.pl/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -91,6 +115,15 @@ h2{font-size:clamp(28px,3.4vw,40px)}
 .testCard.t6{--accent:#f59e0b}
 .testCard.t7{--accent:#3b82f6}
 
+/* DLA KOGO */
+.icpGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.icp{padding:28px 24px;border:1px solid var(--border);border-radius:18px;background:var(--surface);transition:border-color .2s,transform .2s}
+.icp:hover{border-color:rgba(229,183,122,.3);transform:translateY(-2px)}
+.icp__icon{width:42px;height:42px;border-radius:10px;background:rgba(229,183,122,.1);border:1px solid rgba(229,183,122,.22);display:flex;align-items:center;justify-content:center;margin-bottom:14px;color:var(--champagne)}
+.icp__icon svg{width:20px;height:20px}
+.icp h3{margin:0 0 8px;font-size:19px;line-height:1.25;font-family:var(--serif);font-weight:500;color:var(--ink)}
+.icp p{margin:0;color:var(--ink-soft);font-size:14.5px;line-height:1.55}
+
 .faqList{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
 .faq{border:1px solid var(--border);border-radius:14px;background:var(--surface);overflow:hidden;transition:border-color .2s}
 .faq[open]{border-color:rgba(229,183,122,.3)}
@@ -149,6 +182,32 @@ h2{font-size:clamp(28px,3.4vw,40px)}
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>bez karty</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>bez konta</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>wynik od razu</span>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="dla-kogo">
+  <div class="wrap">
+    <div class="section__head">
+      <span class="eyebrow">Dla kogo</span>
+      <h2>Dla ludzi, którzy <em class="italic-accent">pracują z pacjentem.</em></h2>
+    </div>
+    <div class="icpGrid">
+      <div class="icp">
+        <div class="icp__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 11v6"/><path d="M19 14h6"/></svg></div>
+        <h3>Lekarze i&nbsp;dentyści</h3>
+        <p>Diagnoza Twojego stylu komunikacji z&nbsp;pacjentem. Co Cię wzmacnia, gdzie tracisz zaufanie, jakich pacjentów rozumiesz najlepiej.</p>
+      </div>
+      <div class="icp">
+        <div class="icp__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>Menedżerowie praktyk</h3>
+        <p>Mapa stylu zarządzania zespołem. Gdzie jesteś mocny, gdzie pora przekazać. Decyzje zatrudnieniowe i&nbsp;rozwojowe.</p>
+      </div>
+      <div class="icp">
+        <div class="icp__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>Zespoły medyczne</h3>
+        <p>Audyt wiedzy całego zespołu z&nbsp;Doskonałej Obsługi Pacjenta. Asystentki, higienistki, recepcja, lekarze — jedna baseline.</p>
+      </div>
     </div>
   </div>
 </section>
