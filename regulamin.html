@@ -65,9 +65,12 @@ footer a:hover{color:var(--accent)}
 }
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
 @media (prefers-reduced-motion:reduce){*{transition-duration:.001ms !important;scroll-behavior:auto !important}}
+
+.skip-link{position:fixed;top:-100px;left:12px;background:var(--champagne);color:#1A1109;padding:10px 16px;border-radius:8px;font-weight:600;z-index:200;text-decoration:none;transition:top .2s}.skip-link:focus{top:12px;outline:0}
 </style>
 </head>
 <body>
+<a href="#main" class="skip-link">Przejdź do treści</a>
 
 <nav class="topbar">
   <div class="topbar__inner">
@@ -78,7 +81,7 @@ footer a:hover{color:var(--accent)}
   </div>
 </nav>
 
-<main>
+<main id="main">
   <span class="eyebrow">Dokument</span>
   <h1>Regulamin serwisu Testomnia</h1>
 

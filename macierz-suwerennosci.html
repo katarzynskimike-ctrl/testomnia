@@ -64,7 +64,7 @@ button{font:inherit;cursor:pointer}
 .testTop > span{flex:1;text-align:center}
 .testTop button{background:#121827;border:1px solid var(--line);color:#B8BAC6;border-radius:12px;padding:7px 12px;font-size:13px;transition:border-color .15s ease,color .15s ease}
 .testTop button:hover:not(:disabled){border-color:var(--champagne);color:var(--champagne)}
-.testTop button:disabled{opacity:.3;cursor:not-allowed}
+.testTop button:disabled{opacity:0;visibility:hidden;cursor:not-allowed}
 #reset-btn{width:32px;height:32px;padding:0;border-radius:50%;font-size:18px;display:inline-flex;align-items:center;justify-content:center;line-height:1}
 .progressTrack{height:6px;border-radius:999px;background:#121827;overflow:hidden;margin-bottom:18px}
 .progressTrack div{height:100%;background:linear-gradient(90deg,var(--champagne),var(--warm-gold));transition:width .25s ease}
@@ -134,7 +134,7 @@ button{font:inherit;cursor:pointer}
 .shareRow .restart{background:var(--champagne);color:#080E18;border:0;font-weight:850;box-shadow:0 0 30px rgba(229,183,122,.28)}
 .shareRow .restart:hover{background:var(--warm-gold)}
 
-.footer{text-align:center;padding:24px 18px;color:#5A6376;font-size:12px;border-top:1px solid var(--line);margin-top:auto;line-height:1.6}
+.footer{text-align:center;padding:24px 18px;color:#7A8294;font-size:12px;border-top:1px solid var(--line);margin-top:auto;line-height:1.6}
 
 @media (min-width:720px){
   .main{padding:36px 24px 60px}
@@ -143,9 +143,12 @@ button{font:inherit;cursor:pointer}
   .qTitle{font-size:24px}
   .wsHero .wsNum{font-size:120px}
 }
+
+.skip-link{position:fixed;top:-100px;left:12px;background:var(--champagne);color:#1A1109;padding:10px 16px;border-radius:8px;font-weight:600;z-index:200;text-decoration:none;transition:top .2s}.skip-link:focus{top:12px;outline:0}
 </style>
 </head>
 <body>
+<a href="#root" class="skip-link">Przejdź do testu</a>
 <div class="app">
   <header class="header">
     <a href="index.html" class="brandLogo" id="brand-btn" aria-label="Testomnia">
@@ -156,7 +159,7 @@ button{font:inherit;cursor:pointer}
 
   <main class="main" id="root"></main>
 
-  <footer class="footer">© 2026 Testomnia · Macierz suwerenności · <a href="regulamin.html" style="color:#B8BAC6;text-decoration:underline;text-decoration-color:rgba(229,183,122,.4);text-underline-offset:2px">Regulamin</a><br><span style="opacity:.7;font-size:11px">Test ma charakter rozwojowy i edukacyjny. Nie stanowi diagnozy psychologicznej ani medycznej.</span></footer>
+  <footer class="footer">© 2026 Testomnia · Macierz suwerenności · <a href="regulamin.html" style="color:#9CA0B1;text-decoration:underline;text-decoration-color:rgba(229,183,122,.4)">Regulamin</a> · <a href="polityka-prywatnosci.html" style="color:#9CA0B1;text-decoration:underline;text-decoration-color:rgba(229,183,122,.4)">Polityka</a><br><span style="opacity:.55;font-size:11px">Test rozwojowy i edukacyjny. Nie stanowi diagnozy.</span></footer>
 </div>
 
 <script>
@@ -363,7 +366,7 @@ button{font:inherit;cursor:pointer}
       <div class="testTop">
         <button id="back-btn"${state.idx===0?' disabled':''}>← Wstecz</button>
         <span>Pytanie ${state.idx+1} / ${total} · ${progressPct}%</span>
-        <button id="reset-btn" title="Zacznij od nowa">×</button>
+        <button id="reset-btn" title="Zacznij od nowa" aria-label="Zacznij test od nowa">×</button>
       </div>
       <div class="progressTrack"><div style="width:${progressPct}%"></div></div>
       <div class="qPillarBar" title="Postęp w filarze ${pillar.name}">${pillarSegs}</div>
@@ -531,6 +534,7 @@ button{font:inherit;cursor:pointer}
   }
 
   function renderResult(){
+    setTimeout(function(){var h=document.querySelector(".resultHero h1");if(h)h.focus()},120);
     const {Z, K, S, WS} = computeScores();
     const zone = getZone(WS);
     const diag = getDiagnosis({Z, K, S});

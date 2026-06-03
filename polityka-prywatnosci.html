@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:dark;--bg:#080E18;--surface:#0D1423;--ink:#F6F1E8;--ink-soft:#D8D6CF;--ink-muted:#9CA0B1;--ink-dim:#5A6376;--champagne:#E5B77A;--border:rgba(255,255,255,.08);--radius:14px}
+:root{color-scheme:dark;--bg:#080E18;--surface:#0D1423;--ink:#F6F1E8;--ink-soft:#D8D6CF;--ink-muted:#9CA0B1;--ink-dim:#7A8294;--champagne:#E5B77A;--border:rgba(255,255,255,.08);--radius:14px}
 *,*::before,*::after{box-sizing:border-box}html{scroll-behavior:smooth}
 body{margin:0;font-family:Inter,-apple-system,sans-serif;font-size:16px;line-height:1.7;color:var(--ink-soft);background:var(--bg);min-height:100vh;-webkit-font-smoothing:antialiased}
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(900px 600px at 80% -10%,rgba(229,183,122,.06),transparent 60%)}
@@ -41,9 +41,12 @@ footer{padding:36px 24px;text-align:center;color:var(--ink-muted);font-size:13px
 footer a{color:var(--ink-muted);border-bottom:0}footer a:hover{color:var(--champagne)}
 @media (max-width:520px){main{padding:40px 18px 60px}}
 :focus-visible{outline:2px solid var(--champagne);outline-offset:3px;border-radius:6px}
+
+.skip-link{position:fixed;top:-100px;left:12px;background:var(--champagne);color:#1A1109;padding:10px 16px;border-radius:8px;font-weight:600;z-index:200;text-decoration:none;transition:top .2s}.skip-link:focus{top:12px;outline:0}
 </style>
 </head>
 <body>
+<a href="#main" class="skip-link">Przejdź do treści</a>
 
 <nav class="topbar">
   <div class="topbar__inner">
@@ -52,7 +55,7 @@ footer a{color:var(--ink-muted);border-bottom:0}footer a:hover{color:var(--champ
   </div>
 </nav>
 
-<main>
+<main id="main">
   <span class="eyebrow">Dokument prawny</span>
   <h1>Polityka prywatności</h1>
   <p class="lead">Testomnia szanuje Twoją prywatność. <strong>Twoje odpowiedzi w testach pozostają poufne.</strong> Poniżej znajdziesz informacje o tym, jak przetwarzamy dane osobowe, jakie masz prawa i jak nas kontaktować.</p>

@@ -103,6 +103,7 @@ h2{font-size:clamp(28px,3.4vw,40px)}
 .testGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
 .testCard{display:flex;flex-direction:column;padding:24px 22px;border:1px solid var(--border);border-radius:20px;background:var(--surface);transition:transform .2s,border-color .2s,background .2s;min-height:220px;color:inherit}
 .testCard:hover{transform:translateY(-3px);border-color:var(--accent,var(--champagne));background:linear-gradient(180deg,#101729,var(--surface))}
+.testCard:active{transform:translateY(-1px) scale(.995);border-color:var(--accent,var(--champagne))}
 .testCard .badge{align-self:flex-start;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:3px 10px;border-radius:999px;margin-bottom:14px;font-weight:600;opacity:.95}
 .testCard h3{margin:2px 0 10px;font-size:21px;line-height:1.2;font-family:var(--serif);font-weight:500;color:var(--ink);letter-spacing:-.005em}
 .testCard p{margin:0;color:var(--ink-soft);font-size:14.5px;line-height:1.5;flex:1}
@@ -152,6 +153,8 @@ h2{font-size:clamp(28px,3.4vw,40px)}
 }
 
 :focus-visible{outline:2px solid var(--champagne);outline-offset:3px;border-radius:6px}
+.skip-link{position:fixed;top:-100px;left:12px;background:var(--champagne);color:#1A1109;padding:10px 16px;border-radius:8px;font-weight:600;z-index:200;text-decoration:none;transition:top .2s}.skip-link:focus{top:12px;outline:0}
+.btn:focus-visible,.testCard:focus-visible,.faq summary:focus-visible{outline:0;box-shadow:0 0 0 3px rgba(229,183,122,.5)}
 .stickyCta{display:none}
 @media (max-width:759px){
   .stickyCta{display:flex;position:fixed;bottom:14px;left:14px;right:14px;z-index:60;justify-content:center;pointer-events:none}
@@ -160,6 +163,9 @@ h2{font-size:clamp(28px,3.4vw,40px)}
   body.in-testy .stickyCta{opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.001ms !important;animation-duration:.001ms !important;scroll-behavior:auto !important}}
+
+.nav.is-scrolled{box-shadow:0 6px 24px -8px rgba(0,0,0,.5)}
+.nav{transition:box-shadow .25s}
 </style>
 
 <script type="application/ld+json">
@@ -217,6 +223,8 @@ h2{font-size:clamp(28px,3.4vw,40px)}
 </head>
 <body>
 
+<a href="#main" class="skip-link">Przejdź do treści</a>
+
 <nav class="nav">
   <div class="nav__inner">
     <a href="#" class="brand" aria-label="Testomnia"><img src="testomnia-logo.png" alt="Testomnia"></a>
@@ -228,7 +236,7 @@ h2{font-size:clamp(28px,3.4vw,40px)}
   </div>
 </nav>
 
-<main>
+<main id="main">
 
 <section class="hero">
   <div class="wrap">
@@ -236,39 +244,13 @@ h2{font-size:clamp(28px,3.4vw,40px)}
     <h1>Test bezpłatny. Raport <em class="italic-accent">za cenę kawy.</em></h1>
     <p class="hero__sub">7 testów rozwojowych i&nbsp;psychometrycznych dla lekarzy, menedżerów praktyk i&nbsp;zespołów. Test wypełniasz bezpłatnie. Pełny raport PDF odbierasz tylko jeśli zdecydujesz, że jest tego wart.</p>
     <div class="hero__ctas">
-      <a href="#testy" class="btn btn--primary btn--lg">Zobacz 7 testów</a>
+      <a href="#testy" class="btn btn--primary btn--lg">Zacznij za 6 minut →</a>
       <a href="#faq" class="btn btn--ghost btn--lg">Jak to działa</a>
     </div>
     <div class="hero__note">
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>bez karty</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>bez konta</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>wynik od razu</span>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="dla-kogo">
-  <div class="wrap">
-    <div class="section__head">
-      <span class="eyebrow">Dla kogo</span>
-      <h2>Dla ludzi, którzy <em class="italic-accent">pracują z pacjentem.</em></h2>
-    </div>
-    <div class="icpGrid">
-      <div class="icp">
-        <div class="icp__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 11v6"/><path d="M19 14h6"/></svg></div>
-        <h3>Lekarze i&nbsp;dentyści</h3>
-        <p>Diagnoza Twojego stylu komunikacji z&nbsp;pacjentem. Co Cię wzmacnia, gdzie tracisz zaufanie, jakich pacjentów rozumiesz najlepiej.</p>
-      </div>
-      <div class="icp">
-        <div class="icp__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-        <h3>Menedżerowie praktyk</h3>
-        <p>Mapa stylu zarządzania zespołem. Gdzie jesteś mocny, gdzie pora przekazać. Decyzje zatrudnieniowe i&nbsp;rozwojowe.</p>
-      </div>
-      <div class="icp">
-        <div class="icp__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-        <h3>Zespoły medyczne</h3>
-        <p>Audyt wiedzy całego zespołu z&nbsp;Doskonałej Obsługi Pacjenta. Asystentki, higienistki, recepcja, lekarze — jedna baseline.</p>
-      </div>
     </div>
   </div>
 </section>
@@ -323,6 +305,32 @@ h2{font-size:clamp(28px,3.4vw,40px)}
         <p>WS = Z × K × S ÷ 100. Suwerenność praktyki w&nbsp;trzech wymiarach. Dla właścicieli.</p>
         <div class="meta"><span>15 pytań · 20 min</span><span class="arrow">Rozpocznij →</span></div>
       </a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="dla-kogo">
+  <div class="wrap">
+    <div class="section__head">
+      <span class="eyebrow">Dla kogo</span>
+      <h2>Dla ludzi, którzy <em class="italic-accent">pracują z pacjentem.</em></h2>
+    </div>
+    <div class="icpGrid">
+      <div class="icp">
+        <div class="icp__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 11v6"/><path d="M19 14h6"/></svg></div>
+        <h3>Lekarze i&nbsp;dentyści</h3>
+        <p>Diagnoza Twojego stylu komunikacji z&nbsp;pacjentem. Co Cię wzmacnia, gdzie tracisz zaufanie, jakich pacjentów rozumiesz najlepiej.</p>
+      </div>
+      <div class="icp">
+        <div class="icp__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>Menedżerowie praktyk</h3>
+        <p>Mapa stylu zarządzania zespołem. Gdzie jesteś mocny, gdzie pora przekazać. Decyzje zatrudnieniowe i&nbsp;rozwojowe.</p>
+      </div>
+      <div class="icp">
+        <div class="icp__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>Zespoły medyczne</h3>
+        <p>Audyt wiedzy całego zespołu z&nbsp;Doskonałej Obsługi Pacjenta. Asystentki, higienistki, recepcja, lekarze — jedna baseline.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -382,6 +390,14 @@ h2{font-size:clamp(28px,3.4vw,40px)}
     es.forEach(function(e){document.body.classList.toggle('in-testy',e.isIntersecting)});
   },{threshold:0.05});
   io.observe(s);if(f)io.observe(f);
+})();
+</script>
+
+<script>
+(function(){
+  var n=document.querySelector('.nav');if(!n)return;
+  var oS=function(){n.classList.toggle('is-scrolled',window.scrollY>20)};
+  document.addEventListener('scroll',oS,{passive:true});oS();
 })();
 </script>
 </body>

@@ -58,7 +58,7 @@ button{font:inherit;cursor:pointer}
 .testTop > span{flex:1;text-align:center}
 .testTop button{background:#121827;border:1px solid var(--line);color:#B8BAC6;border-radius:12px;padding:7px 12px;font-size:13px;transition:border-color .15s ease,color .15s ease}
 .testTop button:hover:not(:disabled){border-color:var(--champagne);color:var(--champagne)}
-.testTop button:disabled{opacity:.3;cursor:not-allowed}
+.testTop button:disabled{opacity:0;visibility:hidden;cursor:not-allowed}
 #reset-btn{width:32px;height:32px;padding:0;border-radius:50%;font-size:18px;display:inline-flex;align-items:center;justify-content:center;line-height:1}
 
 .opt.picked{border-color:var(--champagne);background:rgba(229,183,122,.16);transform:scale(.99);transition:all .15s ease}
@@ -72,6 +72,7 @@ button{font:inherit;cursor:pointer}
 .options{display:flex;flex-direction:column;gap:10px;margin-top:18px}
 .opt{display:flex;align-items:flex-start;gap:12px;text-align:left;width:100%;padding:14px 16px;border:2px solid var(--line);background:rgba(13,20,35,.84);color:var(--ivory);border-radius:18px;font-size:15px;line-height:1.4;font-weight:600;transition:border-color .15s ease,background .15s ease}
 .opt:hover{border-color:var(--champagne)}
+.opt:focus-visible{outline:0;box-shadow:0 0 0 3px rgba(229,183,122,.45);border-color:var(--champagne)}
 .opt.picked{border-color:var(--champagne);background:rgba(229,183,122,.08)}
 .optIdx{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:#1C2438;color:var(--champagne);font-size:12px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;margin-top:1px}
 .opt.picked .optIdx{background:var(--champagne);color:#080E18}
@@ -112,7 +113,7 @@ button{font:inherit;cursor:pointer}
 .shareRow .restart{background:var(--champagne);color:#080E18;border:0;font-weight:850;box-shadow:0 0 30px rgba(229,183,122,.28)}
 .shareRow .restart:hover{background:var(--warm-gold)}
 
-.footer{text-align:center;padding:24px 18px;color:#5A6376;font-size:12px;border-top:1px solid var(--line);margin-top:auto}
+.footer{text-align:center;padding:24px 18px;color:#7A8294;font-size:12px;border-top:1px solid var(--line);margin-top:auto}
 
 @media (min-width:720px){
   .main{padding:36px 24px 60px}
@@ -123,9 +124,12 @@ button{font:inherit;cursor:pointer}
   .opt{padding:16px 20px;font-size:16px}
   .resultHero h1{font-size:72px}
 }
+
+.skip-link{position:fixed;top:-100px;left:12px;background:var(--champagne);color:#1A1109;padding:10px 16px;border-radius:8px;font-weight:600;z-index:200;text-decoration:none;transition:top .2s}.skip-link:focus{top:12px;outline:0}
 </style>
 </head>
 <body>
+<a href="#root" class="skip-link">Przejdź do testu</a>
 <div class="app">
   <header class="header">
     <a href="index.html" class="brandLogo" id="brand-btn" aria-label="Testomnia">
@@ -136,7 +140,7 @@ button{font:inherit;cursor:pointer}
 
   <main class="main" id="root"></main>
 
-  <footer class="footer">© 2026 Testomnia · Styl menedżera praktyki · <a href="regulamin.html" style="color:#B8BAC6;text-decoration:underline;text-decoration-color:rgba(229,183,122,.4);text-underline-offset:2px">Regulamin</a><br><span style="opacity:.7;font-size:11px">Test ma charakter rozwojowy i edukacyjny. Nie stanowi diagnozy psychologicznej ani medycznej.</span></footer>
+  <footer class="footer">© 2026 Testomnia · Styl menedżera praktyki · <a href="regulamin.html" style="color:#9CA0B1;text-decoration:underline;text-decoration-color:rgba(229,183,122,.4)">Regulamin</a> · <a href="polityka-prywatnosci.html" style="color:#9CA0B1;text-decoration:underline;text-decoration-color:rgba(229,183,122,.4)">Polityka</a><br><span style="opacity:.55;font-size:11px">Test rozwojowy i edukacyjny. Nie stanowi diagnozy.</span></footer>
 </div>
 
 <script>
@@ -257,7 +261,7 @@ button{font:inherit;cursor:pointer}
       <div class="testTop">
         <button id="back-btn"${state.idx===0?' disabled':''}>← Wstecz</button>
         <span>Pytanie ${state.idx+1} / ${total} · ${progressPct}%</span>
-        <button id="reset-btn" title="Zacznij od nowa">×</button>
+        <button id="reset-btn" title="Zacznij od nowa" aria-label="Zacznij test od nowa">×</button>
       </div>
       <div class="progressTrack"><div style="width:${progressPct}%"></div></div>
 
@@ -299,6 +303,7 @@ button{font:inherit;cursor:pointer}
   }
 
   function renderResult(){
+    setTimeout(function(){var h=document.querySelector(".resultHero h1");if(h)h.focus()},120);
     const counts = {lider:0,wizjoner:0,mentor:0,mstrateg:0};
     Object.values(state.answers).forEach(v=>{ if(counts[v]!==undefined) counts[v]++; });
     const total = state.qs.length;
@@ -331,7 +336,7 @@ button{font:inherit;cursor:pointer}
     root.innerHTML = `
       <section class="resultHero">
         <p class="tag">Twój dominujący styl</p>
-        <h1 style="color:${m.color}">${m.name}</h1>
+        <h1 tabindex="-1" style="color:${m.color};outline:0">${m.name}</h1>
         <span class="sub">${m.sub}</span>
       </section>
 
