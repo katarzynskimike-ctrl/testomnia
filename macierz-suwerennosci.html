@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080E18">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Macierz Wskaźnika Suwerenności | Test diagnostyczny dla praktyki</title>
+<style>
+:root{color-scheme:dark;--champagne:#E5B77A;--warm-gold:#C99055;--ivory:#F6F1E8;--muted:#B8BAC6;--line:#2B3445;--panel-navy:#0D1423;--deep-navy:#080E18;
+  --z1:#d4596b;--z2:#e0a165;--z3:#d4a85e;--z4:#8dab7f;--z5:#5b7c5c;
+  --pZ:#3b82f6;--pK:#22c55e;--pS:#eab308}
+*{box-sizing:border-box}
+html,body{min-height:100%;margin:0}
+body{background:var(--deep-navy);font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ivory);min-height:100dvh}
+button{font:inherit;cursor:pointer}
+
+.app{min-height:100dvh;display:flex;flex-direction:column}
+
+.header{height:78px;display:flex;gap:10px;padding:0 18px;align-items:center;border-bottom:1px solid var(--line);background:rgba(8,14,24,.96);position:sticky;top:0;z-index:30;backdrop-filter:blur(18px)}
+.brandLogo{display:flex;align-items:center;height:54px;cursor:pointer;border:0;background:transparent;color:inherit;padding:0}
+.brandMark{height:100%;width:auto;max-width:260px;display:block;border-radius:6px}
+.backLink{margin-left:auto;color:#B8BAC6;font-size:13px;padding:7px 14px;border:1px solid var(--line);border-radius:12px;transition:all .15s ease;text-decoration:none}
+.backLink:hover{border-color:var(--champagne);color:var(--champagne)}
+
+.main{flex:1;padding:24px 18px 40px;max-width:760px;margin:0 auto;width:100%}
+
+.eyebrow{margin:0;color:var(--champagne);font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:600}
+
+.introCard{padding:36px 28px;border:1px solid var(--line);border-radius:28px;background:rgba(13,20,35,.84);text-align:center;margin-top:28px}
+.introCard h1{margin:18px 0 12px;font-size:30px;line-height:1.15;font-weight:900;letter-spacing:-.01em}
+.introCard h1 small{display:block;font-family:Georgia,serif;font-style:italic;font-size:15px;font-weight:400;color:#B8BAC6;margin-top:8px;letter-spacing:.05em}
+.introCard p{color:var(--muted);line-height:1.6;font-size:15px;margin:8px 0 0}
+.introCard p strong{color:var(--ivory)}
+.introCard .note{margin-top:18px;font-size:13px;color:#B8BAC6}
+.formulaCard{margin:24px auto;padding:18px 24px;border:1px solid var(--champagne);border-radius:14px;background:rgba(229,183,122,.06);max-width:380px}
+.formulaCard p{margin:0;color:var(--champagne);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:700}
+.formulaCard h2{margin:8px 0 0;font-family:Georgia,serif;font-size:24px;font-weight:700;letter-spacing:.04em}
+.pillars3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px;text-align:center}
+.pillarBox{padding:14px 10px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02)}
+.pillarBox .letter{width:34px;height:34px;border-radius:50%;background:#1C2438;color:var(--champagne);font-weight:900;font-size:18px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px}
+.pillarBox strong{display:block;font-size:13px;font-weight:800;letter-spacing:.04em}
+.pillarBox small{display:block;color:#B8BAC6;font-size:11px;margin-top:3px;font-style:italic}
+.primaryBtn{margin-top:24px;border:0;border-radius:16px;padding:15px 28px;background:var(--champagne);color:#080E18;font-weight:850;font-size:15px;width:100%;box-shadow:0 0 30px rgba(229,183,122,.28)}
+.primaryBtn:hover{background:var(--warm-gold)}
+
+.testTop{display:flex;justify-content:space-between;align-items:center;gap:10px;color:#B8BAC6;margin-bottom:10px;font-size:13px}
+.testTop > span{flex:1;text-align:center}
+.testTop button{background:#121827;border:1px solid var(--line);color:#B8BAC6;border-radius:12px;padding:7px 12px;font-size:13px;transition:border-color .15s ease,color .15s ease}
+.testTop button:hover:not(:disabled){border-color:var(--champagne);color:var(--champagne)}
+.testTop button:disabled{opacity:.3;cursor:not-allowed}
+#reset-btn{width:32px;height:32px;padding:0;border-radius:50%;font-size:18px;display:inline-flex;align-items:center;justify-content:center;line-height:1}
+.progressTrack{height:6px;border-radius:999px;background:#121827;overflow:hidden;margin-bottom:18px}
+.progressTrack div{height:100%;background:linear-gradient(90deg,var(--champagne),var(--warm-gold));transition:width .25s ease}
+
+.qPillarBar{display:flex;gap:6px;margin-bottom:18px}
+.qPillarBar .seg{flex:1;height:4px;border-radius:2px;background:#1f1c17}
+.qPillarBar .seg.active{background:var(--champagne)}
+
+.question{margin-bottom:18px}
+.qLabel{margin:0 0 6px;color:var(--champagne);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;display:flex;align-items:center;gap:8px}
+.qLabel .pNum{padding:2px 8px;border-radius:10px;background:#1C2438;color:var(--champagne);font-weight:800;letter-spacing:.06em;font-size:10px}
+.qTitle{margin:0;font-size:22px;line-height:1.32;font-weight:600}
+.qStem{margin:6px 0 0;color:#B8BAC6;font-size:13px;line-height:1.5;font-style:italic}
+
+.scaleOpts{display:flex;flex-direction:column;gap:8px;margin-top:18px}
+.sOpt{display:flex;align-items:flex-start;gap:14px;text-align:left;width:100%;padding:14px 16px;border:2px solid var(--line);background:rgba(13,20,35,.84);color:var(--ivory);border-radius:16px;font-size:14.5px;line-height:1.4;font-weight:500;transition:all .15s ease}
+.sOpt:hover{border-color:var(--champagne)}
+.sOpt.picked{border-color:var(--champagne);background:rgba(229,183,122,.16);transform:scale(.99)}
+.sNum{flex:0 0 auto;width:36px;height:36px;border-radius:10px;background:#1C2438;color:var(--champagne);font-size:17px;font-weight:900;display:inline-flex;align-items:center;justify-content:center}
+.sOpt.picked .sNum{background:var(--champagne);color:#080E18}
+.sLabel{flex:1;padding-top:4px}
+.sNw{flex:0 0 auto;width:36px;height:36px;border-radius:10px;background:#1C2438;color:#B8BAC6;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
+
+.dontKnow{margin-top:6px;text-align:center;padding:10px;font-size:13px;color:#B8BAC6;background:transparent;border:1px dashed var(--line);border-radius:12px;cursor:pointer;width:100%}
+.dontKnow:hover{border-color:#B8BAC6;color:#8E94A8}
+
+/* === WYNIK === */
+.wsHero{text-align:center;padding:36px 24px;border:2px solid var(--line);border-radius:28px;background:rgba(13,20,35,.85)}
+.wsHero .tag{margin:0 0 14px;color:var(--champagne);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:700}
+.wsHero .wsNum{font-family:Georgia,serif;font-size:88px;font-weight:700;line-height:1;letter-spacing:-.02em}
+.wsHero .wsNum small{font-size:24px;color:#B8BAC6;font-weight:400;margin-left:6px}
+.wsHero .formula{margin-top:14px;color:#B8BAC6;font-size:14px;font-family:Georgia,serif}
+.wsHero .zoneLabel{margin:18px 0 0;display:inline-block;padding:8px 18px;border-radius:999px;font-weight:800;font-size:14px;letter-spacing:.04em}
+.wsHero .zoneDesc{margin:14px auto 0;max-width:480px;color:#E0DBD0;font-size:15px;line-height:1.6}
+
+.pillarsResult{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+.pillarCard{padding:18px;border:1px solid var(--line);border-radius:20px;background:var(--panel-navy);text-align:center}
+.pillarCard .letter{width:40px;height:40px;border-radius:50%;background:#1C2438;font-weight:900;font-size:20px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px}
+.pillarCard .pillarName{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#B8BAC6;font-weight:700;margin-bottom:6px}
+.pillarCard .score{font-family:Georgia,serif;font-size:42px;font-weight:700;line-height:1}
+.pillarCard .score small{font-size:18px;color:#B8BAC6;font-weight:400}
+.pillarCard .label{margin-top:8px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;display:inline-block}
+
+.panel{margin-top:18px;border:1px solid var(--line);border-radius:24px;background:var(--panel-navy);padding:22px}
+.panel h2{margin:8px 0 4px;font-size:18px;font-weight:700}
+.panel p{margin:8px 0 0;font-size:14.5px;line-height:1.6;color:#E0DBD0}
+.panel p strong{color:var(--ivory)}
+.panel .diagBox{padding:14px 16px;border-left:3px solid var(--champagne);background:rgba(229,183,122,.04);border-radius:0 12px 12px 0;margin-top:12px}
+.panel .diagBox p{margin:0;font-size:14px}
+
+.benchmark{margin-top:18px;padding:16px 20px;border:1px dashed var(--line);border-radius:16px;background:transparent;font-size:13px;color:#B8BAC6;line-height:1.6;text-align:center}
+.benchmark strong{color:var(--champagne)}
+
+.formulaExplain{margin-top:14px}
+.formulaSteps{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.fStep{font-size:13.5px;color:#E0DBD0;padding:8px 12px;background:rgba(255,255,255,.02);border-radius:10px}
+.fLabel{color:var(--champagne);font-weight:700;margin-right:8px;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.formulaCalc{display:flex;align-items:center;justify-content:center;gap:10px;font-family:Georgia,serif;font-size:24px;font-weight:700;padding:10px 0}
+.fNum{display:inline-block;min-width:48px;text-align:center;padding:4px 10px;background:#1C2438;border-radius:10px}
+.fOp{color:#B8BAC6;font-size:18px}
+.formulaNote{margin-top:14px;font-size:13.5px;line-height:1.6;color:#8E94A8;font-style:italic}
+.formulaNote strong{color:var(--ivory);font-style:normal}
+
+.shareRow{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.shareRow button{padding:13px 18px;border:1px solid var(--line);background:transparent;color:var(--ivory);border-radius:14px;font-weight:600;font-size:14px}
+.shareRow button:hover{border-color:var(--champagne);color:var(--champagne)}
+.shareRow .restart{background:var(--champagne);color:#080E18;border:0;font-weight:850;box-shadow:0 0 30px rgba(229,183,122,.28)}
+.shareRow .restart:hover{background:var(--warm-gold)}
+
+.footer{text-align:center;padding:24px 18px;color:#5A6376;font-size:12px;border-top:1px solid var(--line);margin-top:auto;line-height:1.6}
+
+@media (min-width:720px){
+  .main{padding:36px 24px 60px}
+  .introCard{padding:48px 40px}
+  .introCard h1{font-size:38px}
+  .qTitle{font-size:24px}
+  .wsHero .wsNum{font-size:120px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <a href="index.html" class="brandLogo" id="brand-btn" aria-label="Testomnia">
+      <img class="brandMark" src="testomnia-logo.png" alt="Testomnia" />
+    </a>
+    <a href="index.html#testy" class="backLink" id="back-link">← Wszystkie testy</a>
+  </header>
+
+  <main class="main" id="root"></main>
+
+  <footer class="footer">© 2026 Testomnia · Macierz suwerenności · <a href="regulamin.html" style="color:#B8BAC6;text-decoration:underline;text-decoration-color:rgba(229,183,122,.4);text-underline-offset:2px">Regulamin</a><br><span style="opacity:.7;font-size:11px">Test ma charakter rozwojowy i edukacyjny. Nie stanowi diagnozy psychologicznej ani medycznej.</span></footer>
+</div>
+
+<script>
+(function(){
+  const PILLARS = {
+    Z: {letter:"Z", name:"Zaangażowanie", tagline:"Zespół, który CHCE",   color:"#3b82f6"},
+    K: {letter:"K", name:"Kompetencje",    tagline:"Zespół, który POTRAFI",color:"#22c55e"},
+    S: {letter:"S", name:"Samodzielność", tagline:"Zespół, który DECYDUJE",color:"#eab308"}
+  };
+
+  // 15 pytań — 5 na filar, każde z customowymi etykietami 0-3
+  const Q = [
+    // === FILAR I — ZAANGAŻOWANIE ===
+    {pillar:"Z", num:"Z1", title:"Zespół potrafi własnymi słowami opowiedzieć misję firmy",
+      stem:"Zatrzymaj jutro pracownika przy kawie i zapytaj: „Jak byś opowiedział mojej cioci, po co istnieje ta firma?”",
+      opts:[
+        "Milknie albo mówi „zarabiamy pieniądze”",
+        "Recytuje slogan ze strony WWW",
+        "Mówi własnymi słowami, ale każdy z zespołu mówi coś innego",
+        "Płynnie, z energią — misja żyje w głowach całego zespołu"
+      ]},
+    {pillar:"Z", num:"Z2", title:"Stała rotacja pracowników (poza okresami próbnymi)",
+      stem:"Z ilu pracowników, którzy byli z Tobą rok temu, nadal jest z Tobą dzisiaj?",
+      opts:[
+        "Powyżej 25% rocznie — drzwi obrotowe",
+        "15–25% rocznie — czerwona lampka",
+        "10–15% rocznie — rynkowa norma",
+        "Poniżej 10% rocznie — top 10% firm"
+      ]},
+    {pillar:"Z", num:"Z3", title:"Proaktywne pomysły zgłaszane przez zespół",
+      stem:"Ile sugestii w tygodniu pochodzi od zespołu — bez Twojego pytania?",
+      opts:[
+        "Zero — kultura „robisz, co Ci każą”",
+        "Sporadycznie, raz na miesiąc",
+        "Co tydzień przynajmniej jeden pomysł",
+        "Dwa lub więcej tygodniowo — zeszyt pomysłów jest pełny"
+      ]},
+    {pillar:"Z", num:"Z4", title:"Polecenia pracy znajomym przez obecnych pracowników",
+      stem:"W ostatnich 12 miesiącach — ilu nowych pracowników przyszło z polecenia kogoś z zespołu?",
+      opts:[
+        "Zero — nikt nie poleca",
+        "Jedna osoba na rozmowie, ale nie został",
+        "Jeden nowy pracownik z polecenia w roku",
+        "Minimum 2–3 nowych z polecenia w roku"
+      ]},
+    {pillar:"Z", num:"Z5", title:"Sposób rozwiązywania konfliktów w zespole",
+      stem:"Konflikt między pracownikami lub z klientem — jak długo trwa od pojawienia do rozwiązania?",
+      opts:[
+        "Konflikty są tłumione, omawiane za plecami, eksplodują po kwartałach",
+        "Trwają tygodniami zanim ktoś o nich powie wprost",
+        "Rozwiązywane w ciągu tygodnia",
+        "Otwarcie, w 72 godziny, z notatką"
+      ]},
+
+    // === FILAR II — KOMPETENCJE ===
+    {pillar:"K", num:"K1", title:"System onboardingu nowego pracownika",
+      stem:"Co dostaje nowo zatrudniony pracownik w pierwszych 90 dniach?",
+      opts:[
+        "Nic systemowego — „rzucony na głęboką wodę”",
+        "Powitanie i ogólne wprowadzenie, bez planu",
+        "Plan onboardingu, ale bez weryfikacji efektów",
+        "Pisany plan 90-dniowy z mierzalnym testem końcowym (95% kompetencji wymaganych)"
+      ]},
+    {pillar:"K", num:"K2", title:"Sukcesja — wewnętrzny kandydat na kluczowe role",
+      stem:"Gdyby Twój menedżer odszedł w piątek, czy w zespole jest ktoś gotów go zastąpić?",
+      opts:[
+        "Każde odejście = panika i rekrutacja zewnętrzna",
+        "Czasami komuś dajemy szansę awansu",
+        "Wybrane role mają wewnętrznych sukcesorów",
+        "Pisana mapa sukcesji, min. 30% awansów wewnętrznych"
+      ]},
+    {pillar:"K", num:"K3", title:"Audyty jakości (NPS klienta, mystery shopper, wewnętrzny peer-review)",
+      stem:"Jakie mechanizmy pomiaru jakości działają systemowo?",
+      opts:[
+        "Brak — wierzę, że jakość jest dobra, bo nikt nie krzyczy",
+        "Sporadyczne, niemierzone",
+        "Jeden mechanizm działa regularnie (np. NPS kwartalnie)",
+        "Wszystkie trzy + dokumentowane działania korygujące"
+      ]},
+    {pillar:"K", num:"K4", title:"Średni staż pracownika (bez nowo zatrudnionych)",
+      stem:"Stabilność kadry. Doświadczeni pracownicy = kompetentni pracownicy.",
+      opts:[
+        "Każdy krócej niż 18 miesięcy — wieczne onboardingi",
+        "Średnio 18–24 miesiące",
+        "Średnio 2–3 lata",
+        "Średnio powyżej 3 lat — pamięć instytucjonalna mocna"
+      ]},
+    {pillar:"K", num:"K5", title:"Aktualizacja standardów, SOP-ów, protokołów",
+      stem:"Czy Twoja Księga Standardów jest żywym dokumentem czy zapomnianym segregatorem?",
+      opts:[
+        "Brak standardów lub w segregatorze sprzed >3 lat",
+        "Standardy istnieją, ale nieaktualizowane",
+        "Aktualizowane raz do roku",
+        "Przegląd co 6 miesięcy, wersjonowane, zespół wie o nowej wersji"
+      ]},
+
+    // === FILAR III — SAMODZIELNOŚĆ ===
+    {pillar:"S", num:"S1", title:"Pisemny budżet decyzyjny menedżera",
+      stem:"Do jakiej kwoty Twój menedżer może podjąć decyzję bez Twojej zgody?",
+      opts:[
+        "Brak limitu — każdy zakup przez Ciebie",
+        "Werbalne pozwolenie „ma wolną rękę”, ale bez kwot",
+        "Pisemny budżet, ale wąski (do ok. 1 000 zł)",
+        "Pisemny w kontrakcie: np. 5 000 zł/decyzja, 20 000 zł/miesiąc"
+      ]},
+    {pillar:"S", num:"S2", title:"Samodzielność pierwszej linii obsługi klienta",
+      stem:"Recepcja / customer service / pierwsza linia kontaktu — może udzielić rabatu, przesunąć termin, obsłużyć drobną reklamację bez konsultacji?",
+      opts:[
+        "Każda nietypowa sytuacja → „skonsultuję się z szefem”",
+        "Decyduje sama, ale bez ram — każda osoba inaczej",
+        "Częściowy regulamin (np. rabat do X%)",
+        "Pisany regulamin z konkretnymi sytuacjami i decyzjami"
+      ]},
+    {pillar:"S", num:"S3", title:"Crisis Playbook — wiedza zespołu w kryzysie",
+      stem:"Agresywny klient. Awaria kluczowego sprzętu lub systemu. Negatywna opinia w internecie. Twoja nagła niedostępność.",
+      opts:[
+        "Kryzys → telefon do Ciebie, niezależnie od godziny",
+        "Zespół wie ogólnie co robić, ale nie ma instrukcji",
+        "Częściowy playbook dla wybranych sytuacji",
+        "Pisany playbook na każdą typową sytuację kryzysową"
+      ]},
+    {pillar:"S", num:"S4", title:"Macierz odpowiedzialności (kto za co odpowiada)",
+      stem:"Czy istnieje pisemna tabela: kto zatrudnia, kto zwalnia, kto akceptuje zamówienia, kto odpowiada za KPI?",
+      opts:[
+        "Brak — w razie problemu wszyscy patrzą na siebie",
+        "Wszyscy „wiedzą” intuicyjnie, ale nic na piśmie",
+        "Pisana tabela, ale nieaktualna lub niepełna",
+        "Pisana, aktualizowana min. raz w roku, używana w sporach"
+      ]},
+    {pillar:"S", num:"S5", title:"Spotkania zespołu, gdy Cię nie ma",
+      stem:"Twoja nieobecność w danym tygodniu — czy spotkanie się odbywa i decyzje zapadają?",
+      opts:[
+        "„Nie ma szefa — spotkania nie ma”",
+        "Spotkanie się odbywa, ale tylko statusy",
+        "Spotkanie jest, ale decyzje czekają na Twój powrót",
+        "Spotkanie zawsze, ktoś prowadzi, decyzje zapadają"
+      ]}
+  ];
+
+  const state = {
+    screen:"intro",
+    idx:0,
+    answers:{}  // { questionIdx: 0-3 }
+  };
+  const root = document.getElementById("root");
+
+  function go(scr){ state.screen = scr; render(); window.scrollTo({top:0,behavior:"smooth"}); }
+
+  function render(){
+    if(state.screen==="intro") return renderIntro();
+    if(state.screen==="q")     return renderQuestion();
+    if(state.screen==="r")     return renderResult();
+  }
+
+  // === INTRO ===
+  function renderIntro(){
+    const pillars = Object.keys(PILLARS).map(k=>{
+      const p = PILLARS[k];
+      return `<div class="pillarBox"><span class="letter">${p.letter}</span><strong>${p.name}</strong><small>${p.tagline}</small></div>`;
+    }).join("");
+    root.innerHTML = `
+      <section class="introCard">
+        <p class="eyebrow">Test diagnostyczny dla szefa firmy lub zespołu</p>
+        <h1>Macierz Wskaźnika Suwerenności™<small>Na ile Twoja firma mogłaby działać bez Ciebie?</small></h1>
+        <p>15 pytań, ok. 20 minut. Diagnozuje trzy filary suwerenności firmy lub zespołu: <strong>Zaangażowanie</strong>, <strong>Kompetencje</strong>, <strong>Samodzielność</strong>.</p>
+        <div class="formulaCard">
+          <p>Wskaźnik suwerenności</p>
+          <h2>WS = Z × K × S ÷ 100</h2>
+        </div>
+        <p style="font-size:14px">Mnożenie, nie dodawanie. Jeden filar na zero = wynik na zero. Matematyka odzwierciedla rzeczywistość: zespół zaangażowany + niekompetentny = entuzjastyczny chaos.</p>
+        <div class="pillars3">${pillars}</div>
+        <p class="note">Uczciwe odpowiedzi dają uczciwy wynik. Jeśli nie wiesz — zaznacz „nie wiem” (= 0). Brak wiedzy o tym co dzieje się w zespole jest też wynikiem diagnostycznym.</p>
+        <button class="primaryBtn" id="start-btn">Rozpocznij diagnozę →</button>
+      </section>
+    `;
+    document.getElementById("start-btn").onclick = ()=>{
+      state.idx = 0; state.answers = {};
+      go("q");
+    };
+  }
+
+  // === PYTANIE ===
+  function renderQuestion(){
+    const q = Q[state.idx];
+    const total = Q.length;
+    const picked = state.answers[state.idx];
+    const answeredCount = Object.keys(state.answers).length;
+    const progressPct = Math.round((answeredCount / total) * 100);
+    const pillar = PILLARS[q.pillar];
+
+    // Pasek 5 segmentów dla bieżącego filaru
+    const inPillar = Q.filter(x=>x.pillar===q.pillar);
+    const localIdx = inPillar.indexOf(q);
+    const pillarSegs = inPillar.map((_,i)=>`<div class="seg${i<=localIdx?' active':''}"></div>`).join("");
+
+    const opts = q.opts.map((label,i)=>`
+      <button class="sOpt${picked===i?' picked':''}" data-v="${i}">
+        <span class="sNum">${i}</span>
+        <span class="sLabel">${label}</span>
+      </button>
+    `).join("");
+
+    root.innerHTML = `
+      <div class="testTop">
+        <button id="back-btn"${state.idx===0?' disabled':''}>← Wstecz</button>
+        <span>Pytanie ${state.idx+1} / ${total} · ${progressPct}%</span>
+        <button id="reset-btn" title="Zacznij od nowa">×</button>
+      </div>
+      <div class="progressTrack"><div style="width:${progressPct}%"></div></div>
+      <div class="qPillarBar" title="Postęp w filarze ${pillar.name}">${pillarSegs}</div>
+
+      <section class="question">
+        <p class="qLabel"><span class="pNum" style="color:${pillar.color}">FILAR ${q.pillar === "Z" ? "I" : q.pillar === "K" ? "II" : "III"} · ${q.num}</span> ${pillar.name.toUpperCase()}</p>
+        <h1 class="qTitle">${q.title}</h1>
+        <p class="qStem">${q.stem}</p>
+      </section>
+
+      <section class="scaleOpts">${opts}</section>
+
+      <button class="dontKnow" id="dont-know-btn">Nie wiem — przejdź dalej (= 0)</button>
+    `;
+
+    document.querySelectorAll(".sOpt").forEach(b=>{
+      b.onclick = ()=>{
+        const v = parseInt(b.dataset.v, 10);
+        state.answers[state.idx] = v;
+        b.classList.add("picked");
+        setTimeout(advance, 200);
+      };
+    });
+
+    document.getElementById("dont-know-btn").onclick = ()=>{
+      state.answers[state.idx] = 0;
+      advance();
+    };
+
+    function advance(){
+      if(state.idx === Q.length - 1){
+        go("r");
+      } else {
+        state.idx++;
+        render();
+        window.scrollTo({top:0,behavior:"smooth"});
+      }
+    }
+
+    document.getElementById("back-btn").onclick = ()=>{
+      if(state.idx>0){ state.idx--; render(); window.scrollTo({top:0,behavior:"smooth"}); }
+    };
+    document.getElementById("reset-btn").onclick = ()=>{
+      if(confirm("Zacząć od nowa? Stracisz dotychczasowe odpowiedzi.")){
+        state.answers = {}; state.idx = 0;
+        go("intro");
+      }
+    };
+  }
+
+  // === WYNIK ===
+  function computeScores(){
+    const sums = {Z:0, K:0, S:0};
+    Q.forEach((q,i)=>{
+      const v = state.answers[i] || 0;
+      sums[q.pillar] += v;
+    });
+    // suma 0-15 × 2/3 = 0-10
+    const Z = Math.round((sums.Z * 2/3) * 10) / 10;
+    const K = Math.round((sums.K * 2/3) * 10) / 10;
+    const S = Math.round((sums.S * 2/3) * 10) / 10;
+    const WS = Math.round((Z * K * S / 100) * 100) / 100;
+    return {Z, K, S, WS};
+  }
+
+  function getZone(WS){
+    if(WS < 1.0)  return {key:"red",    label:"Suwerenność uśpiona",     color:"#d4596b", desc:"Twoja firma jest w istocie Twoim etatem. Bez Ciebie zatrzymuje się w pół godziny. Każda decyzja — Ty. Każdy problem — Ty. To jeszcze nie organizacja, to przedłużenie Twojej osoby."};
+    if(WS < 3.0)  return {key:"orange", label:"Suwerenność do zbudowania", color:"#e0a165", desc:"Firma działa, ale głównie dzięki Twojej energii. Filary istnieją, ale są nierówne — mnożnik dotkliwie to pokazuje. Praca jest, materiał do budowy też. Brakuje konsekwencji w trzech obszarach naraz."};
+    if(WS < 5.0)  return {key:"yellow", label:"Suwerenność rosnąca",      color:"#d4a85e", desc:"Solidna baza. Firma utrzyma się tydzień, dwa bez Ciebie. Najczęstsze wąskie gardło na tym poziomie: filar S — architektura autonomii. Zespół już potrafi, ale wciąż czeka na Twoje „tak”."};
+    if(WS < 7.0)  return {key:"green",  label:"Suwerenność dojrzała",     color:"#8dab7f", desc:"Wszystko działa. Firma funkcjonuje bez Ciebie miesiącami. Pora myśleć o skalowaniu, drugiej lokalizacji, mentoringu kolejnego pokolenia szefów lub sprzedaży za wysokim mnożnikiem."};
+    return            {key:"darkgreen", label:"Suwerenność pełna",         color:"#5b7c5c", desc:"Top 5%. Firma działa bez Ciebie — strukturalnie, nie tylko operacyjnie. Pytanie brzmi już nie „jak osiągnąć”, tylko „co z nią dalej zrobić”."};
+  }
+
+  function getPillarLabel(score){
+    if(score <= 3.0) return {label:"Słabo",    color:"#d4596b", bg:"rgba(212,89,107,.15)"};
+    if(score <= 6.0) return {label:"Częściowo",color:"#e0a165", bg:"rgba(224,161,101,.15)"};
+    return                {label:"Mocno",    color:"#8dab7f", bg:"rgba(141,171,127,.15)"};
+  }
+
+  function getDiagnosis({Z, K, S}){
+    if(Z < 5){
+      return {
+        title:"Wąskie gardło: ZAANGAŻOWANIE",
+        body:"Brak fundamentu motywacyjnego. Ludzie nie chcą. Nie zaczynaj od szkoleń (K) ani od delegacji decyzji (S). Zacznij od <strong>architektury zaangażowania</strong>: misja, wartości, kultura uznania, rozmowy 1:1. Bez tego K i S są niewykonalne."
+      };
+    }
+    if(K < 5){
+      return {
+        title:"Wąskie gardło: KOMPETENCJE",
+        body:"Zespół chce, ale nie umie. Ich entuzjazm idzie na marne — pacjent dostaje energiczne, ale nieprofesjonalne doświadczenie. Inwestuj w <strong>system rozwoju kompetencji</strong>: pancerny onboarding, mapę kompetencji, regularne szkolenia, wsparcie menedżerskie. Ludzie zaangażowani uczą się szybko."
+      };
+    }
+    if(S < 5){
+      return {
+        title:"Wąskie gardło: TY JESTEŚ",
+        body:"Twój zespół <strong>chce i potrafi</strong>, ale Ty nie oddałeś im decyzji. To najprostsza do naprawienia sytuacja — wymaga tylko Twojej zgody na oddanie kontroli. Buduj <strong>architekturę autonomii</strong>: pisemne uprawnienia, regulaminy decyzyjne, macierz odpowiedzialności, crisis playbook."
+      };
+    }
+    return {
+      title:"Wszystkie trzy filary mocne",
+      body:"Jesteś w top 5% polskich firm. Twoja energia idzie teraz w <strong>skalę, sukcesję lub sprzedaż za maksymalny mnożnik</strong>. Powtórz test za 12 miesięcy — jeśli przyrost WS > 1,5 punktu, jesteś na właściwej drodze."
+    };
+  }
+
+  function nextThreshold(WS){
+    if(WS < 1.0) return 1.0;
+    if(WS < 3.0) return 3.0;
+    if(WS < 5.0) return 5.0;
+    if(WS < 7.0) return 7.0;
+    return null; // już w najwyższej strefie
+  }
+
+  function nextZoneName(WS){
+    const t = nextThreshold(WS);
+    if(t === null) return null;
+    return getZone(t).label;
+  }
+
+  function renderSimulator(Z, K, S, WS, zone){
+    const target = nextThreshold(WS);
+    if(target === null){
+      return `<section class="panel">
+        <p class="eyebrow">Co dalej</p>
+        <p>Jesteś w najwyższej strefie. Utrzymuj profil i powtórz test za 12 miesięcy.</p>
+      </section>`;
+    }
+    // Znajdź najmniejszy z 3 filarów
+    const pillars = [
+      {key:"Z", score:Z, name:PILLARS.Z.name, color:PILLARS.Z.color},
+      {key:"K", score:K, name:PILLARS.K.name, color:PILLARS.K.color},
+      {key:"S", score:S, name:PILLARS.S.name, color:PILLARS.S.color}
+    ].sort((a,b)=>a.score-b.score);
+    const weakest = pillars[0];
+    const others = pillars.slice(1);
+
+    // Co musiałby osiągnąć najsłabszy filar, żeby WS = target (przy stałych pozostałych)
+    // target = (a × b × x) / 100  →  x = target × 100 / (a × b)
+    const others_product = others[0].score * others[1].score;
+    let needed = target * 100 / Math.max(others_product, 0.01);
+    needed = Math.min(needed, 10);
+    const delta = needed - weakest.score;
+    const reachable = needed <= 10 && others_product > 0;
+    const nextZName = nextZoneName(WS);
+
+    let body;
+    if(reachable){
+      body = `Aby przebić próg <strong>WS = ${target.toFixed(1)}</strong> (strefa <strong>${nextZName}</strong>), Twój najsłabszy filar — <strong style="color:${weakest.color}">${weakest.name} (${weakest.score.toFixed(1)})</strong> — musi urosnąć do <strong style="color:${weakest.color}">${needed.toFixed(1)}</strong>. To <strong>+${delta.toFixed(1)} punktu</strong>, przy założeniu że pozostałe dwa filary się nie zmienią.`;
+    } else {
+      body = `Aby przebić próg <strong>WS = ${target.toFixed(1)}</strong> (strefa <strong>${nextZName}</strong>) tylko przez wzrost najsłabszego filaru — musiałby on przekroczyć 10/10, co matematycznie niemożliwe. <strong>Trzeba ruszyć więcej niż jeden filar naraz</strong>. Mnożenie wymaga równowagi.`;
+    }
+
+    return `<section class="panel">
+      <p class="eyebrow">Co podnieść, żeby skoczyć na następny poziom</p>
+      <p>${body}</p>
+      <div class="diagBox" style="margin-top:14px"><p><strong>Reguła kciuka:</strong> Aby WS osiągnęło 5,0 — wszystkie trzy filary muszą być powyżej 7,9. Aby WS = 7,0 — wszystkie powyżej 8,9. Suwerenność wymaga równomiernego wzrostu, nie pojedynczego wybicia.</p></div>
+    </section>`;
+  }
+
+  function getActionPlan(WS){
+    if(WS < 1.0) return "Twoja firma jest etatem. Pierwsze 12 miesięcy: pracuj nad najsłabszym filarem w sekwencji. Nigdy nie zaczynaj od końca (S) gdy początek (Z) leży.";
+    if(WS < 3.0) return "Suwerenność do zbudowania. Twój problem: nierówność filarów. Wyrównaj do poziomu pozostałych — mnożenie pokaże skok.";
+    if(WS < 5.0) return "Suwerenność rosnąca. Najczęstszy glass ceiling: filar S. Inwestuj w architekturę autonomii — pisemne uprawnienia, regulaminy decyzyjne, macierz odpowiedzialności, crisis playbook.";
+    if(WS < 7.0) return "Suwerenność dojrzała. Wszystko działa. Energia: skalowanie, druga lokalizacja, sprzedaż za wysokim mnożnikiem, mentoring kolejnego pokolenia szefów.";
+    return "Suwerenność pełna. Top 5%. Pytanie nie brzmi już „jak osiągnąć” — pytanie brzmi „co z firmą dalej zrobić”.";
+  }
+
+  function renderResult(){
+    const {Z, K, S, WS} = computeScores();
+    const zone = getZone(WS);
+    const diag = getDiagnosis({Z, K, S});
+    const plan = getActionPlan(WS);
+
+    const pillarCards = [
+      {key:"Z", score:Z},
+      {key:"K", score:K},
+      {key:"S", score:S}
+    ].map(p=>{
+      const pl = PILLARS[p.key];
+      const lab = getPillarLabel(p.score);
+      return `
+        <div class="pillarCard">
+          <span class="letter" style="color:${pl.color}">${pl.letter}</span>
+          <div class="pillarName">${pl.name}</div>
+          <div class="score">${p.score.toFixed(1)}<small> / 10</small></div>
+          <span class="label" style="color:${lab.color};background:${lab.bg}">${lab.label}</span>
+        </div>
+      `;
+    }).join("");
+
+    root.innerHTML = `
+      <section class="wsHero" style="border-color:${zone.color}">
+        <p class="tag">Wskaźnik Suwerenności</p>
+        <div class="wsNum" style="color:${zone.color}">${WS.toFixed(2)}<small>/ 10</small></div>
+        <div class="formula">${Z.toFixed(1)} × ${K.toFixed(1)} × ${S.toFixed(1)} ÷ 100 = ${WS.toFixed(2)}</div>
+        <span class="zoneLabel" style="background:${zone.color}22;color:${zone.color};border:1px solid ${zone.color}">${zone.label}</span>
+        <p class="zoneDesc">${zone.desc}</p>
+      </section>
+
+      <section class="pillarsResult">${pillarCards}</section>
+
+      <section class="panel">
+        <p class="eyebrow">Jak liczy się Twój wskaźnik</p>
+        <div class="formulaExplain">
+          <div class="formulaSteps">
+            <div class="fStep"><span class="fLabel">Krok 1.</span> Suma punktów per filar × ⅔ → wynik 0–10</div>
+            <div class="fStep"><span class="fLabel">Krok 2.</span> Z × K × S ÷ 100 → wskaźnik suwerenności</div>
+          </div>
+          <div class="formulaCalc">
+            <span class="fNum" style="color:${PILLARS.Z.color}">${Z.toFixed(1)}</span>
+            <span class="fOp">×</span>
+            <span class="fNum" style="color:${PILLARS.K.color}">${K.toFixed(1)}</span>
+            <span class="fOp">×</span>
+            <span class="fNum" style="color:${PILLARS.S.color}">${S.toFixed(1)}</span>
+            <span class="fOp">=</span>
+            <span class="fNum">${(Z*K*S).toFixed(1)}</span>
+          </div>
+          <div class="formulaCalc" style="margin-top:6px">
+            <span class="fNum">${(Z*K*S).toFixed(1)}</span>
+            <span class="fOp">÷</span>
+            <span class="fNum">100</span>
+            <span class="fOp">=</span>
+            <span class="fNum" style="color:${zone.color}">${WS.toFixed(2)}</span>
+          </div>
+          <p class="formulaNote"><strong>Mnożenie, nie dodawanie.</strong> Wzór odzwierciedla rzeczywistość: zespół zaangażowany ale niekompetentny = entuzjastyczny chaos. Kompetentny ale niezaangażowany = mercenary. Dlatego dwa filary na 7 i jeden na 4 daje wynik niski, choć średnia wygląda przyzwoicie. To celowe — pokazuje, że <strong>najsłabsze ogniwo decyduje</strong> o całości.</p>
+        </div>
+      </section>
+
+      ${renderSimulator(Z, K, S, WS, zone)}
+
+      <section class="panel">
+        <p class="eyebrow">Diagnoza sekwencyjna</p>
+        <h2>${diag.title}</h2>
+        <div class="diagBox"><p>${diag.body}</p></div>
+      </section>
+
+      <section class="panel">
+        <p class="eyebrow">Plan działania</p>
+        <p>${plan}</p>
+        <div class="benchmark">
+          Benchmark Polska 2026: średnia WS = <strong>1,8</strong> · mediana WS = <strong>1,2</strong> · najwyższy w próbie n=87: <strong>WS = 8,6</strong>
+        </div>
+      </section>
+
+      <section class="panel">
+        <p class="eyebrow">Następny krok</p>
+        <p>Wpisz datę i wynik do kalendarza. Powtórz test za <strong>12 miesięcy</strong>. Jeśli przyrost WS > 1,5 punktu — jesteś na właściwej drodze.</p>
+      </section>
+
+      <div class="shareRow">
+        <button class="restart" id="restart-btn">Wykonaj test ponownie</button>
+        <button id="copy-btn">Kopiuj wynik do schowka</button>
+      </div>
+    `;
+
+    document.getElementById("restart-btn").onclick = ()=>{
+      state.answers = {}; state.idx = 0;
+      go("intro");
+    };
+    document.getElementById("copy-btn").onclick = ()=>{
+      const text = `Macierz Wskaźnika Suwerenności — wynik:\n\n` +
+        `WS = ${WS.toFixed(2)} / 10  (${zone.label})\n\n` +
+        `Z (Zaangażowanie):  ${Z.toFixed(1)} / 10\n` +
+        `K (Kompetencje):    ${K.toFixed(1)} / 10\n` +
+        `S (Samodzielność):  ${S.toFixed(1)} / 10\n\n` +
+        `Wzór: ${Z.toFixed(1)} × ${K.toFixed(1)} × ${S.toFixed(1)} ÷ 100 = ${WS.toFixed(2)}\n\n` +
+        `Diagnoza: ${diag.title}\n\n` +
+        `Plan: ${plan}`;
+      navigator.clipboard.writeText(text).then(()=>{
+        const btn = document.getElementById("copy-btn");
+        const old = btn.textContent;
+        btn.textContent = "✓ Skopiowano";
+        setTimeout(()=>{btn.textContent = old;}, 2000);
+      });
+    };
+  }
+
+  document.getElementById("brand-btn").addEventListener("click",(e)=>{
+    if(state.screen !== "intro"){
+      if(!confirm("Wrócić do menu wszystkich testów? Stracisz dotychczasowe odpowiedzi.")){
+        e.preventDefault();
+      }
+    }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

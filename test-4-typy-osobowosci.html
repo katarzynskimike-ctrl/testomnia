@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080E18">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Testomnia · 4 typy osobowości | Doskonała Obsługa Pacjenta</title>
+<style>
+:root{color-scheme:dark;--champagne:#E5B77A;--warm-gold:#C99055;--ivory:#F6F1E8;--muted:#B8BAC6;--line:#2B3445;--panel-navy:#0D1423;--deep-navy:#080E18}
+*{box-sizing:border-box}
+html,body{min-height:100%;margin:0}
+body{background:var(--deep-navy);font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ivory);min-height:100dvh}
+button{font:inherit;cursor:pointer}
+a{color:inherit;text-decoration:none}
+.app{min-height:100dvh;display:flex;flex-direction:column}
+.header{height:78px;display:flex;gap:10px;padding:0 18px;align-items:center;border-bottom:1px solid var(--line);background:rgba(8,14,24,.96);position:sticky;top:0;z-index:30;backdrop-filter:blur(18px)}
+.brandLogo{display:flex;align-items:center;height:54px;cursor:pointer;border:0;background:transparent;color:inherit;padding:0}
+.brandMark{height:100%;width:auto;max-width:260px;display:block;border-radius:6px}
+.backLink{margin-left:auto;color:#B8BAC6;font-size:13px;padding:7px 14px;border:1px solid var(--line);border-radius:12px;transition:all .15s ease}
+.backLink:hover{border-color:var(--champagne);color:var(--champagne)}
+.main{flex:1;padding:24px 18px 40px;max-width:560px;margin:0 auto;width:100%}
+.eyebrow{margin:0;color:var(--champagne);font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:600}
+
+.introCard{padding:36px 28px;border:1px solid var(--line);border-radius:28px;background:rgba(13,20,35,.84);text-align:center;margin-top:28px}
+.introCard h1{margin:18px 0 12px;font-size:34px;line-height:1.05;font-weight:600;font-family:'Cormorant Garamond','Tinos',Georgia,serif;letter-spacing:-.01em}
+.introCard p{color:var(--muted);line-height:1.6;font-size:15px;margin:8px 0 0}
+.archetypes{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:24px;text-align:left}
+.archetype{padding:12px 14px;border-radius:14px;display:flex;align-items:center;gap:10px;font-size:13px;background:rgba(255,255,255,.02);border:1px solid var(--line)}
+.archetype .dot{width:12px;height:12px;border-radius:3px;flex:0 0 auto}
+.archetype strong{font-size:14px;font-weight:800}
+.archetype small{display:block;color:#B8BAC6;font-size:11px;margin-top:2px}
+.primaryBtn{margin-top:24px;border:0;border-radius:16px;padding:15px 28px;background:var(--champagne);color:#080E18;font-weight:850;font-size:15px;width:100%;box-shadow:0 0 30px rgba(229,183,122,.28)}
+.primaryBtn:hover{background:var(--warm-gold)}
+
+.testTop{display:flex;justify-content:space-between;align-items:center;gap:10px;color:#B8BAC6;margin-bottom:10px;font-size:13px}
+.testTop > span{flex:1;text-align:center}
+.testTop button{background:#121827;border:1px solid var(--line);color:#B8BAC6;border-radius:12px;padding:7px 12px;font-size:13px;transition:all .15s ease}
+.testTop button:hover:not(:disabled){border-color:var(--champagne);color:var(--champagne)}
+.testTop button:disabled{opacity:.3;cursor:not-allowed}
+#reset-btn{width:32px;height:32px;padding:0;border-radius:50%;font-size:18px;display:inline-flex;align-items:center;justify-content:center;line-height:1}
+.progressTrack{height:6px;border-radius:999px;background:#121827;overflow:hidden;margin-bottom:22px}
+.progressTrack div{height:100%;background:linear-gradient(90deg,var(--champagne),var(--warm-gold));transition:width .25s ease}
+
+.qLabel{margin:0 0 8px;color:var(--champagne);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600}
+.qTitle{margin:0 0 18px;font-size:24px;line-height:1.25;font-weight:500;font-family:'Cormorant Garamond','Tinos',Georgia,serif;color:var(--ivory)}
+
+.options{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:flex-start;gap:12px;text-align:left;width:100%;padding:14px 16px;border:2px solid var(--line);background:rgba(13,20,35,.84);color:var(--ivory);border-radius:18px;font-size:15px;line-height:1.4;font-weight:600;transition:all .15s ease}
+.opt:hover{border-color:var(--champagne)}
+.opt.picked{border-color:var(--champagne);background:rgba(229,183,122,.16);transform:scale(.99)}
+.optIdx{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:#1C2438;color:var(--champagne);font-size:12px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;margin-top:1px}
+.opt.picked .optIdx{background:var(--champagne);color:#080E18}
+
+.resultHero{text-align:center;padding:32px 20px;border:1px solid var(--line);border-radius:28px;background:rgba(13,20,35,.84)}
+.resultHero p.tag{display:inline-block;margin:0 0 14px;border:1px solid #2B3445;border-radius:999px;padding:6px 14px;color:#F0E6D5;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.resultHero h1{margin:0;font-size:52px;line-height:1.05;font-weight:600;font-family:'Cormorant Garamond','Tinos',Georgia,serif;letter-spacing:-.01em}
+.resultHero .sub{display:block;margin-top:10px;color:var(--muted);font-size:14px}
+
+.panel{margin-top:18px;padding:22px;border:1px solid var(--line);border-radius:24px;background:var(--panel-navy)}
+.panel .description{margin:10px 0 0;font-size:15px;line-height:1.6;color:#E0DBD0}
+
+.styleRow{padding:14px 0;border-bottom:1px solid var(--line)}
+.styleRow:last-child{border-bottom:0}
+.styleHeader{display:flex;justify-content:space-between;align-items:baseline;color:#E0DBD0;font-size:15px}
+.styleHeader .nm{display:inline-flex;align-items:center;gap:8px;font-weight:700}
+.styleHeader .nm .dot{width:10px;height:10px;border-radius:3px}
+.styleHeader .nm small{color:#B8BAC6;font-size:11px;font-weight:500;margin-left:6px}
+.styleHeader strong{font-size:17px;font-weight:900;color:var(--ivory)}
+.styleHeader strong small{color:#B8BAC6;font-size:12px;font-weight:500;margin-left:4px}
+.track{margin-top:10px;height:10px;border-radius:999px;background:#121827;overflow:hidden}
+.track div{height:100%;border-radius:999px;transition:width .3s ease}
+.styleRow.active .track{outline:2px solid var(--type-color);outline-offset:3px}
+.axisBlock{margin:14px 0 0;padding:14px 0;border-top:1px solid var(--line)}
+.axisBlock:first-child{border-top:0;padding-top:0;margin-top:0}
+.axisLabels{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#8E94A8;margin-bottom:8px}
+.axisLabels span:first-child,.axisLabels span:last-child{font-weight:700;color:#E0DBD0}
+.axisLabels span.dom{color:var(--champagne)}
+.axisLabels span:nth-child(2){font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#5A6376;font-weight:600}
+.axisBar{display:flex;height:18px;border-radius:999px;background:#121827;overflow:hidden}
+.axisSegLeft,.axisSegRight{height:100%;transition:width .25s ease}
+.axisVals{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:13px}
+.axisVals strong{font-weight:800;color:var(--ivory)}
+.axisVals strong small{font-weight:500;color:var(--muted);margin-left:3px;font-size:11px}
+.axisVals .domTag{font-size:11px;letter-spacing:.08em;color:var(--champagne);font-weight:700}
+
+.shareRow{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.shareRow button,.shareRow a{padding:13px 18px;border:1px solid var(--line);background:transparent;color:var(--ivory);border-radius:14px;font-weight:600;font-size:14px;text-align:center}
+.shareRow button:hover,.shareRow a:hover{border-color:var(--champagne);color:var(--champagne)}
+.shareRow .restart{background:var(--champagne);color:#080E18;border:0;font-weight:850;box-shadow:0 0 30px rgba(229,183,122,.28)}
+.shareRow .restart:hover{background:var(--warm-gold)}
+
+.footer{text-align:center;padding:24px 18px;color:#5A6376;font-size:12px;border-top:1px solid var(--line);margin-top:auto}
+
+@media (min-width:720px){.archetypes{grid-template-columns:repeat(4,1fr)}.qTitle{font-size:24px}.resultHero h1{font-size:60px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <a href="index.html" class="brandLogo" id="brand-btn" aria-label="Testomnia"><img class="brandMark" src="testomnia-logo.png" alt="Testomnia" /></a>
+    <a href="index.html#testy" class="backLink" id="back-link">← Wszystkie testy</a>
+  </header>
+  <main class="main" id="root"></main>
+  <footer class="footer">© 2026 Testomnia · 4 typy osobowości · <a href="regulamin.html" style="color:#B8BAC6;text-decoration:underline;text-decoration-color:rgba(229,183,122,.4);text-underline-offset:2px">Regulamin</a><br><span style="opacity:.7;font-size:11px">Test ma charakter rozwojowy i edukacyjny. Nie stanowi diagnozy psychologicznej ani medycznej.</span></footer>
+</div>
+<script>
+(function(){
+  const META = {
+    opiekun:    {name:"Przyjaciel", sub:"Emocjonalny Słuchacz",  color:"#22c55e", bar:"linear-gradient(90deg,#22c55e,#15803d)", desc:"Jesteś empatycznym słuchaczem. Decyzje podejmujesz po sercu, ważne są dla Ciebie relacje i poczucie bezpieczeństwa. W kontakcie z lekarzem szukasz zaufania i ciepła. Uważaj na: trudność z odmową, branie spraw zbyt osobiście, długie wahanie się przed decyzją."},
+    inspirator: {name:"Entuzjasta", sub:"Emocjonalny Mówca",     color:"#eab308", bar:"linear-gradient(90deg,#facc15,#ca8a04)", desc:"Jesteś energetyczny i otwarty. Idziesz za emocjami, lubisz nowe doświadczenia i ludzi. Decyzje podejmujesz spontanicznie. Uważaj na: pomijanie szczegółów, łatwą zmianę zdania, słabość do obietnic bez konkretów."},
+    strateg:    {name:"Wódz",       sub:"Racjonalny Mówca",     color:"#ef4444", bar:"linear-gradient(90deg,#ef4444,#991b1b)", desc:"Jesteś zdecydowany i konkretny. Cenisz wynik, kompetencje i tempo. Chcesz mieć kontrolę i wpływ na decyzję. Uważaj na: zbyt szybkie wnioskowanie, niedosłuchiwanie wątpliwości lekarza, frustrację gdy proces trwa za długo."},
+    ekspert:    {name:"Analityk",   sub:"Racjonalny Słuchacz",   color:"#3b82f6", bar:"linear-gradient(90deg,#3b82f6,#1d4ed8)", desc:"Jesteś dokładny i ostrożny. Potrzebujesz danych, faktów, drugiej opinii zanim się zdecydujesz. Cenisz kompetencje i precyzję. Uważaj na: paraliż analizy, zbyt długie odkładanie decyzji, chłodny dystans do drugiej osoby."}
+  };
+
+  const ORDER = ["opiekun","inspirator","strateg","ekspert"];
+
+  // Kolejność opcji w wierszu: [title, strateg, ekspert, opiekun, inspirator]
+  const ROWS = [
+    ["Gdy trafiasz do nowego środowiska, zwykle…","Szybko sprawdzasz, kto podejmuje decyzje","Obserwujesz zasady i sposób działania ludzi","Próbujesz wyczuć atmosferę i relacje","Naturalnie zaczynasz rozmawiać z różnymi osobami"],
+    ["Kiedy ktoś długo tłumaczy szczegóły…","Próbujesz przejść do konkretów","Słuchasz, jeśli informacje są logiczne","Zwracasz uwagę bardziej na emocje niż treść","Łatwo odpływasz myślami"],
+    ["Najbardziej męczy Cię sytuacja, w której…","Wszystko trwa zbyt długo","Brakuje jasnych zasad","Między ludźmi jest napięcie","Panuje monotonia"],
+    ["Gdy podejmujesz ważną decyzję…","Wolisz działać szybko","Potrzebujesz danych i potwierdzenia","Bierzesz pod uwagę wpływ na innych","Kierujesz się przeczuciem i energią sytuacji"],
+    ["W konflikcie częściej…","Mówisz wprost, co myślisz","Analizujesz, kto ma rację","Próbujesz uspokoić sytuację","Rozładowujesz napięcie humorem lub zmianą tematu"],
+    ["Kiedy ktoś Cię kontroluje…","Zaczynasz walczyć o niezależność","Chcesz wiedzieć, z czego wynikają wymagania","Próbujesz dostosować się dla spokoju","Szybko tracisz motywację"],
+    ["Największą satysfakcję daje Ci…","Wpływ na wynik","Wykonanie czegoś naprawdę dobrze","Poczucie, że komuś pomogłeś","Poczucie ekscytacji i energii"],
+    ["Gdy plan nagle się zmienia…","Szybko szukasz nowego rozwiązania","Irytuje Cię brak przewidywalności","Zastanawiasz się, jak wpłynie to na ludzi","Widzisz w tym coś ciekawego"],
+    ["W grupie najczęściej…","Przejmujesz prowadzenie","Obserwujesz i analizujesz","Wspierasz spokojniejszy przebieg rozmowy","Budujesz energię i dynamikę"],
+    ["Kiedy jesteś przeciążony…","Stajesz się bardziej stanowczy","Wycofujesz się i analizujesz","Bierzesz zbyt dużo emocji na siebie","Zaczynasz działać chaotycznie"],
+    ["Co najbardziej buduje Twoje zaufanie do ludzi?","Skuteczność","Kompetencje","Szczerość i lojalność","Autentyczność i energia"],
+    ["Kiedy ktoś Cię krytykuje…","Bronisz swojego stanowiska","Analizujesz argumenty","Długo przeżywasz to emocjonalnie","Próbujesz obrócić sytuację w żart"],
+    ["W pracy najbardziej lubisz…","Wpływać na kierunek działań","Dopracowywać jakość","Współpracować z ludźmi","Tworzyć nowe pomysły"],
+    ["Najbardziej irytują Cię osoby…","Niezdecydowane","Nieprzygotowane","Chłodne emocjonalnie","Sztywne i schematyczne"],
+    ["Kiedy musisz czekać…","Zaczynasz się niecierpliwić","Zajmujesz się analizą lub planowaniem","Spokojnie dostosowujesz się do sytuacji","Szukasz czegoś bardziej interesującego"],
+    ["W rozmowie zwykle…","Prowadzisz do decyzji","Zadajesz dużo pytań","Uważnie słuchasz emocji rozmówcy","Nadajesz rozmowie lekkość"],
+    ["Największy stres wywołuje u Ciebie…","Utrata wpływu","Możliwość popełnienia błędu","Konflikt lub odrzucenie","Ograniczenie swobody"],
+    ["Gdy ktoś nie odpowiada na wiadomość…","Uznajesz to za brak konkretu","Zastanawiasz się, co się stało","Bierzesz pod uwagę emocje tej osoby","Szybko przestajesz o tym myśleć"],
+    ["Kiedy masz wolny dzień…","Organizujesz coś produktywnego","Nadrabiasz rzeczy, które były odłożone","Spędzasz czas z bliskimi","Szukasz spontanicznych aktywności"],
+    ["W sytuacji niepewności…","Działasz mimo ryzyka","Potrzebujesz więcej informacji","Szukasz wsparcia lub konsultacji","Improwizujesz"],
+    ["Ludzie najczęściej widzą w Tobie…","Siłę i zdecydowanie","Rozsądek i dokładność","Spokój i empatię","Energię i otwartość"],
+    ["Gdy ktoś narusza Twoje granice…","Reagujesz od razu","Analizujesz sytuację zanim odpowiesz","Trudno Ci stanowczo zareagować","Próbujesz obrócić to w lekki sposób"],
+    ["Najbardziej motywuje Cię…","Osiąganie ambitnych celów","Rozwój kompetencji","Poczucie sensu","Nowe doświadczenia"],
+    ["W relacjach zawodowych…","Cenisz skuteczność","Cenisz profesjonalizm","Cenisz stabilność i zaufanie","Cenisz swobodę i dobrą energię"],
+    ["Gdy widzisz chaos…","Próbujesz przejąć kontrolę","Porządkujesz informacje","Próbujesz uspokoić ludzi","Działasz spontanicznie"],
+    ["Najczęściej podejmujesz decyzje…","Szybko","Po analizie","Po konsultacji z innymi","Intuicyjnie"],
+    ["W pracy zespołowej zwykle…","Nadajesz tempo","Pilnujesz jakości","Dbasz o współpracę","Pobudzasz energię grupy"],
+    ["Gdy coś idzie nie po Twojej myśli…","Zwiększasz nacisk","Szukasz błędu","Przeżywasz to emocjonalnie","Szybko przerzucasz uwagę gdzie indziej"],
+    ["Jak reagujesz na rutynę?","Tolerujesz ją, jeśli prowadzi do celu","Lubisz przewidywalność","Daje Ci poczucie bezpieczeństwa","Szybko zaczyna Cię męczyć"],
+    ["Ważniejsze jest dla Ciebie…","Skuteczność","Poprawność","Relacja","Doświadczenie"],
+    ["Kiedy ktoś prosi Cię o pomoc…","Szukasz rozwiązania","Analizujesz problem","Wspierasz emocjonalnie","Próbujesz dodać energii i nadziei"],
+    ["Najbardziej boisz się…","Utraty kontroli","Kompromitacji lub błędu","Samotności lub odrzucenia","Stagnacji"],
+    ["Gdy inni długo nie mogą podjąć decyzji…","Przejmujesz inicjatywę","Próbujesz zebrać więcej danych","Dbasz, by każdy został wysłuchany","Próbujesz rozruszać sytuację energią"]
+  ];
+
+  const Q = ROWS.map((r,i)=>({id:i+1,title:r[0],options:[
+    {type:"strateg",text:r[1]},{type:"ekspert",text:r[2]},{type:"opiekun",text:r[3]},{type:"inspirator",text:r[4]}
+  ]}));
+
+  function shuffle(a){const c=[...a];for(let i=c.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[c[i],c[j]]=[c[j],c[i]];}return c;}
+
+  const state = {screen:"intro",idx:0,answers:{},qs:null};
+  const root = document.getElementById("root");
+
+  function go(s){state.screen=s;render();window.scrollTo({top:0,behavior:"smooth"});}
+
+  function render(){
+    if(state.screen==="intro") return renderIntro();
+    if(state.screen==="q") return renderQuestion();
+    if(state.screen==="r") return renderResult();
+  }
+
+  function renderIntro(){
+    const chips = ORDER.map(k=>{const m=META[k];return `<div class="archetype"><span class="dot" style="background:${m.color}"></span><div><strong>${m.name}</strong><small>${m.sub}</small></div></div>`;}).join("");
+    root.innerHTML = `<section class="introCard">
+      <p class="eyebrow">4 typy osobowości · DISC</p>
+      <h1>Jaki masz styl?</h1>
+      <p>33 sytuacje z życia codziennego. Wybierz odpowiedź najbliższą temu, jak <strong>naprawdę</strong> się zachowujesz — nie jak „powinieneś”.</p>
+      <p style="margin-top:14px;font-size:14px;color:#B8BAC6">Dla każdego — pacjent lub lekarz. Test trwa ok. 6 minut. Wynik pokazuje Twój dominujący archetyp + podział wszystkich 4 stylów.</p>
+      <div class="archetypes">${chips}</div>
+      <button class="primaryBtn" id="start-btn">Rozpocznij test →</button>
+    </section>`;
+    document.getElementById("start-btn").onclick = ()=>{
+      state.qs = Q.map(q=>({...q,options:shuffle(q.options)}));
+      state.idx=0;state.answers={};go("q");
+    };
+  }
+
+  function renderQuestion(){
+    const q = state.qs[state.idx];
+    const total = state.qs.length;
+    const picked = state.answers[q.id];
+    const answered = Object.keys(state.answers).length;
+    const pct = Math.round((answered/total)*100);
+    const opts = q.options.map((o,i)=>`<button class="opt${picked===o.type?' picked':''}" data-type="${o.type}">
+      <span class="optIdx">${String.fromCharCode(65+i)}</span><span>${o.text}</span></button>`).join("");
+    root.innerHTML = `
+      <div class="testTop">
+        <button id="back-btn"${state.idx===0?' disabled':''}>← Wstecz</button>
+        <span>Pytanie ${state.idx+1} / ${total} · ${pct}%</span>
+        <button id="reset-btn" title="Zacznij od nowa">×</button>
+      </div>
+      <div class="progressTrack"><div style="width:${pct}%"></div></div>
+      <p class="qLabel">Wybierz odpowiedź, która najbardziej Cię opisuje</p>
+      <h1 class="qTitle">${q.title}</h1>
+      <section class="options">${opts}</section>
+    `;
+    let advancing = false;
+    document.querySelectorAll(".opt").forEach(b=>{
+      b.onclick = ()=>{
+        if(advancing) return;
+        advancing = true;
+        document.querySelectorAll(".opt").forEach(x=>x.style.pointerEvents="none");
+        state.answers[q.id] = b.dataset.type;
+        b.classList.add("picked");
+        setTimeout(()=>{
+          if(state.idx===state.qs.length-1){
+            // Walidacja: czy wszystkie pytania mają odpowiedź?
+            const missing = state.qs.findIndex(qq=>!state.answers[qq.id]);
+            if(missing>=0){
+              alert(`Brakuje odpowiedzi na pytanie ${missing+1}. Wracam tam.`);
+              state.idx = missing;
+              render();
+              window.scrollTo({top:0,behavior:"smooth"});
+            } else {
+              go("r");
+            }
+          } else {
+            state.idx++;
+            render();
+            window.scrollTo({top:0,behavior:"smooth"});
+          }
+        },180);
+      };
+    });
+    document.getElementById("back-btn").onclick = ()=>{
+      if(state.idx>0){state.idx--;render();window.scrollTo({top:0,behavior:"smooth"});}
+    };
+    document.getElementById("reset-btn").onclick = ()=>{
+      if(confirm("Zacząć od nowa? Stracisz dotychczasowe odpowiedzi.")){
+        state.answers={};state.idx=0;state.qs=null;go("intro");
+      }
+    };
+  }
+
+  function renderResult(){
+    const counts = {opiekun:0,inspirator:0,strateg:0,ekspert:0};
+    Object.values(state.answers).forEach(v=>{if(counts[v]!==undefined) counts[v]++;});
+    const total = state.qs.length;
+    const pcts = {};
+    Object.keys(counts).forEach(k=>pcts[k]=Math.round((counts[k]/total)*100));
+    let sum = Object.values(pcts).reduce((a,b)=>a+b,0);
+    if(sum!==100){
+      const s = Object.keys(pcts).sort((a,b)=>counts[b]-counts[a]);
+      pcts[s[0]] += (100-sum);
+    }
+    const sorted = [...ORDER].sort((a,b)=>counts[b]-counts[a]);
+    const dom = sorted[0];
+    const m = META[dom];
+
+    // Obliczanie osi
+    const sluchacz = counts.opiekun + counts.ekspert;
+    const mowca = counts.strateg + counts.inspirator;
+    const emocjonalny = counts.opiekun + counts.inspirator;
+    const racjonalny = counts.strateg + counts.ekspert;
+    const totalCom = sluchacz + mowca || 1;
+    const totalDec = emocjonalny + racjonalny || 1;
+    const sluchaczPct = Math.round((sluchacz/totalCom)*100);
+    const mowcaPct = 100 - sluchaczPct;
+    const emocPct = Math.round((emocjonalny/totalDec)*100);
+    const racPct = 100 - emocPct;
+    const comDominant = sluchaczPct >= mowcaPct ? "Słuchacz" : "Mówca";
+    const decDominant = emocPct >= racPct ? "Emocjonalny" : "Racjonalny";
+    const comLeft = sluchaczPct >= mowcaPct;
+    const decLeft = emocPct >= racPct;
+
+    const axesHtml = `
+      <div class="axisBlock">
+        <div class="axisLabels">
+          <span class="${comLeft?'dom':''}">Słuchacz</span>
+          <span>oś komunikacji</span>
+          <span class="${!comLeft?'dom':''}">Mówca</span>
+        </div>
+        <div class="axisBar">
+          <div class="axisSegLeft" style="width:${sluchaczPct}%;background:#3b82f6"></div>
+          <div class="axisSegRight" style="width:${mowcaPct}%;background:#eab308"></div>
+        </div>
+        <div class="axisVals">
+          <strong>${sluchacz} pkt <small>(${sluchaczPct}%)</small></strong>
+          <span class="domTag">→ ${comDominant}</span>
+          <strong>${mowca} pkt <small>(${mowcaPct}%)</small></strong>
+        </div>
+      </div>
+      <div class="axisBlock">
+        <div class="axisLabels">
+          <span class="${decLeft?'dom':''}">Emocjonalny</span>
+          <span>oś decyzji</span>
+          <span class="${!decLeft?'dom':''}">Racjonalny</span>
+        </div>
+        <div class="axisBar">
+          <div class="axisSegLeft" style="width:${emocPct}%;background:#22c55e"></div>
+          <div class="axisSegRight" style="width:${racPct}%;background:#ef4444"></div>
+        </div>
+        <div class="axisVals">
+          <strong>${emocjonalny} pkt <small>(${emocPct}%)</small></strong>
+          <span class="domTag">→ ${decDominant}</span>
+          <strong>${racjonalny} pkt <small>(${racPct}%)</small></strong>
+        </div>
+      </div>
+    `;
+
+    const rows = sorted.map(k=>{
+      const c = META[k]; const p = pcts[k]; const act = k===dom;
+      return `<div class="styleRow${act?' active':''}" style="--type-color:${c.color}">
+        <div class="styleHeader">
+          <span class="nm" style="${act?`color:${c.color}`:''}"><span class="dot" style="background:${c.color}"></span>${c.name}<small>${c.sub}</small></span>
+          <strong>${p}%<small>${counts[k]} pkt</small></strong>
+        </div>
+        <div class="track"><div style="width:${Math.max(4,p)}%;background:${c.bar}"></div></div>
+      </div>`;
+    }).join("");
+    root.innerHTML = `
+      <section class="resultHero">
+        <p class="tag">Twój dominujący styl</p>
+        <h1 style="color:${m.color}">${m.name}</h1>
+        <span class="sub">${m.sub}</span>
+      </section>
+      <section class="panel" style="border-color:${m.color};border-width:2px">
+        <p class="eyebrow">Jaki masz styl</p>
+        <p class="description">${m.desc}</p>
+      </section>
+      <section class="panel">
+        <p class="eyebrow">Podsumowanie 4 stylów</p>
+        ${rows}
+        <p style="margin-top:14px;font-size:12px;color:var(--muted);text-align:right">
+          Razem: <strong style="color:var(--ivory)">${counts.opiekun+counts.inspirator+counts.strateg+counts.ekspert} pkt</strong> z ${total} pytań
+        </p>
+      </section>
+      <section class="panel">
+        <p class="eyebrow">Twoje 2 osie osobowości</p>
+        ${axesHtml}
+      </section>
+      <div class="shareRow">
+        <button class="restart" id="restart-btn">Wykonaj ponownie</button>
+        <a href="index.html#testy">← Wróć do wszystkich testów</a>
+      </div>
+    `;
+    document.getElementById("restart-btn").onclick = ()=>{
+      state.answers={};state.idx=0;state.qs=null;go("intro");
+    };
+  }
+
+  document.getElementById("brand-btn").addEventListener("click",(e)=>{
+    if(state.screen !== "intro"){
+      if(!confirm("Wrócić do menu testów? Stracisz dotychczasowe odpowiedzi.")) e.preventDefault();
+    }
+  });
+  document.getElementById("back-link").addEventListener("click",(e)=>{
+    if(state.screen !== "intro"){
+      if(!confirm("Wrócić do menu testów? Stracisz dotychczasowe odpowiedzi.")) e.preventDefault();
+    }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

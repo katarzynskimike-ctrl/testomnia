@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080E18">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Testomnia · Komunikacja międzypokoleniowa | Doskonała Obsługa Pacjenta</title>
+<style>
+:root{color-scheme:dark;--champagne:#E5B77A;--warm-gold:#C99055;--ivory:#F6F1E8;--muted:#B8BAC6;--line:#2B3445;--panel-navy:#0D1423;--deep-navy:#080E18}
+*{box-sizing:border-box}html,body{min-height:100%;margin:0}
+body{background:var(--deep-navy);font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ivory);min-height:100dvh}
+button{font:inherit;cursor:pointer}a{color:inherit;text-decoration:none}
+.app{min-height:100dvh;display:flex;flex-direction:column}
+.header{height:78px;display:flex;gap:10px;padding:0 18px;align-items:center;border-bottom:1px solid var(--line);background:rgba(8,14,24,.96);position:sticky;top:0;z-index:30;backdrop-filter:blur(18px)}
+.brandLogo{display:flex;align-items:center;height:54px;cursor:pointer;border:0;background:transparent;color:inherit;padding:0}
+.brandMark{height:100%;width:auto;max-width:260px;display:block;border-radius:6px}
+.backLink{margin-left:auto;color:#B8BAC6;font-size:13px;padding:7px 14px;border:1px solid var(--line);border-radius:12px;transition:all .15s ease}
+.backLink:hover{border-color:var(--champagne);color:var(--champagne)}
+.main{flex:1;padding:24px 18px 40px;max-width:600px;margin:0 auto;width:100%}
+.eyebrow{margin:0;color:var(--champagne);font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:600}
+
+.introCard{padding:36px 28px;border:1px solid var(--line);border-radius:28px;background:rgba(13,20,35,.84);text-align:center;margin-top:28px}
+.introCard h1{margin:18px 0 12px;font-size:30px;line-height:1.1;font-weight:900}
+.introCard p{color:var(--muted);line-height:1.6;font-size:15px;margin:8px 0 0}
+.primaryBtn{margin-top:24px;border:0;border-radius:16px;padding:15px 28px;background:var(--champagne);color:#080E18;font-weight:850;font-size:15px;width:100%;box-shadow:0 0 30px rgba(229,183,122,.28)}
+.primaryBtn:hover{background:var(--warm-gold)}
+
+.genPills{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:22px;text-align:left}
+.genPill{padding:12px 14px;border-radius:14px;display:flex;align-items:center;gap:10px;font-size:13px;background:rgba(255,255,255,.02);border:1px solid var(--line)}
+.genPill .dot{width:12px;height:12px;border-radius:3px;flex:0 0 auto}
+.genPill strong{font-size:14px;font-weight:800}
+.genPill small{display:block;color:#B8BAC6;font-size:11px;margin-top:2px}
+
+.testTop{display:flex;justify-content:space-between;align-items:center;gap:10px;color:#B8BAC6;margin-bottom:10px;font-size:13px}
+.testTop > span{flex:1;text-align:center}
+.testTop button{background:#121827;border:1px solid var(--line);color:#B8BAC6;border-radius:12px;padding:7px 12px;font-size:13px;transition:all .15s ease}
+.testTop button:hover:not(:disabled){border-color:var(--champagne);color:var(--champagne)}
+.testTop button:disabled{opacity:.3;cursor:not-allowed}
+#reset-btn{width:32px;height:32px;padding:0;border-radius:50%;font-size:18px;display:inline-flex;align-items:center;justify-content:center;line-height:1}
+.progressTrack{height:6px;border-radius:999px;background:#121827;overflow:hidden;margin-bottom:22px}
+.progressTrack div{height:100%;background:linear-gradient(90deg,var(--champagne),var(--warm-gold));transition:width .25s ease}
+
+.qLabel{margin:0 0 8px;color:var(--champagne);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;display:flex;align-items:center;gap:8px}
+.qLabel .catDot{width:8px;height:8px;border-radius:50%}
+.qTitle{margin:0 0 18px;font-size:24px;line-height:1.25;font-weight:500;font-family:'Cormorant Garamond','Tinos',Georgia,serif;color:var(--ivory)}
+
+.options{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:flex-start;gap:12px;text-align:left;width:100%;padding:14px 16px;border:2px solid var(--line);background:rgba(13,20,35,.84);color:var(--ivory);border-radius:18px;font-size:15px;line-height:1.4;font-weight:600;transition:all .15s ease}
+.opt:not(:disabled):hover{border-color:var(--champagne)}
+.optIdx{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:#1C2438;color:var(--champagne);font-size:12px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;margin-top:1px}
+.opt.correct{border-color:#22c55e;background:rgba(34,197,94,.12)}
+.opt.correct .optIdx{background:#22c55e;color:#052e16}
+.opt.wrong{border-color:#ef4444;background:rgba(239,68,68,.12)}
+.opt.wrong .optIdx{background:#ef4444;color:#450a0a}
+.opt.dim{opacity:.55}
+
+.feedback{margin-top:14px;padding:16px 18px;border:1px solid var(--line);border-radius:18px;background:#0D1423;display:flex;flex-direction:column;gap:12px}
+.badge{align-self:flex-start;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.12em;padding:5px 11px;border-radius:999px}
+.badge.ok{background:rgba(34,197,94,.18);color:#4ade80;border:1px solid rgba(34,197,94,.45)}
+.badge.no{background:rgba(239,68,68,.18);color:#f87171;border:1px solid rgba(239,68,68,.45)}
+.feedback p{margin:0;font-size:14px;line-height:1.55;color:#d0c8b8}
+.nextBtn{align-self:stretch;border:0;border-radius:14px;padding:13px 18px;background:var(--champagne);color:#080E18;font-weight:850;font-size:14px}
+.nextBtn:hover{background:var(--warm-gold)}
+
+.resultHero{text-align:center;padding:32px 20px;border:1px solid var(--line);border-radius:28px;background:rgba(13,20,35,.84)}
+.resultHero p.tag{display:inline-block;margin:0 0 14px;border:1px solid #2B3445;border-radius:999px;padding:6px 14px;color:#F0E6D5;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.resultHero h1{margin:0;font-size:38px;line-height:1.1;font-weight:900}
+.resultHero .sub{display:block;margin-top:10px;color:var(--muted);font-size:14px}
+
+.panel{margin-top:18px;padding:22px;border:1px solid var(--line);border-radius:24px;background:var(--panel-navy)}
+.panel.featured{border-width:2px}
+.panel .levelDesc{margin:10px 0 0;font-size:15px;line-height:1.6;color:#E0DBD0}
+.catRow{padding:14px 0;border-bottom:1px solid var(--line)}
+.catRow:last-child{border-bottom:0}
+.catHead{display:flex;justify-content:space-between;align-items:baseline;color:#E0DBD0;font-size:14px}
+.catHead .nm{display:inline-flex;align-items:center;gap:8px;font-weight:600}
+.catHead .nm .dot{width:8px;height:8px;border-radius:2px}
+.catHead strong{font-size:14px;font-weight:800;color:var(--ivory)}
+.catTrack{margin-top:8px;height:8px;border-radius:999px;background:#121827;overflow:hidden}
+.catTrack div{height:100%;border-radius:999px;transition:width .3s ease}
+.catAdvice{margin-top:7px;color:#8E94A8;font-size:12px;line-height:1.5}
+
+.bookCta{text-align:center;background:rgba(229,183,122,.04)}
+.bookCta h3{margin:8px 0 4px;font-family:Georgia,serif;font-size:20px;color:var(--champagne)}
+.bookCta p{margin:0;font-size:13px;color:#8E94A8}
+
+.shareRow{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.shareRow button,.shareRow a{padding:13px 18px;border:1px solid var(--line);background:transparent;color:var(--ivory);border-radius:14px;font-weight:600;font-size:14px;text-align:center}
+.shareRow .restart{background:var(--champagne);color:#080E18;border:0;font-weight:850;box-shadow:0 0 30px rgba(229,183,122,.28)}
+
+.footer{text-align:center;padding:24px 18px;color:#5A6376;font-size:12px;border-top:1px solid var(--line);margin-top:auto}
+
+@media (min-width:720px){.qTitle{font-size:25px}.resultHero h1{font-size:48px}.genPills{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <a href="index.html" class="brandLogo" id="brand-btn" aria-label="Testomnia"><img class="brandMark" src="testomnia-logo.png" alt="Testomnia" /></a>
+    <a href="index.html#testy" class="backLink" id="back-link">← Wszystkie testy</a>
+  </header>
+  <main class="main" id="root"></main>
+  <footer class="footer">© 2026 Testomnia · Komunikacja międzypokoleniowa · <a href="regulamin.html" style="color:#B8BAC6;text-decoration:underline;text-decoration-color:rgba(229,183,122,.4);text-underline-offset:2px">Regulamin</a><br><span style="opacity:.7;font-size:11px">Test ma charakter rozwojowy i edukacyjny. Nie stanowi diagnozy psychologicznej ani medycznej.</span><br><span style="opacity:.55;font-size:10px">Źródło: „Suwerenna Praktyka™ · R6.5 — Cztery pokolenia w jednej praktyce" — 2026</span></footer>
+</div>
+<script>
+(function(){
+  const CATS = {
+    millennials: {name:"Millennials (30–45 lat)", color:"#a78bfa"},
+    zgen:        {name:"Pokolenie Z (14–29 lat)", color:"#06b6d4"},
+    diff:        {name:"Różnice między pokoleniami", color:"#eab308"},
+    mixed:       {name:"Mieszany zespół",         color:"#22c55e"}
+  };
+  const CAT_ORDER = ["millennials","zgen","diff","mixed"];
+
+  const Q = [
+    // MILLENNIALS (6)
+    {cat:"millennials",q:"Główny motywator Millennialsa to:",options:["Wysokie wynagrodzenie ponad rynkowe","Stabilność umowy i benefitów","Misja praktyki i poczucie sensu pracy","Swoboda od kontroli i pełna autonomia"],correct:2,expl:"Millennials są najmocniej napędzani misją ze wszystkich pokoleń. Praca musi mieć sens poza pensją — chcą czuć, że ich praca zmienia coś w pacjencie, branży lub społeczeństwie."},
+    {cat:"millennials",q:"Typowy błąd menedżera wobec Millennialsa to:",options:["Częste rozmowy 1:1","„Daj cel i zostaw” — traktowanie jak Pokolenia X","Zbyt szczegółowy plan rozwoju","Publiczne chwalenie sukcesów"],correct:1,expl:"„Daj cel i zostaw” działa świetnie na Pokolenie X — ale Millennials czyta to jako brak zainteresowania. Stracisz najlepszego Millennialsa w 6 miesięcy."},
+    {cat:"millennials",q:"Jak często Millennials oczekuje informacji zwrotnej?",options:["Raz w roku — podczas oceny rocznej","Tylko gdy popełni błąd","Co tydzień lub co miesiąc — regularnie","Sam się odezwie, gdy będzie potrzebował"],correct:2,expl:"Millennials żyją na regularnym feedbacku. Brak go = utrata zaufania i odejście z firmy. Rozmowy 1:1 kwartalne to absolutne minimum."},
+    {cat:"millennials",q:"Co najlepiej działa w rozwoju Millennialsa?",options:["Daj budżet i wybierz sam jak go wydasz","Indywidualny Plan Rozwoju (IPR) kwartalny z uzgodnionym kierunkiem","Niech sam się dokształca w wolnym czasie","Obowiązkowe szkolenia narzucone przez HR"],correct:1,expl:"Millennials uwielbiają ścieżki rozwoju, ale potrzebują kierunku. „Wybierz sobie” mogą zafiksować się na certyfikatach. „Uzgodnijmy” jest złotym środkiem."},
+    {cat:"millennials",q:"Optymalny kanał komunikacji dla Millennialsa:",options:["Komunikator zespołu, video-call, kompleksowe spotkania","Telefon i osobiste rozmowy","Mail + krótkie meetingi","Tylko czat — minimum formalności"],correct:0,expl:"Millennials potrzebują interaktywności — pytań, ankiet, dyskusji. Nie unikają struktur, ale chcą uczestniczyć w procesie."},
+    {cat:"millennials",q:"Idealna równowaga w samodzielności Millennialsa to:",options:["Pełna autonomia bez ingerencji","Mikromenedżment — sprawdzanie codziennie","Autonomia + regularne wsparcie + brak mikromenedżmentu","Decyzje konsultowane przed każdym ruchem"],correct:2,expl:"Brak wsparcia = utrata zaufania. Mikromenedżment = utrata pracownika. Millennials chcą autonomii w jasno określonych ramach — to nie jest sprzeczność."},
+
+    // POKOLENIE Z (6)
+    {cat:"zgen",q:"Jak Pokolenie Z definiuje siebie zawodowo?",options:["Przez stanowisko i tytuł","Przez wynagrodzenie i status","Przez wartości, relacje i well-being","Przez doświadczenie i staż"],correct:2,expl:"Praca jest dla nich jednym z wielu obszarów życia, nie centrum. Nie zdefiniują siebie przez stanowisko — zdefiniują przez to, kim są jako ludzie i jakie wartości wyznają."},
+    {cat:"zgen",q:"Najgorsze zdanie, jakie menedżer może powiedzieć Pokoleniu Z:",options:["„Pracuj mądrzej, nie ciężej”","„Bo za naszych czasów to się harowało”","„Spróbuj jeszcze raz — uda się”","„To trudne zadanie, ale dasz radę”"],correct:1,expl:"To zdanie tłumi rozmowę, niszczy zaufanie i kończy karierę z Pokoleniem Z w Twojej praktyce. Nigdy go nie wypowiadaj."},
+    {cat:"zgen",q:"Optymalny format szkolenia dla Pokolenia Z to:",options:["3-godzinne warsztaty z lunchem","Książka branżowa do przeczytania","Mikronauka — 15 minut, 1 koncept, 1 ćwiczenie","Roczny kurs ze stażem"],correct:2,expl:"Tradycyjna edukacja ich nudzi. Uczą się szybko z YouTube'a, TikToka, podcastów. Krótkie sekwencje, jeden koncept naraz."},
+    {cat:"zgen",q:"Naturalna kompetencja Pokolenia Z, którą warto wykorzystać:",options:["Stabilność emocjonalna","Doświadczenie kliniczne","Natywne kompetencje cyfrowe (AI, narzędzia online)","Cierpliwość w wykonywaniu rutyn"],correct:2,expl:"Z opanowują programy zarządzania, AI i narzędzia online w godziny. Postaw ich w roli „specjalisty AI” w praktyce — często czują się niedoceniani jako „dzieci”."},
+    {cat:"zgen",q:"Paradoks Pokolenia Z dotyczy:",options:["Pieniądze vs misja","Praca zdalna vs biurowa","Chcą autonomii, ale potrzebują wsparcia psychicznego","Indywidualizm vs zespołowość"],correct:2,expl:"Nie znoszą hierarchii i mikromenedżmentu — ale jednocześnie mają niską tolerancję niejasności i wysoki poziom lęku w nowych sytuacjach. Trzeba dawać autonomię w wąskich, jasno opisanych ramach."},
+    {cat:"zgen",q:"System uznania który najbardziej rezonuje z Pokoleniem Z:",options:["Coroczny dyplom uznania","Premia świąteczna","Publiczne uznanie w mediach społecznościowych praktyki","Awans na wyższe stanowisko"],correct:2,expl:"Z cenią widoczność i autentyczne, publiczne docenienie. Dyplom roczny pasuje Pokoleniu Powojennemu, awans — X-owi, certyfikat — Millennialsowi, ale Z najbardziej rezonuje publikacja w social media."},
+
+    // RÓŻNICE (6)
+    {cat:"diff",q:"Główna różnica w motywacji między Millennialsem a Pokoleniem Z to:",options:["Millennials chcą pieniędzy, Z chce sensu","Millennials chcą misji praktyki, Z chce wartości społecznych (klimat, równość, well-being)","Obie grupy chcą dokładnie tego samego","Z chce stabilności, Millennials chce zmiany"],correct:1,expl:"Millennials pyta o misję firmy. Z idzie krok dalej — pyta o politykę zdrowia psychicznego, inkluzję, neuroróżnorodność, to co praktyka robi dla wspólnoty i klimatu."},
+    {cat:"diff",q:"Pokolenie X w porównaniu z innymi pokoleniami:",options:["Potrzebuje najwięcej regularnego feedbacku","Najbardziej lubi szkolenia korporacyjne","Najgorzej znosi mikromenedżment ze wszystkich pokoleń","Najchętniej uczestniczy w integracjach"],correct:2,expl:"Wystarczy 3 tygodnie mikromenedżmentu, by stracić najlepszego X-a w zespole. Ich motto: „daj cel, daj zasoby, zostaw w spokoju”."},
+    {cat:"diff",q:"Sposób uczenia się — które pokolenie najbardziej odbiega od pozostałych?",options:["Powojenne — uczy się tylko przez podręczniki","X — uczy się przez certyfikaty i kursy","Millennials — uczy się tylko przez doświadczenie praktyczne","Z — uczy się przez YouTube, TikToka, podcasty"],correct:3,expl:"Z to natywna kultura digital learning. Tradycyjna edukacja ich nudzi. Powojenne uczy się przez doświadczenie, X przez problemy, Millennials przez certyfikowane ścieżki, Z przez krótkie formy cyfrowe."},
+    {cat:"diff",q:"Wsparcie psychiczne w pracy — które pokolenie tego oczekuje wprost?",options:["Pokolenie Powojenne","Pokolenie X","Millennials","Pokolenie Z"],correct:3,expl:"Z wychowane w erze mediów społecznościowych, wzrostu chorób psychicznych, COVID-19, klimatycznego niepokoju. Pyta wprost o politykę zdrowia psychicznego — to dla nich kluczowy element decyzji o pracy."},
+    {cat:"diff",q:"Naturalne miejsce na „właściciela zastępczego” (kandydat na menedżera praktyki):",options:["Pokolenie Powojenne — ma najwięcej doświadczenia","Pokolenie X — najbardziej autonomiczne, szuka skuteczności","Millennials — najbardziej zaangażowani w misję","Pokolenie Z — najbardziej cyfrowe"],correct:1,expl:"X-owie są naturalnymi „właścicielami zastępczymi”. Najbardziej autonomiczne pokolenie, znają swoją wartość, nie szukają aprobaty — szukają skuteczności. Wystarczy dać cel i zasoby."},
+    {cat:"diff",q:"Adaptacja feedbacku per pokolenie — Pokolenie Powojenne preferuje:",options:["Regularne tygodniowe 1:1","Strukturalny feedback po każdym projekcie","Szanowny, hierarchiczny, raz na pół roku","Krótkie sekwencje codzienne z empatią"],correct:2,expl:"Powojenni szanują hierarchię i nie wymagają częstego feedbacku. Próba narzucania im stylu Millennialsa (feedback 360, rozmowy rozwojowe co tydzień) ich rani — komunikuje „Twój sposób jest zły”."},
+
+    // ZESPÓŁ MIESZANY (3)
+    {cat:"mixed",q:"Pierwszy krok zarządzania mieszanym pokoleniowo zespołem to:",options:["Wprowadzić uniwersalny system motywacji dla wszystkich","Najpierw rozmowy 1:1 z każdym pracownikiem","Audyt pokoleniowy — lista zespołu z rokiem urodzenia i pokoleniem","Wprowadzić młodsze pokolenia do roli menedżerów"],correct:2,expl:"Bez tej mapy zarządzasz wszystkimi tym samym językiem i tracisz 3 z 4 pokoleń. Audyt pokoleniowy = imię, rola, rok urodzenia, pokolenie, proporcje w zespole."},
+    {cat:"mixed",q:"W mieszanym zespole — co NIE powinno być adaptowane do pokolenia?",options:["Sposób komunikacji","System uznania","Karta kompetencji — taka sama dla wszystkich, ale droga do mistrzostwa różna","Częstotliwość rozmów rozwojowych"],correct:2,expl:"Standardy zawodowe są te same dla wszystkich pokoleń. Ale sposób dochodzenia do mistrzostwa — przez staż obok Powojennego, przez problemy dla X, przez certyfikaty dla Millennialsa, przez mikronaukę dla Z — różny."},
+    {cat:"mixed",q:"Najczęstszy błąd menedżera w zespole pokoleniowo mieszanym to:",options:["Zbyt wiele spotkań","Zbyt duża transparentność wynagrodzeń","Traktowanie wszystkich tym samym językiem motywacyjnym","Zbyt różne wynagrodzenia per pokolenie"],correct:2,expl:"Tracisz 3 z 4 pokoleń. Każde ma swój język motywacji: Powojenni — stabilność, X — autonomia + pieniądze, Millennials — misja + rozwój, Z — wartości + well-being. Jeden język motywacji = jedno pokolenie zadowolone."}
+  ];
+
+  const state = {screen:"intro",idx:0,answers:{}};
+  const root = document.getElementById("root");
+  function go(s){state.screen=s;render();window.scrollTo({top:0,behavior:"smooth"});}
+  function render(){
+    if(state.screen==="intro") return renderIntro();
+    if(state.screen==="q") return renderQuestion();
+    if(state.screen==="r") return renderResult();
+  }
+
+  function renderIntro(){
+    const pills = [
+      {n:"Powojenne",sub:"62–80 lat",c:"#94a3b8"},
+      {n:"Pokolenie X",sub:"46–61 lat",c:"#eab308"},
+      {n:"Millennials",sub:"30–45 lat",c:"#a78bfa"},
+      {n:"Pokolenie Z",sub:"14–29 lat",c:"#06b6d4"}
+    ].map(p=>`<div class="genPill"><span class="dot" style="background:${p.c}"></span><div><strong>${p.n}</strong><small>${p.sub}</small></div></div>`).join("");
+    root.innerHTML = `<section class="introCard">
+      <p class="eyebrow">Test wiedzy menedżera</p>
+      <h1>Komunikacja międzypokoleniowa</h1>
+      <p>W jednym zespole pracują dziś <strong>cztery pokolenia</strong> — od Powojennych po Z. Każde mówi innym językiem motywacji i ma inny sposób uczenia się. Sprawdź, czy umiesz rozpoznać i wykorzystać te różnice.</p>
+      <p style="margin-top:14px;font-size:14px;color:#B8BAC6">21 pytań · ok. 8 minut · z wyjaśnieniami po każdej odpowiedzi. Szczególny nacisk na Pokolenie Z i Millennialsów — trzon dzisiejszych zespołów.</p>
+      <div class="genPills">${pills}</div>
+      <button class="primaryBtn" id="start-btn">Rozpocznij test →</button>
+    </section>`;
+    document.getElementById("start-btn").onclick = ()=>{state.idx=0;state.answers={};go("q");};
+  }
+
+  function renderQuestion(){
+    const q = Q[state.idx], total = Q.length;
+    const picked = state.answers[state.idx];
+    const showFb = picked !== undefined;
+    const pct = Math.round(((state.idx+(showFb?1:0))/total)*100);
+    const cat = CATS[q.cat];
+    const isLast = state.idx === total-1;
+    const opts = q.options.map((opt,i)=>{
+      let cls = "opt";
+      if(showFb){if(i===q.correct) cls+=" correct"; else if(i===picked) cls+=" wrong"; else cls+=" dim";}
+      return `<button class="${cls}" data-i="${i}" ${showFb?'disabled':''}>
+        <span class="optIdx">${String.fromCharCode(65+i)}</span><span>${opt}</span></button>`;
+    }).join("");
+    const fb = showFb ? `<div class="feedback">
+      <div class="badge ${picked===q.correct?'ok':'no'}">${picked===q.correct?'✓ Dobrze':'✗ Niepoprawnie'}</div>
+      <p>${q.expl}</p>
+      <button class="nextBtn" id="next-btn">${isLast?'Zobacz wynik →':'Dalej →'}</button>
+    </div>` : "";
+    root.innerHTML = `
+      <div class="testTop">
+        <button id="back-btn"${state.idx===0?' disabled':''}>← Wstecz</button>
+        <span>Pytanie ${state.idx+1} / ${total} · ${pct}%</span>
+        <button id="reset-btn" title="Zacznij od nowa">×</button>
+      </div>
+      <div class="progressTrack"><div style="width:${pct}%"></div></div>
+      <p class="qLabel"><span class="catDot" style="background:${cat.color}"></span>${cat.name.toUpperCase()}</p>
+      <h1 class="qTitle">${q.q}</h1>
+      <section class="options">${opts}</section>
+      ${fb}
+    `;
+    document.querySelectorAll(".opt").forEach(b=>{
+      b.onclick = ()=>{ if(showFb) return; state.answers[state.idx]=parseInt(b.dataset.i,10); render(); };
+    });
+    const nb = document.getElementById("next-btn");
+    if(nb) nb.onclick = ()=>{if(isLast) go("r"); else{state.idx++;render();window.scrollTo({top:0,behavior:"smooth"});}};
+    document.getElementById("back-btn").onclick = ()=>{if(state.idx>0){state.idx--;render();window.scrollTo({top:0,behavior:"smooth"});}};
+    document.getElementById("reset-btn").onclick = ()=>{if(confirm("Zacząć od nowa? Stracisz dotychczasowe odpowiedzi.")){state.answers={};state.idx=0;go("intro");}};
+  }
+
+  function renderResult(){
+    let correct = 0;
+    const byCat = {};
+    CAT_ORDER.forEach(c=>byCat[c]={total:0,correct:0});
+    Q.forEach((q,i)=>{byCat[q.cat].total++; if(state.answers[i]===q.correct){byCat[q.cat].correct++;correct++;}});
+    const pct = Math.round((correct/Q.length)*100);
+    let level,levelKey,levelDesc,levelColor;
+    if(pct>=85){levelKey="4";level="Mistrz różnorodności";levelColor="#22c55e";levelDesc="Naturalna umiejętność zarządzania zespołem mieszanym pokoleniowo. Mówisz językiem każdego pokolenia — Twój zespół to czuje. Rozważ mentoring innych właścicieli praktyk w tym obszarze.";}
+    else if(pct>=60){levelKey="3";level="Praktyk międzypokoleniowy";levelColor="#a78bfa";levelDesc="Świadomie adaptujesz styl do pokolenia. Większość różnic rozumiesz i stosujesz. Wybrane obszary wymagają dopracowania — szczególnie te, w których straciłeś punkty.";}
+    else if(pct>=40){levelKey="2";level="Świadomy obserwator";levelColor="#eab308";levelDesc="Widzisz że pokolenia różnią się od siebie, ale jeszcze nie używasz tych różnic w praktyce. Czas na audyt pokoleniowy zespołu i wprowadzenie dopasowanych systemów komunikacji oraz uznania.";}
+    else{levelKey="1";level="Tradycyjny menedżer";levelColor="#ef4444";levelDesc="Zarządzasz wszystkimi pokoleniami tym samym językiem i tracisz 3 z 4 pokoleń. Sięgnij po Rozdział 6.5 „Cztery pokolenia w jednej praktyce” — to fundament, bez którego pozostałe systemy nie zadziałają.";}
+
+    const rows = CAT_ORDER.map(c=>{
+      const s = byCat[c]; if(s.total===0) return "";
+      const p = Math.round((s.correct/s.total)*100);
+      const m = CATS[c];
+      let adv;
+      if(p>=80) adv="Solidnie — utrzymuj poziom.";
+      else if(p>=50) adv="Warto pogłębić — wróć do tej części Rozdziału 6.5.";
+      else adv="Priorytet do doszkolenia — to obszar z największą luką wiedzy.";
+      return `<div class="catRow">
+        <div class="catHead">
+          <span class="nm"><span class="dot" style="background:${m.color}"></span>${m.name}</span>
+          <strong>${s.correct}/${s.total} <small style="color:${m.color}">· ${p}%</small></strong>
+        </div>
+        <div class="catTrack"><div style="width:${Math.max(4,p)}%;background:${m.color}"></div></div>
+        <p class="catAdvice">${adv}</p>
+      </div>`;
+    }).join("");
+
+    root.innerHTML = `
+      <section class="resultHero">
+        <p class="tag">Twój wynik · Komunikacja międzypokoleniowa</p>
+        <h1 style="color:${levelColor}">${level}</h1>
+        <span class="sub">${correct} / ${Q.length} poprawnych (${pct}%) · Poziom ${levelKey} z 4</span>
+      </section>
+      <section class="panel featured" style="border-color:${levelColor}">
+        <p class="eyebrow">Co to dla Ciebie znaczy</p>
+        <p class="levelDesc">${levelDesc}</p>
+      </section>
+      <section class="panel">
+        <p class="eyebrow">Wyniki per obszar</p>
+        ${rows}
+      </section>
+      <section class="panel bookCta">
+        <p class="eyebrow">Materiał źródłowy</p>
+        <h3>„Suwerenna Praktyka™” · R6.5</h3>
+        <p>Cztery pokolenia w jednej praktyce — Michał Katarzyński, 2026</p>
+        <p style="margin-top:10px">Mapa różnic w Zaangażowaniu, Kompetencjach i Samodzielności — autorski materiał na podstawie 87 audytów polskich praktyk.</p>
+      </section>
+      <div class="shareRow">
+        <button class="restart" id="restart-btn">Wykonaj ponownie</button>
+        <a href="index.html#testy">← Wróć do wszystkich testów</a>
+      </div>
+    `;
+    document.getElementById("restart-btn").onclick = ()=>{state.answers={};state.idx=0;go("intro");};
+  }
+
+  document.getElementById("brand-btn").addEventListener("click",(e)=>{
+    if(state.screen !== "intro" && !confirm("Wrócić do menu testów? Stracisz dotychczasowe odpowiedzi.")) e.preventDefault();
+  });
+  document.getElementById("back-link").addEventListener("click",(e)=>{
+    if(state.screen !== "intro" && !confirm("Wrócić do menu testów? Stracisz dotychczasowe odpowiedzi.")) e.preventDefault();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

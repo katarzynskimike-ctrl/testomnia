@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080E18">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Test stylu menedżera | Psychologia Decyzji Pacjenta</title>
+<style>
+:root{color-scheme:dark;--champagne:#E5B77A;--warm-gold:#C99055;--ivory:#F6F1E8;--muted:#B8BAC6;--line:#2B3445;--panel-navy:#0D1423;--deep-navy:#080E18}
+*{box-sizing:border-box}
+html,body{min-height:100%;margin:0}
+body{background:var(--deep-navy);font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ivory);min-height:100dvh}
+button{font:inherit;cursor:pointer}
+
+.app{min-height:100dvh;display:flex;flex-direction:column}
+
+.header{height:78px;display:flex;gap:10px;padding:0 18px;align-items:center;border-bottom:1px solid var(--line);background:rgba(8,14,24,.96);position:sticky;top:0;z-index:30;backdrop-filter:blur(18px)}
+.brandLogo{display:flex;align-items:center;height:54px;cursor:pointer;border:0;background:transparent;color:inherit;padding:0}
+.brandMark{height:100%;width:auto;max-width:260px;display:block;border-radius:6px}
+.backLink{margin-left:auto;color:#B8BAC6;font-size:13px;padding:7px 14px;border:1px solid var(--line);border-radius:12px;transition:all .15s ease;text-decoration:none}
+.backLink:hover{border-color:var(--champagne);color:var(--champagne)}
+
+.main{flex:1;padding:24px 18px 40px;max-width:680px;margin:0 auto;width:100%}
+
+.eyebrow{margin:0;color:var(--champagne);font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:600}
+
+.introCard{padding:36px 28px;border:1px solid var(--line);border-radius:28px;background:rgba(13,20,35,.84);text-align:center;margin-top:28px}
+.introCard h1{margin:18px 0 12px;font-size:34px;line-height:1.05;font-weight:600;font-family:'Cormorant Garamond','Tinos',Georgia,serif;letter-spacing:-.01em}
+.introCard p{color:var(--muted);line-height:1.6;font-size:15px;margin:8px 0 0}
+.introCard p strong{color:var(--ivory)}
+.introCard .note{margin-top:18px;font-size:13px;color:#B8BAC6}
+.introCard .archetypes{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:24px;text-align:left}
+.archetype{padding:10px 12px;border-radius:12px;display:flex;align-items:center;gap:10px;font-size:13px;background:rgba(255,255,255,.02);border:1px solid var(--line)}
+.archetype .dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
+.archetype strong{font-size:14px;font-weight:800}
+.archetype small{display:block;color:#B8BAC6;font-size:10px;letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+.primaryBtn{margin-top:24px;border:0;border-radius:16px;padding:15px 28px;background:var(--champagne);color:#080E18;font-weight:850;font-size:15px;width:100%;box-shadow:0 0 30px rgba(229,183,122,.28)}
+.primaryBtn:hover{background:var(--warm-gold)}
+
+.testTop{display:flex;justify-content:space-between;align-items:center;gap:10px;color:#B8BAC6;margin-bottom:10px;font-size:13px}
+.testTop > span{flex:1;text-align:center}
+.testTop button{background:#121827;border:1px solid var(--line);color:#B8BAC6;border-radius:12px;padding:7px 12px;font-size:13px;transition:border-color .15s ease,color .15s ease}
+.testTop button:hover:not(:disabled){border-color:var(--champagne);color:var(--champagne)}
+.testTop button:disabled{opacity:.3;cursor:not-allowed}
+#reset-btn{width:32px;height:32px;padding:0;border-radius:50%;font-size:18px;display:inline-flex;align-items:center;justify-content:center;line-height:1}
+
+.opt.picked{border-color:var(--champagne);background:rgba(229,183,122,.16);transform:scale(.99);transition:all .15s ease}
+.progressTrack{height:6px;border-radius:999px;background:#121827;overflow:hidden;margin-bottom:22px}
+.progressTrack div{height:100%;background:linear-gradient(90deg,var(--champagne),var(--warm-gold));transition:width .25s ease}
+
+.question{margin-bottom:18px}
+.qLabel{margin:0 0 8px;color:var(--champagne);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600}
+.qTitle{margin:0;font-size:22px;line-height:1.28;font-weight:750}
+
+.options{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.opt{display:flex;align-items:flex-start;gap:12px;text-align:left;width:100%;padding:14px 16px;border:2px solid var(--line);background:rgba(13,20,35,.84);color:var(--ivory);border-radius:18px;font-size:15px;line-height:1.4;font-weight:600;transition:border-color .15s ease,background .15s ease}
+.opt:hover{border-color:var(--champagne)}
+.opt.picked{border-color:var(--champagne);background:rgba(229,183,122,.08)}
+.optIdx{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:#1C2438;color:var(--champagne);font-size:12px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;margin-top:1px}
+.opt.picked .optIdx{background:var(--champagne);color:#080E18}
+.optText{flex:1}
+
+.navRow{display:flex;justify-content:space-between;gap:10px;margin-top:22px}
+.navBtn{padding:11px 18px;border:1px solid var(--line);background:transparent;color:#8E94A8;border-radius:12px;font-size:13px;font-weight:600}
+.navBtn:hover{border-color:var(--champagne);color:var(--champagne)}
+.navBtn:disabled{opacity:.3;cursor:not-allowed}
+.navBtn.primary{background:var(--champagne);color:#080E18;border-color:var(--champagne);font-weight:850}
+.navBtn.primary:hover{background:var(--warm-gold)}
+
+.resultHero{text-align:center;padding:32px 20px;border:1px solid var(--line);border-radius:28px;background:rgba(13,20,35,.84)}
+.resultHero p.tag{display:inline-block;margin:0 0 14px;border:1px solid #2B3445;border-radius:999px;padding:6px 14px;color:#F0E6D5;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.resultHero h1{margin:0;font-size:52px;line-height:1.05;font-weight:900}
+.resultHero .sub{display:block;margin-top:10px;color:var(--muted);font-size:14px}
+
+.panel{margin-top:18px;border:1px solid var(--line);border-radius:24px;background:var(--panel-navy);padding:22px}
+.panel.featured{border-width:2px}
+.panel h2{margin:8px 0 0;font-size:18px;font-weight:700}
+.panel .description{margin:10px 0 0;font-size:15px;line-height:1.6;color:#E0DBD0}
+
+.styleRow{margin-top:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.styleRow:last-child{border-bottom:0;padding-bottom:0}
+.styleHeader{display:flex;justify-content:space-between;align-items:baseline;gap:10px;color:#E0DBD0;font-size:15px}
+.styleHeader .name{display:inline-flex;align-items:center;gap:8px;font-weight:700}
+.styleHeader .name .dot{width:10px;height:10px;border-radius:50%}
+.styleHeader .name small{color:#B8BAC6;font-size:11px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;margin-left:6px}
+.styleHeader strong{font-size:18px;font-weight:900;color:var(--ivory)}
+.styleHeader strong small{color:#B8BAC6;font-size:12px;font-weight:500;margin-left:4px}
+.track{margin-top:10px;height:10px;border-radius:999px;background:#121827;overflow:hidden}
+.track div{height:100%;border-radius:999px;transition:width .3s ease}
+.styleRow.active .track{outline:2px solid;outline-offset:3px;outline-color:inherit}
+
+.shareRow{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.shareRow button{padding:13px 18px;border:1px solid var(--line);background:transparent;color:var(--ivory);border-radius:14px;font-weight:600;font-size:14px}
+.shareRow button:hover{border-color:var(--champagne);color:var(--champagne)}
+.shareRow .restart{background:var(--champagne);color:#080E18;border:0;font-weight:850;box-shadow:0 0 30px rgba(229,183,122,.28)}
+.shareRow .restart:hover{background:var(--warm-gold)}
+
+.footer{text-align:center;padding:24px 18px;color:#5A6376;font-size:12px;border-top:1px solid var(--line);margin-top:auto}
+
+@media (min-width:720px){
+  .main{padding:36px 24px 60px}
+  .introCard{padding:48px 40px}
+  .introCard h1{font-size:42px}
+  .introCard .archetypes{grid-template-columns:repeat(4,1fr)}
+  .qTitle{font-size:26px}
+  .opt{padding:16px 20px;font-size:16px}
+  .resultHero h1{font-size:72px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <a href="index.html" class="brandLogo" id="brand-btn" aria-label="Testomnia">
+      <img class="brandMark" src="testomnia-logo.png" alt="Testomnia" />
+    </a>
+    <a href="index.html#testy" class="backLink" id="back-link">← Wszystkie testy</a>
+  </header>
+
+  <main class="main" id="root"></main>
+
+  <footer class="footer">© 2026 Testomnia · Styl menedżera praktyki · <a href="regulamin.html" style="color:#B8BAC6;text-decoration:underline;text-decoration-color:rgba(229,183,122,.4);text-underline-offset:2px">Regulamin</a><br><span style="opacity:.7;font-size:11px">Test ma charakter rozwojowy i edukacyjny. Nie stanowi diagnozy psychologicznej ani medycznej.</span></footer>
+</div>
+
+<script>
+(function(){
+  const META = {
+    lider:    {name:"Lider",    sub:"Racjonalny Mówca",    color:"#ef4444", bar:"linear-gradient(90deg,#ef4444,#991b1b)", desc:"Decydujesz szybko i jasno. Wytyczasz kierunek, mierzysz wynik, nie boisz się trudnych rozmów. Twoja siła to tempo i odpowiedzialność za rezultat. Uważaj na: zbyt szybkie cięcia, niedosłuchiwanie zespołu, frustrację gdy inni „marudzą”."},
+    wizjoner: {name:"Wizjoner", sub:"Emocjonalny Mówca",   color:"#eab308", bar:"linear-gradient(90deg,#facc15,#ca8a04)", desc:"Inspirujesz i sprzedajesz wizję. Energia zespołu wokół Ciebie rośnie, ludzie idą za Tobą. Uważaj na: gubienie szczegółów wykonawczych, zbyt wiele inicjatyw naraz, niedocenianie operacyjnego trudu."},
+    mentor:   {name:"Mentor",   sub:"Emocjonalny Słuchacz",color:"#22c55e", bar:"linear-gradient(90deg,#22c55e,#15803d)", desc:"Budujesz zaufanie i stabilność. Zespół czuje się przy Tobie bezpiecznie, ludzie zostają na lata. Uważaj na: unikanie konfrontacji, zbyt powolne decyzje personalne, branie odpowiedzialności za cudze emocje."},
+    mstrateg: {name:"Strateg",  sub:"Racjonalny Słuchacz", color:"#3b82f6", bar:"linear-gradient(90deg,#3b82f6,#1d4ed8)", desc:"Zarządzasz przez fakty i system. Twoje decyzje są dobrze uargumentowane, mało tu chaosu. Uważaj na: paraliż analizy, zbyt długie czekanie na „pełne dane”, chłodny dystans od ludzi."}
+  };
+
+  const ROWS = [
+    ["Dwie osoby w zespole otwarcie kłócą się podczas spotkania. Twoja reakcja:","Przerywasz, ustalasz porządek, każdy mówi po kolei","Słuchasz argumentów obu stron, potem podejmujesz decyzję","Proponujesz osobne rozmowy, żeby zrozumieć co leży na sercu","Wracasz do tego co Was łączy — do wspólnego celu"],
+    ["Pracownik od dwóch tygodni nie wywiązuje się z obowiązków. Robisz:","Bezpośrednia rozmowa, jasne oczekiwania, konkretne terminy","Sprawdzasz na czym dokładnie polega problem, zanim ocenisz","Pytasz „co się dzieje, jak mogę pomóc”","Przypominasz dlaczego jego praca jest ważna dla całości"],
+    ["Zespół osiągnął ważny sukces. Twoja reakcja:","Krótkie „dobra robota” i ruszamy dalej","Podsumowujesz co konkretnie zadziałało i dlaczego","Każdemu osobiście dziękujesz za jego wkład","Huczne świętowanie — pokazujesz jak daleko zaszliśmy"],
+    ["Wprowadzasz nową zasadę i część zespołu się buntuje. Co robisz:","To moja decyzja, czas wdrożyć","Tłumaczysz logicznie powody i korzyści","Dajesz czas, słuchasz obaw, dostosowujesz","Inspirujesz, pokazujesz większy sens zmiany"],
+    ["Pracownik prosi Cię o radę w sprawie osobistej. Twoja postawa:","Słuchasz krótko, dajesz konkretną radę","Pomagasz uporządkować sytuację, pokazujesz opcje","Słuchasz długo, wspierasz, jesteś po prostu obok","Dodajesz nadziei, pokazujesz nową perspektywę"],
+    ["Musisz oddelegować ważne zadanie. Kogo wybierasz?","Najszybszego — kto najszybciej dostarczy","Najdokładniejszego — kto zrobi to bez błędów","Tego, kto się tym zadaniu najbardziej rozwinie","Tego, kto najbardziej się tym pali"],
+    ["Zespół jest zmęczony, energia spada. Reagujesz:","Konkretny plan na odpoczynek — dzień wolny, koniec dyskusji","Sprawdzasz obciążenia i przesuwasz zadania","Indywidualne rozmowy — kto naprawdę potrzebuje wsparcia","Wspólne wyjście, integracja, reset energii"],
+    ["Trudna rozmowa z pracownikiem, którego musisz upomnieć. Robisz to:","Krótko, konkretnie, do rzeczy","Z faktami w ręku — co się stało, jakie są oczekiwania","Z empatią — pytanie „co się u Ciebie dzieje”","Z odwołaniem do potencjału — „wiem, że stać Cię na więcej”"],
+    ["Twoja decyzja jest niepopularna — większość zespołu jej nie chce. Robisz:","Stoję przy niej, tłumaczę raz i jedziemy","Pokazuję argumenty i logikę, które za nią stoją","Wysłuchuję zastrzeżeń, ale decyzja zostaje","Pokazuję dłuższy horyzont — dokąd to nas zaprowadzi"],
+    ["Wprowadzasz dużą zmianę w sposobie pracy zespołu. Twoje podejście:","Plan, harmonogram, role — ruszamy od poniedziałku","Zmiana etapowa, sprawdzamy co działa po każdym kroku","Razem ustalamy jak to wprowadzić — każdy ma głos","Sprzedaję wizję jak będzie lepiej po zmianie"],
+    ["Twój kluczowy pracownik mówi, że chce odejść. Robisz:","Pytasz wprost o powody i co byś musiał zaoferować, żeby został","Sprawdzasz spokojnie co byliście w stanie zaoferować, co nie","Długa rozmowa — co naprawdę go skłania, czego potrzebuje","Pokazujesz wizję wspólnej drogi na kolejne lata"],
+    ["Pracownik publicznie kwestionuje Twoją decyzję. Reakcja:","„Omówimy to potem w cztery oczy” — koniec dyskusji","„Dobry punkt — sprawdźmy razem fakty”","„Widzę, że masz silne zdanie — porozmawiajmy spokojnie”","„Ciekawe — co byś zrobił inaczej?”"],
+    ["Nowa osoba dołącza do zespołu. Twoje podejście:","Jasne zasady od pierwszego dnia — oczekiwania i rola","Plan wdrożenia krok po kroku, sprawdzasz postępy","Opiekun z zespołu, miejsce na oswojenie, ciepłe przyjęcie","Wciągasz w wizję — „to dla tego tu jesteśmy”"],
+    ["Zespół prosi o więcej swobody i mniej kontroli. Twoja reakcja:","Pokazuję, że swoboda przychodzi z odpowiedzialnością za wynik","Ustalamy ramy — co jest pod kontrolą, co nie","Daję więcej zaufania i sprawdzam jak się sprawdza","Wspólne zasady — jak chcemy razem pracować"],
+    ["Komuś z zespołu nie idzie, zabiera za dużo czasu od reszty. Twoje podejście:","Decyzja: rozwija się w 3 miesiące albo się rozstajemy","Plan rozwoju, konkretne kroki, ocena po etapie","Dodatkowe wsparcie, opiekun, druga szansa","Może to nie jego rola — szukam mu lepszego miejsca"],
+    ["Konflikt o podział zadań — jeden robi za drugiego. Reagujesz:","Spisuję role i odpowiedzialności, każdy widzi","Sprawdzam obciążenia i robię sprawiedliwy podział","Rozmowa z każdym osobno, potem wspólnie","Wracam do celu — po co tu pracujemy razem"],
+    ["Musisz dać szczery, trudny feedback komuś, kogo lubisz. Robisz to:","Krótko i wprost, bez owijania w bawełnę","Z konkretnymi przykładami — fakty, nie oceny","Z troski — „mówię to, bo mi na Tobie zależy”","Z perspektywą rozwoju — „widzę, dokąd możesz pójść”"],
+    ["Zespół pyta Cię o coś, na co nie znasz odpowiedzi. Robisz:","„Nie wiem — dowiem się do końca dnia”","„Sprawdzimy razem — ustalmy plan”","„Świetne pytanie — a Wy co o tym myślicie?”","„Dobry moment, by się zastanowić — czego naprawdę chcemy”"],
+    ["Musisz wybrać kogoś na awans — dwóch dobrych kandydatów. Kierujesz się:","Wynikiem — kto najbardziej dowiezie","Obiektywnym porównaniem — kompetencje, wyniki, dopasowanie","Tym, kto bardziej zasługuje — kto włożył serce","Tym, kto najlepiej poprowadzi zespół dalej"],
+    ["Pracownik skarży się na innego pracownika. Twoja reakcja:","„Powiedz mu to wprost, ja będę przy tym”","„Opowiedz konkretnie — co, kiedy, jak często”","Najpierw słuchasz emocji, dopiero potem przechodzisz do faktów","„To okazja, żeby ten zespół naprawdę się dogadał”"],
+    ["Trzeba przekazać zespołowi złą wiadomość. Robisz to:","Wprost, krótko, fakty — bez ozdobników","Z kontekstem i planem co dalej","Najpierw osobno najbardziej dotkniętym, potem grupa","Z nadzieją — „przejdziemy przez to razem”"],
+    ["Pracownik prosi Cię o coś, czemu musisz odmówić. Twoja reakcja:","„Nie — powody są takie a takie”","Tłumaczysz logicznie dlaczego nie, jakie są alternatywy","„Rozumiem, czemu pytasz, ale dziś nie”","„Teraz nie — daj mi pomyśleć, jak to ułożyć inaczej”"],
+    ["Spotkanie trwa za długo, dyskusja kręci się w kółko. Robisz:","„OK, koniec dyskusji — decyzja taka”","„Wracamy do faktów — co wiemy, a czego nie”","„Widzę, że jest dużo emocji — może krótka przerwa?”","„Co tak naprawdę chcemy osiągnąć tym spotkaniem?”"],
+    ["Pracownik wyraźnie ma gorszy okres — osobiście lub zawodowo. Robisz:","Pytasz wprost czego potrzebuje, pomagasz konkretnie","Sprawdzasz wpływ na pracę, dostosowujesz obowiązki","Jesteś przy nim, dajesz przestrzeń i czas","Przypominasz, że to przejdzie i że jest częścią zespołu"],
+    ["Pracownik nie szanuje Twoich granic — dzwoni w weekendy. Robisz:","Mówisz wprost — „w weekendy nie odbieram”","Ustalasz jasno kanały i godziny kontaktu","Tłumaczysz, że obie strony tego potrzebują","Dajesz przykład — sam też nie piszesz do nich w weekend"],
+    ["Pracownik świetny w pracy, ale wnosi toksyczną atmosferę. Reagujesz:","Konkretna rozmowa — to nie do zaakceptowania","Spisujesz konkretne sytuacje, prowadzisz dialog na faktach","Pytasz co go boli, co siedzi pod tym zachowaniem","Pokazujesz jak wpływa na innych — dlaczego to nie pasuje"],
+    ["Pracownik bardzo miły, ale słabo wykonuje pracę. Twoja postawa:","Decyzja — rozwija się w 3 miesiące albo się żegnamy","Konkretny plan rozwoju, sprawdzamy postępy etapowo","Inwestujesz w jego rozwój, dajesz mu opiekuna","Może inna rola lepiej pasuje do jego mocnych stron?"],
+    ["Musisz przekonać zespół do trudnej, ale potrzebnej zmiany. Robisz:","Mówisz wprost — musimy, oto plan, idziemy","Tłumaczysz argumentami i danymi — dlaczego to konieczne","Słuchasz obaw, adresujesz każdą, dopiero potem dalej","Pokazujesz wizję — dokąd idziemy i dlaczego warto"],
+    ["Pracownik chce być traktowany jak przyjaciel, nie podwładny. Twoja postawa:","Jasna granica — tu jesteśmy w pracy","Ustalasz role: kiedy szef, kiedy kolega","Budujesz ciepło, ale wiesz kiedy postawić granicę","Pokazujesz wspólną drogę zawodową — to nas łączy"],
+    ["Twoje własne emocje są silne — frustracja, zmęczenie, gniew. Robisz:","„Daję sobie 5 minut” — resetujesz się i wracasz spokojny","Zastanawiasz się skąd to się bierze, planujesz krok","Mówisz zespołowi wprost — „dziś jestem zmęczony”","Wracasz do celu — to mnie odbudowuje"],
+    ["Trzeba kogoś pochwalić. Twój styl:","Krótko i konkretnie, na forum — „dobra robota”","Konkretnie — co dokładnie zrobił dobrze i dlaczego","Osobiście, ciepło — jak jego praca wpłynęła na innych","Z perspektywą — „dzięki temu jesteśmy bliżej celu”"],
+    ["W zespole jest osoba silna, dominująca innych. Twoja reakcja:","Wykorzystujesz jej siłę — ale stawiasz jasne granice","Ustalasz role tak, żeby jej siła nie tłumiła innych","Pracujesz z nią nad świadomością wpływu na zespół","Pokazujesz, że może być liderem dla innych — w mojej wizji"],
+    ["Zaczynasz nowy rok z zespołem. Jak go otwierasz:","Cele, plan, zadania — ruszamy","Podsumowanie poprzedniego roku, wnioski, plan","Spotkanie integracyjne — każdy mówi co dla niego ważne w tym roku","Wizja roku — co chcemy razem osiągnąć, dokąd idziemy"]
+  ];
+
+  const Q = ROWS.map((r,i)=>({
+    id: i+1,
+    title: r[0],
+    options: [
+      {type:"lider",    text:r[1]},
+      {type:"mstrateg", text:r[2]},
+      {type:"mentor",   text:r[3]},
+      {type:"wizjoner", text:r[4]}
+    ]
+  }));
+
+  const ORDER = ["lider","wizjoner","mentor","mstrateg"];
+
+  function shuffle(arr){const c=[...arr];for(let i=c.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[c[i],c[j]]=[c[j],c[i]];}return c;}
+
+  const state = {
+    screen: "intro",
+    idx: 0,
+    answers: {},
+    qs: null
+  };
+  const root = document.getElementById("root");
+
+  function go(scr){ state.screen = scr; render(); window.scrollTo({top:0,behavior:"smooth"}); }
+
+  function render(){
+    if(state.screen==="intro") return renderIntro();
+    if(state.screen==="q")     return renderQuestion();
+    if(state.screen==="r")     return renderResult();
+  }
+
+  function renderIntro(){
+    root.innerHTML = `
+      <section class="introCard">
+        <p class="eyebrow">Test stylu menedżera</p>
+        <h1>Jakim jesteś menedżerem?</h1>
+        <p>33 typowe sytuacje z zarządzania ludźmi — konflikty, feedback, delegowanie, zmiana, chwalenie, granice. Wybierz odpowiedź najbliższą temu, jak <strong>naprawdę</strong> reagujesz — nie jak „powinieneś”.</p>
+        <p class="note">Test trwa ok. 7 minut. Wynik pokazuje Twój dominujący archetyp + podział wszystkich 4 stylów.</p>
+        <div class="archetypes">
+          <div class="archetype"><span class="dot" style="background:#ef4444"></span><div><strong>Lider</strong><small>Racjonalny Mówca</small></div></div>
+          <div class="archetype"><span class="dot" style="background:#eab308"></span><div><strong>Wizjoner</strong><small>Emocjonalny Mówca</small></div></div>
+          <div class="archetype"><span class="dot" style="background:#22c55e"></span><div><strong>Mentor</strong><small>Emocjonalny Słuchacz</small></div></div>
+          <div class="archetype"><span class="dot" style="background:#3b82f6"></span><div><strong>Strateg</strong><small>Racjonalny Słuchacz</small></div></div>
+        </div>
+        <button class="primaryBtn" id="start-btn">Rozpocznij test →</button>
+      </section>
+    `;
+    document.getElementById("start-btn").onclick = ()=>{
+      state.qs = Q.map(q=>({...q, options: shuffle(q.options)}));
+      state.idx = 0;
+      state.answers = {};
+      go("q");
+    };
+  }
+
+  function renderQuestion(){
+    const q = state.qs[state.idx];
+    const total = state.qs.length;
+    const picked = state.answers[q.id];
+    const answeredCount = Object.keys(state.answers).length;
+    const progressPct = Math.round((answeredCount / total) * 100);
+
+    const opts = q.options.map((o,i)=>`
+      <button class="opt${picked===o.type?' picked':''}" data-type="${o.type}">
+        <span class="optIdx">${String.fromCharCode(65+i)}</span>
+        <span class="optText">${o.text}</span>
+      </button>
+    `).join("");
+
+    root.innerHTML = `
+      <div class="testTop">
+        <button id="back-btn"${state.idx===0?' disabled':''}>← Wstecz</button>
+        <span>Pytanie ${state.idx+1} / ${total} · ${progressPct}%</span>
+        <button id="reset-btn" title="Zacznij od nowa">×</button>
+      </div>
+      <div class="progressTrack"><div style="width:${progressPct}%"></div></div>
+
+      <section class="question">
+        <p class="qLabel">Wybierz odpowiedź, która najbardziej Cię opisuje</p>
+        <h1 class="qTitle">${q.title}</h1>
+      </section>
+
+      <section class="options">${opts}</section>
+    `;
+
+    // Klikam odpowiedź → automatyczne przejście do następnego pytania
+    document.querySelectorAll(".opt").forEach(b=>{
+      b.onclick = ()=>{
+        state.answers[q.id] = b.dataset.type;
+        // krótka pauza, żeby user zobaczył podświetlenie wybranej opcji
+        b.classList.add("picked");
+        setTimeout(()=>{
+          if(state.idx === state.qs.length - 1){
+            go("r");
+          } else {
+            state.idx++;
+            render();
+            window.scrollTo({top:0,behavior:"smooth"});
+          }
+        }, 180);
+      };
+    });
+
+    document.getElementById("back-btn").onclick = ()=>{
+      if(state.idx>0){ state.idx--; render(); window.scrollTo({top:0,behavior:"smooth"}); }
+    };
+    document.getElementById("reset-btn").onclick = ()=>{
+      if(confirm("Zacząć od nowa? Stracisz dotychczasowe odpowiedzi.")){
+        state.answers = {}; state.idx = 0; state.qs = null;
+        go("intro");
+      }
+    };
+  }
+
+  function renderResult(){
+    const counts = {lider:0,wizjoner:0,mentor:0,mstrateg:0};
+    Object.values(state.answers).forEach(v=>{ if(counts[v]!==undefined) counts[v]++; });
+    const total = state.qs.length;
+    const pcts = {};
+    Object.keys(counts).forEach(k=> pcts[k] = Math.round((counts[k]/total)*100));
+    let sum = Object.values(pcts).reduce((a,b)=>a+b,0);
+    if(sum !== 100){
+      const sorted = Object.keys(pcts).sort((a,b)=>counts[b]-counts[a]);
+      pcts[sorted[0]] += (100-sum);
+    }
+    const sorted = [...ORDER].sort((a,b)=>counts[b]-counts[a]);
+    const dom = sorted[0];
+    const m = META[dom];
+
+    const rows = sorted.map(k=>{
+      const c = META[k];
+      const p = pcts[k];
+      const active = k === dom;
+      return `
+        <div class="styleRow${active?' active':''}" style="color:${c.color}">
+          <div class="styleHeader">
+            <span class="name" style="color:${active?c.color:'#E0DBD0'}"><span class="dot" style="background:${c.color}"></span>${c.name}<small>${c.sub}</small></span>
+            <strong style="color:${active?c.color:'var(--ivory)'}">${p}%<small>${counts[k]} pkt</small></strong>
+          </div>
+          <div class="track"><div style="width:${Math.max(4,p)}%;background:${c.bar}"></div></div>
+        </div>
+      `;
+    }).join("");
+
+    root.innerHTML = `
+      <section class="resultHero">
+        <p class="tag">Twój dominujący styl</p>
+        <h1 style="color:${m.color}">${m.name}</h1>
+        <span class="sub">${m.sub}</span>
+      </section>
+
+      <section class="panel featured" style="border-color:${m.color}">
+        <p class="eyebrow">Jak działasz jako menedżer</p>
+        <p class="description">${m.desc}</p>
+      </section>
+
+      <section class="panel">
+        <p class="eyebrow">Podsumowanie stylów</p>
+        ${rows}
+      </section>
+
+      <div class="shareRow">
+        <button class="restart" id="restart-btn">Wykonaj test ponownie</button>
+        <button id="copy-btn">Kopiuj wynik do schowka</button>
+      </div>
+    `;
+
+    document.getElementById("restart-btn").onclick = ()=>{
+      state.answers = {}; state.idx = 0; state.qs = null;
+      go("intro");
+    };
+    document.getElementById("copy-btn").onclick = ()=>{
+      const text = `Test stylu menedżera — wynik:\n\nDominujący styl: ${m.name} (${m.sub})\n\n` +
+        sorted.map(k=>{const c=META[k];return `${c.name}: ${pcts[k]}% (${counts[k]} pkt)`;}).join("\n");
+      navigator.clipboard.writeText(text).then(()=>{
+        const btn = document.getElementById("copy-btn");
+        const old = btn.textContent;
+        btn.textContent = "✓ Skopiowano";
+        setTimeout(()=>{btn.textContent = old;}, 2000);
+      });
+    };
+  }
+
+  document.getElementById("brand-btn").addEventListener("click",(e)=>{
+    if(state.screen !== "intro"){
+      if(!confirm("Wrócić do menu wszystkich testów? Stracisz dotychczasowe odpowiedzi.")){
+        e.preventDefault();
+      }
+    }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

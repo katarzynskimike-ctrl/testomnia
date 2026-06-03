@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0B0F1A">
+<meta name="robots" content="index,follow">
+<title>Regulamin serwisu · Testomnia</title>
+<meta name="description" content="Regulamin korzystania z serwisu Testomnia — zasady, charakter testów i raportów, prawa autorskie, dane osobowe, reklamacje.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0B0F1A; --surface:#131826; --surface-2:#1A2030;
+  --border:rgba(255,255,255,.08); --border-strong:rgba(255,255,255,.14);
+  --ink:#F5F4F0; --ink-soft:#C9CAD3; --ink-muted:#8B8E9C; --ink-dim:#5E6273;
+  --accent:#D4A574; --accent-soft:#E8C499; --accent-deep:#A87C4F;
+  --serif:'Instrument Serif',Georgia,serif;
+  --sans:'Inter',-apple-system,sans-serif;
+  --radius:14px; --radius-lg:22px;
+  --max:820px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--sans);font-size:16px;line-height:1.7;color:var(--ink-soft);background:var(--bg);min-height:100vh;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(900px 600px at 80% -10%,rgba(212,165,116,.08),transparent 60%)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(212,165,116,.3);transition:border-color .2s}
+a:hover{border-bottom-color:var(--accent)}
+nav.topbar{position:sticky;top:0;z-index:10;background:rgba(11,15,26,.82);backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid var(--border);padding:14px 24px}
+.topbar__inner{max-width:var(--max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;border-bottom:0}
+.brand img{height:38px;width:auto;max-width:200px;display:block}
+.back{font-size:14px;color:var(--ink-muted);border-bottom:0;padding:8px 14px;border:1px solid var(--border);border-radius:999px;transition:border-color .2s,color .2s}
+.back:hover{color:var(--accent);border-color:var(--accent)}
+main{max-width:var(--max);margin:0 auto;padding:60px 24px 80px;position:relative;z-index:1}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:18px}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--accent);opacity:.7}
+h1{font-family:var(--serif);font-size:clamp(36px,5vw,52px);line-height:1.05;letter-spacing:-.015em;color:var(--ink);font-weight:400;margin:0 0 16px}
+.lead{font-size:17.5px;color:var(--ink-soft);margin:0 0 36px;padding:22px 26px;border-left:2px solid var(--accent);background:linear-gradient(90deg,rgba(212,165,116,.06),transparent 80%);border-radius:0 var(--radius) var(--radius) 0}
+.lead strong{color:var(--ink);font-weight:600}
+h2{font-family:var(--serif);font-size:clamp(24px,3vw,32px);line-height:1.15;color:var(--ink);margin:60px 0 18px;font-weight:400;padding-top:24px;border-top:1px solid var(--border)}
+h2 .num{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--accent);display:block;letter-spacing:.06em;margin-bottom:6px}
+p{margin:0 0 16px;color:var(--ink-soft)}
+p strong{color:var(--ink)}
+ol,ul{margin:0 0 22px;padding-left:0}
+li{list-style:none;position:relative;padding-left:26px;margin-bottom:8px;color:var(--ink-soft)}
+ol{counter-reset:list}
+ol li{counter-increment:list}
+ol li::before{content:counter(list)".";position:absolute;left:0;top:0;font-family:var(--serif);font-style:italic;font-size:16px;color:var(--accent);font-weight:500}
+ul li::before{content:"";position:absolute;left:0;top:11px;width:6px;height:6px;background:var(--accent);border-radius:50%;opacity:.7}
+.placeholder{color:var(--ink-dim);font-style:italic;font-family:var(--serif)}
+.placeholder::before{content:"[ "}
+.placeholder::after{content:" ]"}
+.notice{margin:30px 0;padding:18px 22px;border:1px solid rgba(212,165,116,.28);border-radius:var(--radius);background:linear-gradient(180deg,rgba(212,165,116,.05),rgba(212,165,116,.02));font-size:14.5px;color:var(--ink-soft)}
+.notice strong{color:var(--ink)}
+footer{padding:40px 24px 60px;text-align:center;color:var(--ink-dim);font-size:13px;border-top:1px solid var(--border);margin-top:60px;line-height:1.7}
+footer a{color:var(--ink-muted);border-bottom:0}
+footer a:hover{color:var(--accent)}
+@media (max-width:520px){
+  main{padding:40px 20px 60px}
+  .lead{padding:18px 20px;font-size:16px}
+  h2{margin:48px 0 16px}
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.001ms !important;scroll-behavior:auto !important}}
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="topbar__inner">
+    <a href="index.html" class="brand" aria-label="Testomnia">
+      <img src="testomnia-logo.png" alt="Testomnia">
+    </a>
+    <a href="index.html" class="back">← Strona główna</a>
+  </div>
+</nav>
+
+<main>
+  <span class="eyebrow">Dokument</span>
+  <h1>Regulamin serwisu Testomnia</h1>
+
+  <p class="lead"><strong>Testy w Testomnia mają charakter edukacyjny i rozwojowy.</strong> Nie zastępują diagnozy psychologicznej, medycznej ani orzeczniczej. Pełny regulamin poniżej opisuje zasady korzystania z serwisu, prawa autorskie, dane osobowe i reklamacje.</p>
+
+  <h2 id="p1"><span class="num">§ 1</span>Postanowienia ogólne</h2>
+  <ol>
+    <li>Niniejszy regulamin określa zasady korzystania z serwisu internetowego Testomnia, dostępnego pod adresem: <span class="placeholder">adres strony</span>.</li>
+    <li>Właścicielem i operatorem serwisu jest: <span class="placeholder">pełna nazwa firmy</span> z siedzibą: <span class="placeholder">adres</span>, NIP: <span class="placeholder">NIP</span>, REGON/KRS: <span class="placeholder">jeżeli dotyczy</span>, adres e-mail: <span class="placeholder">e-mail kontaktowy</span>.</li>
+    <li>Serwis Testomnia umożliwia użytkownikom wykonywanie testów rozwojowych, psychometrycznych, komunikacyjnych lub merytorycznych oraz uzyskanie wyniku podstawowego lub płatnego raportu PDF.</li>
+    <li>Regulamin jest regulaminem świadczenia usług drogą elektroniczną zgodnie z ustawą o świadczeniu usług drogą elektroniczną.</li>
+    <li>Korzystanie z serwisu oznacza akceptację niniejszego regulaminu.</li>
+  </ol>
+
+  <h2 id="p2"><span class="num">§ 2</span>Definicje</h2>
+  <p>Na potrzeby niniejszego regulaminu przyjmuje się następujące definicje:</p>
+  <ol>
+    <li><strong>Serwis</strong> — strona internetowa i aplikacja Testomnia.</li>
+    <li><strong>Użytkownik</strong> — osoba korzystająca z serwisu, wykonująca test lub zamawiająca raport.</li>
+    <li><strong>Test</strong> — zestaw pytań, zadań lub stwierdzeń służących do przygotowania wyniku rozwojowego, komunikacyjnego, psychometrycznego lub merytorycznego.</li>
+    <li><strong>Wynik podstawowy</strong> — bezpłatna informacja przedstawiona użytkownikowi po wykonaniu testu.</li>
+    <li><strong>Raport PDF</strong> — płatny dokument elektroniczny zawierający szerszą interpretację wyniku, wykresy, komentarz i rekomendacje rozwojowe.</li>
+    <li><strong>Usługodawca</strong> — właściciel i operator serwisu Testomnia.</li>
+    <li><strong>Konsument</strong> — osoba fizyczna korzystająca z serwisu w celu niezwiązanym bezpośrednio z jej działalnością gospodarczą lub zawodową.</li>
+    <li><strong>Klient biznesowy</strong> — osoba, firma, praktyka, klinika lub organizacja korzystająca z serwisu w celach zawodowych, szkoleniowych, rekrutacyjnych, menedżerskich lub rozwojowych.</li>
+  </ol>
+
+  <h2 id="p3"><span class="num">§ 3</span>Charakter testów i raportów</h2>
+  <ol>
+    <li>Testy dostępne w serwisie mają charakter edukacyjny, rozwojowy, informacyjny i pomocniczy.</li>
+    <li>Testy i raporty <strong>nie stanowią diagnozy psychologicznej, medycznej, psychiatrycznej, klinicznej ani orzeczniczej</strong>.</li>
+    <li>Wyniki testów nie powinny być traktowane jako samodzielna podstawa do podejmowania decyzji medycznych, terapeutycznych, prawnych, kadrowych, dyscyplinarnych lub rekrutacyjnych.</li>
+    <li>Testomnia nie zastępuje konsultacji z psychologiem, lekarzem, psychiatrą, psychoterapeutą ani innym uprawnionym specjalistą.</li>
+    <li>Wynik testu opisuje możliwe wzorce odpowiedzi, styl komunikacji, preferencje decyzyjne lub tendencje rozwojowe. Nie jest oceną wartości człowieka ani ostatecznym opisem jego osobowości.</li>
+    <li>W przypadku testów wykonywanych w organizacji, wynik powinien być omawiany w sposób etyczny, niestygmatyzujący i z poszanowaniem prywatności osoby badanej.</li>
+  </ol>
+
+  <h2 id="p4"><span class="num">§ 4</span>Prawa autorskie i własność intelektualna</h2>
+  <ol>
+    <li>Wszystkie treści dostępne w serwisie, w tym pytania testowe, opisy wyników, raporty, grafiki, układ raportów, metodologia, nazwy, znaki graficzne i materiały edukacyjne, stanowią własność Usługodawcy lub są wykorzystywane na podstawie odpowiednich licencji.</li>
+    <li>Użytkownik nie może kopiować, rozpowszechniać, odsprzedawać, modyfikować, publikować ani wykorzystywać komercyjnie treści serwisu bez pisemnej zgody Usługodawcy.</li>
+    <li>Użytkownik nie może wykonywać zrzutów, kopiować pytań, odtwarzać struktury testu ani tworzyć na podstawie serwisu konkurencyjnych narzędzi.</li>
+    <li>Testomnia nie udostępnia użytkownikowi praw autorskich do testów ani raportów, a jedynie prawo do korzystania z nich na własny użytek lub w zakresie zakupionej usługi.</li>
+    <li>Jeżeli serwis korzysta z narzędzi zewnętrznych, licencyjnych lub materiałów partnerów, są one wykorzystywane zgodnie z warunkami odpowiednich licencji.</li>
+    <li>W serwisie nie wolno zamieszczać, kopiować ani odtwarzać testów psychologicznych chronionych prawem autorskim lub licencjami bez zgody właścicieli praw.</li>
+  </ol>
+
+  <h2 id="p5"><span class="num">§ 5</span>Zasady korzystania z serwisu</h2>
+  <ol>
+    <li>Użytkownik zobowiązuje się korzystać z serwisu zgodnie z prawem, dobrymi obyczajami i niniejszym regulaminem.</li>
+    <li>Użytkownik zobowiązuje się podawać prawdziwe dane, jeżeli są wymagane do wykonania testu, otrzymania wyniku, zakupu raportu lub wystawienia dokumentu sprzedaży.</li>
+    <li>Zabronione jest korzystanie z serwisu w sposób naruszający prawa innych osób, w tym ich prywatność, dobra osobiste lub prawa autorskie.</li>
+    <li>Zabronione jest podejmowanie działań, które mogłyby zakłócić działanie serwisu, w tym prób włamania, automatycznego pobierania treści, obchodzenia zabezpieczeń lub przeciążania systemu.</li>
+    <li>Usługodawca może czasowo ograniczyć dostęp do serwisu w przypadku prac technicznych, aktualizacji, awarii lub konieczności zapewnienia bezpieczeństwa danych.</li>
+  </ol>
+
+  <h2 id="p6"><span class="num">§ 6</span>Konto użytkownika</h2>
+  <ol>
+    <li>Korzystanie z niektórych funkcji serwisu może wymagać założenia konta.</li>
+    <li>Użytkownik odpowiada za poufność danych logowania i nie powinien udostępniać ich osobom trzecim.</li>
+    <li>Użytkownik może w każdej chwili poprosić o usunięcie konta, kontaktując się z Usługodawcą pod adresem: <span class="placeholder">adres e-mail</span>.</li>
+    <li>Usługodawca może zablokować konto użytkownika, jeżeli użytkownik narusza regulamin, prawo lub bezpieczeństwo serwisu.</li>
+  </ol>
+
+  <h2 id="p7"><span class="num">§ 7</span>Testy wykonywane przez pracowników lub członków zespołu</h2>
+  <ol>
+    <li>Jeżeli test jest wykonywany w ramach zespołu, firmy, kliniki, praktyki lub organizacji, użytkownik powinien zostać jasno poinformowany:
+      <ul>
+        <li>kto jest organizatorem testu,</li>
+        <li>jaki jest cel testu,</li>
+        <li>kto otrzyma dostęp do wyniku,</li>
+        <li>czy wynik będzie omawiany indywidualnie lub zespołowo,</li>
+        <li>czy udział w teście jest dobrowolny.</li>
+      </ul>
+    </li>
+    <li>Wyniki testów nie powinny być wykorzystywane jako jedyna podstawa decyzji dotyczących zatrudnienia, awansu, wynagrodzenia, zwolnienia, oceny pracownika lub odpowiedzialności dyscyplinarnej.</li>
+    <li>W przypadku testów wykonywanych przez pracowników szczególną ostrożność należy zachować przy podstawie prawnej przetwarzania danych. Zgoda pracownika może nie być właściwym instrumentem dla testów psychometrycznych w kontekście zatrudnienia, ponieważ relacja pracownik–pracodawca jest nierówna, a zgoda może być wycofana.</li>
+    <li>Klient biznesowy korzystający z testów dla swojego zespołu odpowiada za zgodne z prawem poinformowanie uczestników, uzyskanie wymaganych podstaw prawnych oraz niewykorzystywanie wyników w sposób naruszający prawa uczestników.</li>
+    <li>Testomnia rekomenduje, aby raporty zespołowe były wykorzystywane przede wszystkim do celów rozwojowych, komunikacyjnych, szkoleniowych i organizacyjnych.</li>
+  </ol>
+
+  <h2 id="p8"><span class="num">§ 8</span>Raport PDF i płatności</h2>
+  <ol>
+    <li>Użytkownik może otrzymać bezpłatny wynik podstawowy oraz, jeżeli taka funkcja jest dostępna, zamówić płatny raport PDF.</li>
+    <li>Cena raportu jest każdorazowo podana przed zakupem.</li>
+    <li>Płatności mogą być obsługiwane przez zewnętrznego operatora płatności, np. Stripe, Przelewy24, PayU lub innego dostawcę wskazanego w serwisie.</li>
+    <li>Raport PDF jest dostarczany w formie elektronicznej, na adres e-mail podany przez użytkownika lub bezpośrednio w panelu użytkownika.</li>
+    <li>Użytkownik powinien sprawdzić poprawność adresu e-mail przed dokonaniem zakupu.</li>
+    <li>Usługodawca nie ponosi odpowiedzialności za niedostarczenie raportu wynikające z podania błędnego adresu e-mail, zapełnionej skrzynki pocztowej, ustawień antyspamowych lub problemów technicznych po stronie użytkownika.</li>
+  </ol>
+
+  <h2 id="p9"><span class="num">§ 9</span>Prawo odstąpienia od umowy</h2>
+  <ol>
+    <li>Konsument ma prawo odstąpić od umowy zawartej na odległość w terminie 14 dni, chyba że zgodnie z obowiązującymi przepisami prawo to nie przysługuje.</li>
+    <li>W przypadku treści cyfrowych, takich jak raport PDF, użytkownik może utracić prawo odstąpienia od umowy, jeżeli wyrazi zgodę na rozpoczęcie świadczenia usługi przed upływem terminu odstąpienia i zostanie poinformowany o utracie tego prawa.</li>
+    <li>Przed zakupem raportu serwis może wymagać zaznaczenia odpowiednich zgód, w tym zgody na dostarczenie treści cyfrowej przed upływem terminu odstąpienia.</li>
+    <li>Reklamacje dotyczące płatności, braku dostępu do raportu lub błędów technicznych można zgłaszać na adres: <span class="placeholder">adres e-mail</span>.</li>
+  </ol>
+
+  <h2 id="p10"><span class="num">§ 10</span>Reklamacje</h2>
+  <ol>
+    <li>Użytkownik ma prawo złożyć reklamację dotyczącą działania serwisu, płatności, dostarczenia raportu lub innych usług świadczonych przez Testomnia.</li>
+    <li>Reklamację należy wysłać na adres: <span class="placeholder">adres e-mail</span>.</li>
+    <li>Reklamacja powinna zawierać:
+      <ul>
+        <li>imię i nazwisko lub nazwę użytkownika,</li>
+        <li>adres e-mail użyty w serwisie,</li>
+        <li>opis problemu,</li>
+        <li>datę wykonania testu lub zakupu,</li>
+        <li>numer zamówienia, jeżeli został nadany.</li>
+      </ul>
+    </li>
+    <li>Usługodawca rozpatrzy reklamację w terminie 14 dni od jej otrzymania.</li>
+    <li>Odpowiedź na reklamację zostanie wysłana na adres e-mail użytkownika.</li>
+  </ol>
+
+  <h2 id="p11"><span class="num">§ 11</span>Dane osobowe i prywatność</h2>
+  <ol>
+    <li>Administratorem danych osobowych jest: <span class="placeholder">pełna nazwa firmy</span>, adres: <span class="placeholder">adres</span>, e-mail: <span class="placeholder">adres e-mail</span>.</li>
+    <li>Dane osobowe są przetwarzane w celu:
+      <ul>
+        <li>wykonania testu,</li>
+        <li>przygotowania wyniku,</li>
+        <li>dostarczenia raportu PDF,</li>
+        <li>obsługi płatności,</li>
+        <li>obsługi reklamacji,</li>
+        <li>prowadzenia komunikacji z użytkownikiem,</li>
+        <li>realizacji obowiązków księgowych i prawnych,</li>
+        <li>rozwoju i poprawy działania serwisu.</li>
+      </ul>
+    </li>
+    <li>Zakres przetwarzanych danych może obejmować:
+      <ul>
+        <li>adres e-mail,</li>
+        <li>imię i nazwisko,</li>
+        <li>odpowiedzi udzielone w teście,</li>
+        <li>wynik testu,</li>
+        <li>dane transakcyjne,</li>
+        <li>dane techniczne, takie jak adres IP, typ urządzenia, przeglądarka i pliki cookies.</li>
+      </ul>
+    </li>
+    <li>Odpowiedzi udzielane w testach mogą ujawniać informacje o preferencjach, stylu komunikacji, sposobie podejmowania decyzji lub funkcjonowaniu zawodowym użytkownika. Dlatego powinny być przetwarzane ostrożnie, zgodnie z zasadami minimalizacji, przejrzystości i bezpieczeństwa.</li>
+    <li>Dane osobowe są przetwarzane zgodnie z obowiązującymi przepisami o ochronie danych osobowych.</li>
+    <li>Szczegółowe zasady przetwarzania danych powinny zostać opisane w osobnej Polityce Prywatności.</li>
+    <li>Użytkownik ma prawo dostępu do swoich danych, ich sprostowania, usunięcia, ograniczenia przetwarzania, przenoszenia danych oraz wniesienia sprzeciwu, jeżeli wynika to z obowiązujących przepisów.</li>
+    <li>Użytkownik może skontaktować się z Usługodawcą w sprawach związanych z danymi osobowymi pod adresem: <span class="placeholder">adres e-mail</span>.</li>
+  </ol>
+
+  <h2 id="p12"><span class="num">§ 12</span>Newsletter i komunikacja marketingowa</h2>
+  <ol>
+    <li>Użytkownik może dobrowolnie zapisać się do newslettera lub wyrazić zgodę na otrzymywanie komunikacji marketingowej.</li>
+    <li>Zapis do newslettera nie jest warunkiem wykonania testu, chyba że serwis wyraźnie informuje, że podanie adresu e-mail jest konieczne do przesłania wyniku.</li>
+    <li>Użytkownik może w każdej chwili zrezygnować z newslettera, klikając link rezygnacji w wiadomości lub kontaktując się z Usługodawcą.</li>
+    <li>Komunikacja marketingowa jest prowadzona wyłącznie na zasadach przewidzianych przez obowiązujące przepisy.</li>
+  </ol>
+
+  <h2 id="p13"><span class="num">§ 13</span>Odpowiedzialność</h2>
+  <ol>
+    <li>Usługodawca dokłada starań, aby testy i raporty były przygotowane rzetelnie, zrozumiale i zgodnie z ich rozwojowym charakterem.</li>
+    <li>Usługodawca nie gwarantuje, że wynik testu w pełni opisuje użytkownika, jego osobowość, kompetencje, stan psychiczny, potencjał zawodowy lub przyszłe zachowania.</li>
+    <li>Użytkownik korzysta z wyników testu na własną odpowiedzialność.</li>
+    <li>Usługodawca nie ponosi odpowiedzialności za decyzje podjęte wyłącznie na podstawie wyniku testu lub raportu.</li>
+    <li>Usługodawca nie ponosi odpowiedzialności za skutki wykorzystania raportu w sposób sprzeczny z jego przeznaczeniem, w szczególności jako narzędzia diagnozy klinicznej, selekcji pracowników, oceny medycznej, orzeczenia lub podstawy decyzji kadrowej.</li>
+    <li>Usługodawca nie ponosi odpowiedzialności za przerwy w działaniu serwisu wynikające z awarii, prac technicznych, działania siły wyższej, problemów po stronie dostawców usług internetowych, operatorów płatności lub dostawców hostingu.</li>
+  </ol>
+
+  <h2 id="p14"><span class="num">§ 14</span>Ograniczenia wiekowe</h2>
+  <ol>
+    <li>Serwis jest przeznaczony dla osób pełnoletnich.</li>
+    <li>Osoby niepełnoletnie mogą korzystać z serwisu wyłącznie za zgodą rodzica lub opiekuna prawnego, jeżeli taka możliwość jest przewidziana w serwisie.</li>
+    <li>Testomnia nie jest przeznaczona do prowadzenia diagnozy dzieci i młodzieży.</li>
+  </ol>
+
+  <h2 id="p15"><span class="num">§ 15</span>Zmiany regulaminu</h2>
+  <ol>
+    <li>Usługodawca może zmienić regulamin w przypadku:
+      <ul>
+        <li>zmiany funkcji serwisu,</li>
+        <li>zmiany przepisów prawa,</li>
+        <li>zmiany danych Usługodawcy,</li>
+        <li>zmiany sposobu płatności,</li>
+        <li>potrzeby doprecyzowania zasad korzystania z serwisu.</li>
+      </ul>
+    </li>
+    <li>Aktualna wersja regulaminu jest zawsze dostępna w serwisie.</li>
+    <li>Zmiany regulaminu wchodzą w życie w terminie wskazanym przez Usługodawcę.</li>
+  </ol>
+
+  <h2 id="p16"><span class="num">§ 16</span>Postanowienia końcowe</h2>
+  <ol>
+    <li>W sprawach nieuregulowanych niniejszym regulaminem zastosowanie mają przepisy prawa polskiego.</li>
+    <li>Ewentualne spory będą rozstrzygane przez właściwy sąd zgodnie z obowiązującymi przepisami.</li>
+    <li>Kontakt z Usługodawcą: <span class="placeholder">adres e-mail</span>.</li>
+    <li>Regulamin obowiązuje od dnia: <span class="placeholder">data</span>.</li>
+  </ol>
+
+  <div class="notice">
+    <strong>Wersja robocza.</strong> Pola w nawiasach <span class="placeholder">w ten sposób</span> wymagają uzupełnienia danych firmy (nazwa, NIP, adres, e-mail kontaktowy, data wejścia w życie) przed publikacją.
+  </div>
+
+</main>
+
+<footer>
+  <p><a href="index.html">Strona główna</a> · <a href="mailto:kontakt@testomnia.pl">Kontakt</a></p>
+  <p>© 2026 Testomnia · Profesjonalne testy rozwojowe i psychometryczne</p>
+</footer>
+
+</body>
+</html>

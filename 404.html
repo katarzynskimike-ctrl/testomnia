@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#0B0F1A" />
+<meta name="robots" content="noindex, nofollow" />
+<title>404 · Test nie znaleziony · testomnia</title>
+<meta name="description" content="Tej strony nie ma. Wróć do katalogu 7 testów testomnia." />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%231A1109'/><text x='32' y='46' font-family='Georgia, serif' font-style='italic' font-size='42' fill='%23D4A574' text-anchor='middle'>t</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<style>
+:root{ --bg:#0B0F1A; --border:rgba(255,255,255,.08); --ink:#F5F4F0; --ink-soft:#C9CAD3; --ink-muted:#8B8E9C; --ink-dim:#5E6273; --accent:#D4A574; --accent-soft:#E8C499; --accent-deep:#A87C4F; --serif:'Instrument Serif',Georgia,serif; --sans:'Inter',sans-serif; }
+*,*::before,*::after{ box-sizing:border-box; }
+body{ margin:0; font-family:var(--sans); color:var(--ink); background:var(--bg); min-height:100vh; display:grid; place-items:center; padding:40px 24px; line-height:1.55; -webkit-font-smoothing:antialiased; }
+body::before{ content:""; position:fixed; inset:0; pointer-events:none; background:radial-gradient(900px 600px at 50% -10%, rgba(212,165,116,.08), transparent 60%); }
+.wrap{ position:relative; z-index:1; max-width:680px; width:100%; text-align:center; }
+.brand{ display:flex; align-items:center; gap:10px; font-weight:600; font-size:17px; justify-content:center; margin-bottom:50px; text-decoration:none; color:var(--ink); }
+.brand__mark{ width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg, var(--accent-soft), var(--accent-deep)); display:grid; place-items:center; color:#1a1109; font-family:var(--serif); font-style:italic; font-size:18px; font-weight:700; }
+.big{
+  font-family:var(--serif); font-style:italic;
+  font-size:clamp(110px, 22vw, 220px);
+  line-height:.9; letter-spacing:-.04em;
+  background:linear-gradient(180deg, var(--accent-soft), var(--accent) 50%, rgba(212,165,116,.2));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  margin:0 0 -10px;
+}
+.eyebrow{ font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:600; }
+h1{ font-family:var(--serif); font-size:clamp(28px,4.5vw,40px); line-height:1.1; margin:18px 0 16px; font-weight:400; letter-spacing:-.01em; }
+h1 em{ font-style:italic; background:linear-gradient(180deg, var(--accent-soft), var(--accent)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.lead{ font-size:16.5px; color:var(--ink-soft); margin:0 auto 36px; max-width:480px; }
+.btn{ display:inline-flex; align-items:center; gap:10px; padding:14px 26px; border-radius:999px; font-weight:500; font-size:15px; text-decoration:none; }
+.btn--primary{ background:linear-gradient(180deg, var(--accent-soft), var(--accent) 70%); color:#1A1109; }
+.btn--ghost{ color:var(--ink); border:1px solid var(--border); background:rgba(255,255,255,.02); margin-left:8px; }
+.shortcuts{
+  margin-top:50px; padding-top:30px; border-top:1px solid var(--border);
+  text-align:left;
+}
+.shortcuts h3{ font-family:var(--sans); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-muted); margin:0 0 16px; font-weight:600; text-align:center; }
+.shortcuts__grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+@media (max-width:640px){ .shortcuts__grid{ grid-template-columns:1fr; } }
+.shortcut{
+  padding:14px 16px; border-radius:12px; border:1px solid var(--border);
+  background:rgba(255,255,255,.02); text-decoration:none; color:var(--ink); font-size:14px;
+  transition:border-color .25s, background .25s;
+}
+.shortcut:hover{ border-color:rgba(212,165,116,.32); background:rgba(212,165,116,.04); }
+.shortcut small{ display:block; color:var(--ink-muted); font-size:12px; margin-top:3px; }
+:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:4px; }
+</style>
+</head>
+<body>
+
+<main class="wrap" role="main">
+  <a href="index.html" class="brand" aria-label="Testomnia">
+    <img src="testomnia-logo.png" alt="Testomnia" style="height:36px;width:auto;max-width:200px;display:block">
+  </a>
+
+  <div class="big" aria-hidden="true">404</div>
+  <span class="eyebrow">Strona nie znaleziona</span>
+  <h1>Tej strony tutaj <em>nie ma</em>.</h1>
+  <p class="lead">Możliwe, że link jest zdezaktualizowany, test zmienił nazwę, albo wpisałeś adres ręcznie. Wróć do&nbsp;katalogu i&nbsp;wybierz to, czego szukasz.</p>
+
+  <a href="/" class="btn btn--primary">Wróć do katalogu testów <span>→</span></a>
+  <a href="mailto:kontakt@testomnia.pl" class="btn btn--ghost">Napisz do nas</a>
+
+  <div class="shortcuts">
+    <h3>Najczęściej szukane</h3>
+    <div class="shortcuts__grid">
+      <a class="shortcut" href="/testy/4-typy-osobowosci/">Test 4 typów osobowości <small>12 min · 38 str.</small></a>
+      <a class="shortcut" href="/testy/dop-wiedza/">DOP — wiedza zespołu <small>30 min · 84 str.</small></a>
+      <a class="shortcut" href="/testy/stylu-menadzera/">Styl menedżera praktyki <small>18 min · 54 str.</small></a>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>

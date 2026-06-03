@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080E18">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Testomnia · Test wiedzy lekarza | Doskonała Obsługa Pacjenta</title>
+<style>
+:root{color-scheme:dark;--champagne:#E5B77A;--warm-gold:#C99055;--ivory:#F6F1E8;--muted:#B8BAC6;--line:#2B3445;--panel-navy:#0D1423;--deep-navy:#080E18}
+*{box-sizing:border-box}html,body{min-height:100%;margin:0}
+body{background:var(--deep-navy);font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ivory);min-height:100dvh}
+button{font:inherit;cursor:pointer}a{color:inherit;text-decoration:none}
+.app{min-height:100dvh;display:flex;flex-direction:column}
+.header{height:78px;display:flex;gap:10px;padding:0 18px;align-items:center;border-bottom:1px solid var(--line);background:rgba(8,14,24,.96);position:sticky;top:0;z-index:30;backdrop-filter:blur(18px)}
+.brandLogo{display:flex;align-items:center;height:54px;cursor:pointer;border:0;background:transparent;color:inherit;padding:0}
+.brandMark{height:100%;width:auto;max-width:260px;display:block;border-radius:6px}
+.backLink{margin-left:auto;color:#B8BAC6;font-size:13px;padding:7px 14px;border:1px solid var(--line);border-radius:12px;transition:all .15s ease}
+.backLink:hover{border-color:var(--champagne);color:var(--champagne)}
+.main{flex:1;padding:24px 18px 40px;max-width:600px;margin:0 auto;width:100%}
+.eyebrow{margin:0;color:var(--champagne);font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:600}
+
+.introCard{padding:36px 28px;border:1px solid var(--line);border-radius:28px;background:rgba(13,20,35,.84);text-align:center;margin-top:28px}
+.introCard h1{margin:18px 0 12px;font-size:30px;line-height:1.1;font-weight:900}
+.introCard p{color:var(--muted);line-height:1.6;font-size:15px;margin:8px 0 0}
+.primaryBtn{margin-top:24px;border:0;border-radius:16px;padding:15px 28px;background:var(--champagne);color:#080E18;font-weight:850;font-size:15px;width:100%;box-shadow:0 0 30px rgba(229,183,122,.28)}
+.primaryBtn:hover{background:var(--warm-gold)}
+
+.testTop{display:flex;justify-content:space-between;align-items:center;gap:10px;color:#B8BAC6;margin-bottom:10px;font-size:13px}
+.testTop > span{flex:1;text-align:center}
+.testTop button{background:#121827;border:1px solid var(--line);color:#B8BAC6;border-radius:12px;padding:7px 12px;font-size:13px;transition:all .15s ease}
+.testTop button:hover:not(:disabled){border-color:var(--champagne);color:var(--champagne)}
+.testTop button:disabled{opacity:.3;cursor:not-allowed}
+#reset-btn{width:32px;height:32px;padding:0;border-radius:50%;font-size:18px;display:inline-flex;align-items:center;justify-content:center;line-height:1}
+.progressTrack{height:6px;border-radius:999px;background:#121827;overflow:hidden;margin-bottom:22px}
+.progressTrack div{height:100%;background:linear-gradient(90deg,var(--champagne),var(--warm-gold));transition:width .25s ease}
+
+.qLabel{margin:0 0 8px;color:var(--champagne);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;display:flex;align-items:center;gap:8px}
+.qLabel .catDot{width:8px;height:8px;border-radius:50%}
+.qTitle{margin:0 0 18px;font-size:24px;line-height:1.25;font-weight:500;font-family:'Cormorant Garamond','Tinos',Georgia,serif;color:var(--ivory)}
+
+.options{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:flex-start;gap:12px;text-align:left;width:100%;padding:14px 16px;border:2px solid var(--line);background:rgba(13,20,35,.84);color:var(--ivory);border-radius:18px;font-size:15px;line-height:1.4;font-weight:600;transition:all .15s ease}
+.opt:not(:disabled):hover{border-color:var(--champagne)}
+.optIdx{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:#1C2438;color:var(--champagne);font-size:12px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;margin-top:1px}
+.opt.correct{border-color:#22c55e;background:rgba(34,197,94,.12)}
+.opt.correct .optIdx{background:#22c55e;color:#052e16}
+.opt.wrong{border-color:#ef4444;background:rgba(239,68,68,.12)}
+.opt.wrong .optIdx{background:#ef4444;color:#450a0a}
+.opt.dim{opacity:.55}
+
+.feedback{margin-top:14px;padding:16px 18px;border:1px solid var(--line);border-radius:18px;background:#0D1423;display:flex;flex-direction:column;gap:12px}
+.badge{align-self:flex-start;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.12em;padding:5px 11px;border-radius:999px}
+.badge.ok{background:rgba(34,197,94,.18);color:#4ade80;border:1px solid rgba(34,197,94,.45)}
+.badge.no{background:rgba(239,68,68,.18);color:#f87171;border:1px solid rgba(239,68,68,.45)}
+.feedback p{margin:0;font-size:14px;line-height:1.55;color:#d0c8b8}
+.nextBtn{align-self:stretch;border:0;border-radius:14px;padding:13px 18px;background:var(--champagne);color:#080E18;font-weight:850;font-size:14px}
+.nextBtn:hover{background:var(--warm-gold)}
+
+.resultHero{text-align:center;padding:32px 20px;border:1px solid var(--line);border-radius:28px;background:rgba(13,20,35,.84)}
+.resultHero p.tag{display:inline-block;margin:0 0 14px;border:1px solid #2B3445;border-radius:999px;padding:6px 14px;color:#F0E6D5;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.resultHero h1{margin:0;font-size:42px;line-height:1.05;font-weight:900}
+.resultHero .sub{display:block;margin-top:10px;color:var(--muted);font-size:14px}
+
+.panel{margin-top:18px;padding:22px;border:1px solid var(--line);border-radius:24px;background:var(--panel-navy)}
+.panel.featured{border-width:2px}
+.panel .levelDesc{margin:10px 0 0;font-size:15px;line-height:1.6;color:#E0DBD0}
+.catRow{padding:14px 0;border-bottom:1px solid var(--line)}
+.catRow:last-child{border-bottom:0}
+.catHead{display:flex;justify-content:space-between;align-items:baseline;color:#E0DBD0;font-size:14px}
+.catHead .nm{display:inline-flex;align-items:center;gap:8px;font-weight:600}
+.catHead .nm .dot{width:8px;height:8px;border-radius:2px}
+.catHead strong{font-size:14px;font-weight:800;color:var(--ivory)}
+.catTrack{margin-top:8px;height:8px;border-radius:999px;background:#121827;overflow:hidden}
+.catTrack div{height:100%;border-radius:999px;transition:width .3s ease}
+.catAdvice{margin-top:7px;color:#8E94A8;font-size:12px;line-height:1.5}
+
+.bookCta{text-align:center;background:rgba(229,183,122,.04)}
+.bookCta h3{margin:8px 0 4px;font-family:Georgia,serif;font-size:22px;color:var(--champagne)}
+.bookCta p{margin:0;font-size:13px;color:#8E94A8}
+
+.shareRow{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.shareRow button,.shareRow a{padding:13px 18px;border:1px solid var(--line);background:transparent;color:var(--ivory);border-radius:14px;font-weight:600;font-size:14px;text-align:center}
+.shareRow .restart{background:var(--champagne);color:#080E18;border:0;font-weight:850;box-shadow:0 0 30px rgba(229,183,122,.28)}
+
+.footer{text-align:center;padding:24px 18px;color:#5A6376;font-size:12px;border-top:1px solid var(--line);margin-top:auto}
+
+@media (min-width:720px){.qTitle{font-size:25px}.resultHero h1{font-size:52px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <a href="index.html" class="brandLogo" id="brand-btn" aria-label="Testomnia"><img class="brandMark" src="testomnia-logo.png" alt="Testomnia" /></a>
+    <a href="index.html#testy" class="backLink" id="back-link">← Wszystkie testy</a>
+  </header>
+  <main class="main" id="root"></main>
+  <footer class="footer">© 2026 Testomnia · Test wiedzy lekarza · <a href="regulamin.html" style="color:#B8BAC6;text-decoration:underline;text-decoration-color:rgba(229,183,122,.4);text-underline-offset:2px">Regulamin</a><br><span style="opacity:.7;font-size:11px">Test ma charakter rozwojowy i edukacyjny. Nie stanowi diagnozy psychologicznej ani medycznej.</span><br><span style="opacity:.55;font-size:10px">Źródło: „Dlaczego pacjenci mówią TAK" — 2025</span></footer>
+</div>
+<script>
+(function(){
+  const KCATS = {
+    zaufanie:       {name:"Zaufanie",                 chapter:7,  color:"#22c55e"},
+    komunikacja:    {name:"Komunikacja",              chapter:8,  color:"#eab308"},
+    bezpieczenstwo: {name:"Bezpieczeństwo emocjonalne",chapter:9, color:"#ec4899"},
+    wartosc:        {name:"Postrzegana wartość",      chapter:10, color:"#a78bfa"},
+    jasnosc:        {name:"Jasność decyzji",          chapter:11, color:"#3b82f6"},
+    wygoda:         {name:"Wygoda i prostota",        chapter:12, color:"#06b6d4"},
+    pewnosc:        {name:"Pewność wobec lekarza",    chapter:13, color:"#ef4444"},
+    gotowosc:       {name:"Model Gotowości M1–M4",    chapter:6,  color:"#f59e0b"},
+    scenariusz:     {name:"Zastosowanie praktyczne",  chapter:0,  color:"#E5B77A"}
+  };
+  const KCAT_ORDER = ["zaufanie","komunikacja","bezpieczenstwo","wartosc","jasnosc","wygoda","pewnosc","gotowosc","scenariusz"];
+
+  const Q = [
+    {cat:"zaufanie",q:"Czym w modelu 7 Czynników jest „Zaufanie”?",options:["Wiara pacjenta w techniczne kompetencje lekarza","Poczucie pacjenta, że lekarz jest po jego stronie","Lojalność pacjenta wobec praktyki przez lata","Brak strachu przed bólem podczas zabiegu"],correct:1,expl:"Zaufanie to fundament — pierwsze, niewerbalne pytanie pacjenta: „Czy mogę im zaufać?”. Jeśli odpowiedź to NIE, żaden plan nie zostanie zaakceptowany."},
+    {cat:"komunikacja",q:"Co buduje Komunikację jako drugi czynnik decyzji?",options:["Pełna terminologia medyczna pokazująca kompetencje","Powtarzanie diagnozy 3 razy aż zapamięta","Zrozumiałe słowa, które budują zrozumienie i otwierają na dialog","Mówienie głośno i wyraźnie, w wolnym tempie"],correct:2,expl:"Komunikacja w 7 Czynnikach to nie informowanie — to dialog. Lekarz, który mówi językiem niezrozumiałym, traci pacjenta nawet przy idealnej diagnozie."},
+    {cat:"bezpieczenstwo",q:"Czym jest „Bezpieczeństwo emocjonalne” w modelu?",options:["Bezpieczne wykonanie zabiegu zgodnie z procedurami","Standardy BHP i sterylizacja","Pacjent czuje się wysłuchany, spokojny i zaopiekowany","Brak powikłań i komplikacji medycznych"],correct:2,expl:"Bezpieczeństwo emocjonalne to słuchanie, które leczy (Rozdz. 9). Bez niego mózg pacjenta zostaje w trybie przetrwania i nie potrafi podjąć decyzji."},
+    {cat:"wartosc",q:"„Postrzegana wartość” oznacza, że pacjent ocenia:",options:["Cenę zaproponowanego leczenia","Wartość rynkową praktyki i sprzętu","Wartość leczenia — nie tylko cenę","Stosunek ceny do oferty konkurencji"],correct:2,expl:"Postrzegana wartość to subiektywna ocena pacjenta — co dostaje za swoje pieniądze. To dlatego pacjent może odrzucić tani plan i zaakceptować droższy."},
+    {cat:"jasnosc",q:"„Jasność decyzji” jako piąty czynnik wymaga od lekarza:",options:["Postawienia jednej, twardej diagnozy bez alternatyw","Przedstawienia wszystkich możliwych opcji leczenia","Dania pacjentowi jasnego planu i kolejnych kroków","Wyjaśnienia każdej procedury w detalach technicznych"],correct:2,expl:"Pacjent potrzebuje planu i wiedzy „co dalej”. Paraliż wyboru — zbyt wiele opcji bez rekomendacji — to jedna z najczęstszych przyczyn „muszę się zastanowić”."},
+    {cat:"wygoda",q:"Czynnik „Wygoda i prostota” mówi, że:",options:["Im wygodniejszy fotel dentystyczny, tym lepiej","Im łatwiej podjąć decyzję, tym większa szansa, że pacjent ją podejmie","Wizyty powinny być jak najkrótsze","Praktyka powinna zminimalizować formalności"],correct:1,expl:"Każde tarcie w procesie (umówienie, płatność, ilość wizyt) zmniejsza szansę na decyzję. Wygoda nie jest luksusem — jest warunkiem akceptacji."},
+    {cat:"pewnosc",q:"„Pewność wobec lekarza” (7. czynnik) oznacza, że:",options:["Pacjent boi się sprzeciwić lekarzowi i mówi „tak”","Lekarz jest pewny diagnozy i broni jej do końca","Pewność lekarza daje pacjentowi pewność decyzji","Pacjent wybiera tego lekarza, który najbardziej pasuje cenowo"],correct:2,expl:"Niepewność lekarza („może spróbujemy…”, „zobaczymy”) jest natychmiast wyczuwana. Pacjent kopiuje stan emocjonalny — pewność karmi pewność."},
+    {cat:"gotowosc",q:"Pacjent w stanie M1 (Nieświadomy) to ktoś, kto:",options:["Nie ufa lekarzowi i wchodzi nieufnie","Nie ma motywacji i nie ma świadomości problemu","Nie ma pieniędzy na leczenie","Boi się zabiegów stomatologicznych"],correct:1,expl:"M1 to brak obu zasobów — świadomości i motywacji. Pacjent nie widzi problemu, bo „nic go nie boli”."},
+    {cat:"gotowosc",q:"Typowe zdanie pacjenta M1 to:",options:["„Wiem że muszę, ale teraz mi nie pasuje”","„Nic mnie nie boli, chyba jest okej”","„Mam ból, chcę się leczyć już teraz”","„Jestem gotowy działać kompleksowo”"],correct:1,expl:"Pacjent M1 nie rozpoznaje problemu jako swojego problemu. Sygnatura językowa: bagatelizowanie, „okej”, brak słów wskazujących na świadomość."},
+    {cat:"gotowosc",q:"Pacjent M2 (Świadomy) charakteryzuje się tym, że:",options:["Ma motywację, ale wąską — tylko jeden problem","Rozumie plan, ale brak mu motywacji do działania teraz","Ma pełną świadomość i motywację, gotowy na komplet","Brak mu świadomości i motywacji"],correct:1,expl:"M2 wie co i dlaczego — ale „nie teraz”. Cel rozmowy: budować motywację, pokazać dlaczego warto teraz, a nie za pół roku."},
+    {cat:"gotowosc",q:"Główny cel rozmowy z pacjentem M2:",options:["Diagnostyka wizualna i język konsekwencji","Budować motywację — pokazać dlaczego warto teraz","Wspierać logistykę i logistykę decyzji","Przedstawić plan kompleksowy 4xU"],correct:1,expl:"M2 ma świadomość, ale brak energii do startu. Diagnostyka go nie ruszy — potrzebny język korzyści 7 STAR™."},
+    {cat:"gotowosc",q:"Pacjent M3 (Zmotywowany) to:",options:["Pełna świadomość i pełna motywacja na komplet","Ma motywację, ale wąską — np. tylko ból tu i teraz","Brak motywacji mimo wiedzy","Nieświadomy całego zakresu problemu"],correct:1,expl:"M3 chce się leczyć, ale wąsko — „wyrwijcie i koniec”, „tylko ten przedni ząb”. Zadanie lekarza: poszerzyć świadomość od bólu do pełnego obrazu."},
+    {cat:"gotowosc",q:"Właściwe narzędzie pracy z pacjentem M3:",options:["Diagnostyka wizualna + język konsekwencji","Język korzyści 7 STAR™","Diagnostyka 360° + Plan Minimum","Protokół 4xU + plan kompleksowy"],correct:2,expl:"M3 ma motywację bólową, ale nie pełną świadomość. Diagnostyka 360° pokazuje pełny obraz, Plan Minimum daje wejście bez przytłoczenia."},
+    {cat:"gotowosc",q:"Pacjent M4 (Gotowy) to ten, kto:",options:["Ma wąską motywację — tylko jeden problem","Rozumie plan, ale nie chce go realizować","Pełna świadomość problemu i pełna motywacja","Brak świadomości — przyszedł na profilaktykę"],correct:2,expl:"M4 świadomie powie „tak” na pełny plan. Tylko M4 jest naprawdę gotów do kompleksowego leczenia — pozostałych trzeba do M4 doprowadzić."},
+    {cat:"gotowosc",q:"Największy błąd w pracy z Modelem Gotowości to:",options:["Traktować każdego pacjenta według tego samego skryptu","Traktować pacjenta M2 jak M3 — albo M3 jak M4","Całkowicie ignorować Model Gotowości","Nie wykonywać pełnej diagnostyki przy pierwszej wizycie"],correct:1,expl:"Najczęstszy błąd: lekarz proponuje M2 lub M3 plan kompleksowy (jak M4). Pacjent słyszy „muszę się zastanowić” i znika — bo dostał rozmowę dla innego stanu."},
+    {cat:"scenariusz",q:"Pacjent po konsultacji mówi: „Muszę się zastanowić”. Wg modelu to najczęściej znak, że:",options:["Pacjent nie ma pieniędzy","Pacjent jest z natury niezdecydowany","Zabrakło któregoś z 7 Czynników — np. zaufania lub jasności","Plan jest źle skonstruowany medycznie"],correct:2,expl:"„Muszę się zastanowić” rzadko jest o cenie. To sygnał, że jeden z czynników (najczęściej zaufanie, bezpieczeństwo lub jasność) nie został zaadresowany."},
+    {cat:"scenariusz",q:"Pacjent chodzi na 3-4 konsultacje u różnych lekarzy. Wg autora to znak, że:",options:["Pacjent jest trudny i nielojalny","Pacjent szuka realnej alternatywy — bo ona istnieje","Pacjent nie ma pieniędzy","Pacjent boi się zabiegów"],correct:1,expl:"Autor po 300+ konsultacjach uzyskał ok. 200 różnych planów na ten sam stan kliniczny. Pacjent szukający „drugiej opinii” działa racjonalnie — alternatywy istnieją."},
+    {cat:"scenariusz",q:"Pacjent z ostrym bólem zęba mówi: „wyrwijcie i koniec, nie chcę żadnych implantów”. W którym stanie się znajduje?",options:["M1 — nieświadomy","M2 — świadomy bez motywacji","M3 — zmotywowany wąsko","M4 — gotowy na kompleksowe leczenie"],correct:2,expl:"Klasyczny M3: motywacja bólowa, ale wąska. Próba sprzedaży planu kompleksowego = porażka. Najpierw Plan Minimum + Diagnostyka 360°, świadomość się rozszerzy."},
+    {cat:"scenariusz",q:"Z 300+ konsultacji u różnych lekarzy autor uzyskał:",options:["Identyczne lub bardzo podobne diagnozy","Ok. 200 różnych planów leczenia tego samego stanu klinicznego","Maksymalnie 50 różnych planów","Wszystkie zalecały implanty jako rozwiązanie podstawowe"],correct:1,expl:"Ten sam stan, te same skany — różne plany. Dlatego pacjent szukający drugiej opinii nie jest „trudny” — wykonuje racjonalną analizę realnych alternatyw."},
+    {cat:"scenariusz",q:"Pacjent M1 z poważnymi brakami w uzębieniu słyszy: „pełna rekonstrukcja — 60 tys. zł, 8 implantów”. Najlepszy ruch lekarza:",options:["Pokazać szczegółowy cennik etap po etapie","Zaprezentować od razu plan kompleksowy 4xU","Diagnostyka wizualna + język konsekwencji (zbudować świadomość)","Pominąć i przejść do następnego pacjenta"],correct:2,expl:"M1 nie ma świadomości problemu — plan kompleksowy odbierze jako naciąganie. Najpierw zdjęcia, pokazanie konsekwencji, dopiero potem rozmowa o leczeniu."},
+    {cat:"scenariusz",q:"Główna teza książki „Dlaczego pacjenci mówią TAK” brzmi:",options:["Pacjent decyduje racjonalnie na podstawie faktów medycznych","Pacjent akceptuje osobę, która oferuje plan — nie sam plan","Pacjent zawsze wybiera najtańszą opcję","Pacjent kieruje się rekomendacjami znajomych"],correct:1,expl:"„Pacjent nie akceptuje tylko planu leczenia. Pacjent akceptuje osobę, która ten plan oferuje” — kluczowy cytat z dedykacji książki."}
+  ];
+
+  const state = {screen:"intro",idx:0,answers:{}};
+  const root = document.getElementById("root");
+
+  function go(s){state.screen=s;render();window.scrollTo({top:0,behavior:"smooth"});}
+
+  function render(){
+    if(state.screen==="intro") return renderIntro();
+    if(state.screen==="q") return renderQuestion();
+    if(state.screen==="r") return renderResult();
+  }
+
+  function renderIntro(){
+    root.innerHTML = `<section class="introCard">
+      <p class="eyebrow">Test wiedzy lekarza</p>
+      <h1>Psychologia decyzji pacjenta</h1>
+      <p>21 pytań w trzech częściach: <strong>7 Czynników Decyzji Pacjenta</strong>, <strong>Model Gotowości M1–M4</strong> oraz scenariusze praktyczne. Po każdym pytaniu zobaczysz wyjaśnienie.</p>
+      <p style="margin-top:14px;font-size:14px;color:#B8BAC6">Test trwa ok. 8 minut. Źródło merytoryczne: „Dlaczego pacjenci mówią TAK” — Michał Katarzyński, 2025.</p>
+      <button class="primaryBtn" id="start-btn">Rozpocznij test →</button>
+    </section>`;
+    document.getElementById("start-btn").onclick = ()=>{state.idx=0;state.answers={};go("q");};
+  }
+
+  function renderQuestion(){
+    const q = Q[state.idx];
+    const total = Q.length;
+    const picked = state.answers[state.idx];
+    const showFb = picked !== undefined;
+    const correctIdx = q.correct;
+    const pct = Math.round(((state.idx+(showFb?1:0))/total)*100);
+    const cat = KCATS[q.cat];
+    const isLast = state.idx === total-1;
+
+    const opts = q.options.map((opt,i)=>{
+      let cls = "opt";
+      if(showFb){
+        if(i===correctIdx) cls += " correct";
+        else if(i===picked) cls += " wrong";
+        else cls += " dim";
+      }
+      return `<button class="${cls}" data-i="${i}" ${showFb?'disabled':''}>
+        <span class="optIdx">${String.fromCharCode(65+i)}</span><span>${opt}</span>
+      </button>`;
+    }).join("");
+
+    const fbHtml = showFb ? `<div class="feedback">
+      <div class="badge ${picked===correctIdx?'ok':'no'}">${picked===correctIdx?'✓ Dobrze':'✗ Niepoprawnie'}</div>
+      <p>${q.expl}</p>
+      <button class="nextBtn" id="next-btn">${isLast?'Zobacz wynik →':'Dalej →'}</button>
+    </div>` : "";
+
+    root.innerHTML = `
+      <div class="testTop">
+        <button id="back-btn"${state.idx===0?' disabled':''}>← Wstecz</button>
+        <span>Pytanie ${state.idx+1} / ${total} · ${pct}%</span>
+        <button id="reset-btn" title="Zacznij od nowa">×</button>
+      </div>
+      <div class="progressTrack"><div style="width:${pct}%"></div></div>
+      <p class="qLabel"><span class="catDot" style="background:${cat.color}"></span>${cat.name.toUpperCase()}</p>
+      <h1 class="qTitle">${q.q}</h1>
+      <section class="options">${opts}</section>
+      ${fbHtml}
+    `;
+
+    document.querySelectorAll(".opt").forEach(b=>{
+      b.onclick = ()=>{
+        if(showFb) return;
+        state.answers[state.idx] = parseInt(b.dataset.i,10);
+        render();
+      };
+    });
+    const nb = document.getElementById("next-btn");
+    if(nb) nb.onclick = ()=>{
+      if(isLast) go("r");
+      else {state.idx++;render();window.scrollTo({top:0,behavior:"smooth"});}
+    };
+    document.getElementById("back-btn").onclick = ()=>{
+      if(state.idx>0){state.idx--;render();window.scrollTo({top:0,behavior:"smooth"});}
+    };
+    document.getElementById("reset-btn").onclick = ()=>{
+      if(confirm("Zacząć od nowa? Stracisz dotychczasowe odpowiedzi.")){
+        state.answers={};state.idx=0;go("intro");
+      }
+    };
+  }
+
+  function renderResult(){
+    let correct = 0;
+    const byCat = {};
+    KCAT_ORDER.forEach(c=>byCat[c]={total:0,correct:0});
+    Q.forEach((q,i)=>{
+      byCat[q.cat].total++;
+      if(state.answers[i]===q.correct){byCat[q.cat].correct++;correct++;}
+    });
+    const pct = Math.round((correct/Q.length)*100);
+    let level,levelKey,levelDesc,levelColor;
+    if(pct>=85){levelKey="M4";level="Mistrz";levelColor="#22c55e";levelDesc="Pełna świadomość obu modeli. Możesz prowadzić konsultacje na najwyższym poziomie akceptacji.";}
+    else if(pct>=60){levelKey="M3";level="Zmotywowany";levelColor="#a78bfa";levelDesc="Solidna baza. Znasz większość modelu, ale wybrane obszary wymagają pogłębienia, żeby przejść do M4.";}
+    else if(pct>=40){levelKey="M2";level="Świadomy";levelColor="#eab308";levelDesc="Rozumiesz kierunek, ale brakuje Ci jeszcze sprawdzonych narzędzi. Czas zainwestować w systematyczne doszkolenie.";}
+    else{levelKey="M1";level="Początkujący";levelColor="#ef4444";levelDesc="Świetnie, że robisz ten test — to pierwszy krok od M1 do M4. Książka „Dlaczego pacjenci mówią TAK” jest tu naturalnym startem.";}
+
+    const rows = KCAT_ORDER.map(c=>{
+      const s = byCat[c]; if(s.total===0) return "";
+      const p = Math.round((s.correct/s.total)*100);
+      const m = KCATS[c];
+      let adv;
+      if(c==="scenariusz"){
+        if(p>=80) adv="Świetnie rozumiesz zastosowania.";
+        else if(p>=50) adv="Warto przejrzeć Część III książki (Rozdz. 14–22).";
+        else adv="Wróć do scenariuszy w Części III — szczególnie Rozdz. 18 (Protokół 4xA).";
+      } else {
+        if(p>=80) adv="Solidne — utrzymuj poziom.";
+        else if(p>=50) adv=`Warto pogłębić — Rozdział ${m.chapter}.`;
+        else adv=`Priorytet do doszkolenia — zacznij od Rozdziału ${m.chapter}.`;
+      }
+      return `<div class="catRow">
+        <div class="catHead">
+          <span class="nm"><span class="dot" style="background:${m.color}"></span>${m.name}</span>
+          <strong>${s.correct}/${s.total} <small style="color:${m.color}">· ${p}%</small></strong>
+        </div>
+        <div class="catTrack"><div style="width:${Math.max(4,p)}%;background:${m.color}"></div></div>
+        <p class="catAdvice">${adv}</p>
+      </div>`;
+    }).join("");
+
+    root.innerHTML = `
+      <section class="resultHero">
+        <p class="tag">Twój wynik · Test wiedzy</p>
+        <h1 style="color:${levelColor}">${level}</h1>
+        <span class="sub">${correct} / ${Q.length} poprawnych (${pct}%) · Poziom ${levelKey}</span>
+      </section>
+      <section class="panel featured" style="border-color:${levelColor}">
+        <p class="eyebrow">Co to dla Ciebie znaczy</p>
+        <p class="levelDesc">${levelDesc}</p>
+      </section>
+      <section class="panel">
+        <p class="eyebrow">Wyniki per obszar</p>
+        ${rows}
+      </section>
+      <section class="panel bookCta">
+        <p class="eyebrow">Materiał źródłowy</p>
+        <h3>„Dlaczego pacjenci mówią TAK”</h3>
+        <p>Michał Katarzyński · 2025</p>
+        <p style="margin-top:10px">Psychologia akceptacji kompleksowych planów leczenia. 7 Czynników Decyzji Pacjenta, Model Gotowości M1–M4, Protokół 4xA.</p>
+      </section>
+      <div class="shareRow">
+        <button class="restart" id="restart-btn">Wykonaj ponownie</button>
+        <a href="index.html#testy">← Wróć do wszystkich testów</a>
+      </div>
+    `;
+    document.getElementById("restart-btn").onclick = ()=>{state.answers={};state.idx=0;go("intro");};
+  }
+
+  document.getElementById("brand-btn").addEventListener("click",(e)=>{
+    if(state.screen !== "intro" && !confirm("Wrócić do menu testów? Stracisz dotychczasowe odpowiedzi.")) e.preventDefault();
+  });
+  document.getElementById("back-link").addEventListener("click",(e)=>{
+    if(state.screen !== "intro" && !confirm("Wrócić do menu testów? Stracisz dotychczasowe odpowiedzi.")) e.preventDefault();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

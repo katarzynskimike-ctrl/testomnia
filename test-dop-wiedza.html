@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080E18">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Doskonała Obsługa Pacjenta — test wiedzy | DOP</title>
+<style>
+:root{color-scheme:dark;--champagne:#E5B77A;--warm-gold:#C99055;--ivory:#F6F1E8;--muted:#B8BAC6;--line:#2B3445;--panel-navy:#0D1423;--deep-navy:#080E18}
+*{box-sizing:border-box}html,body{min-height:100%;margin:0}
+body{background:var(--deep-navy);font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ivory);min-height:100dvh}
+button{font:inherit;cursor:pointer}a{color:inherit;text-decoration:none}
+.app{min-height:100dvh;display:flex;flex-direction:column}
+.header{height:78px;display:flex;gap:10px;padding:0 18px;align-items:center;border-bottom:1px solid var(--line);background:rgba(8,14,24,.96);position:sticky;top:0;z-index:30;backdrop-filter:blur(18px)}
+.brandLogo{display:flex;align-items:center;height:54px;cursor:pointer;border:0;background:transparent;color:inherit;padding:0}
+.brandMark{height:100%;width:auto;max-width:260px;display:block;border-radius:6px}
+.backLink{margin-left:auto;color:#B8BAC6;font-size:13px;padding:7px 14px;border:1px solid var(--line);border-radius:12px;transition:all .15s ease}
+.backLink:hover{border-color:var(--champagne);color:var(--champagne)}
+.main{flex:1;padding:24px 18px 40px;max-width:660px;margin:0 auto;width:100%}
+.eyebrow{margin:0;color:var(--champagne);font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:600}
+
+.introCard{padding:36px 28px;border:1px solid var(--line);border-radius:28px;background:rgba(13,20,35,.84);text-align:center;margin-top:28px}
+.introCard h1{margin:18px 0 12px;font-size:30px;line-height:1.15;font-weight:900}
+.introCard p{color:var(--muted);line-height:1.6;font-size:15px;margin:8px 0 0}
+.introCard p strong{color:var(--ivory)}
+.primaryBtn{margin-top:24px;border:0;border-radius:16px;padding:15px 28px;background:var(--champagne);color:#080E18;font-weight:850;font-size:15px;width:100%;box-shadow:0 0 30px rgba(229,183,122,.28)}
+.primaryBtn:hover{background:var(--warm-gold)}
+
+.testTop{display:flex;justify-content:space-between;align-items:center;gap:10px;color:#B8BAC6;margin-bottom:10px;font-size:13px}
+.testTop > span{flex:1;text-align:center}
+.testTop button{background:#121827;border:1px solid var(--line);color:#B8BAC6;border-radius:12px;padding:7px 12px;font-size:13px;transition:all .15s ease}
+.testTop button:hover:not(:disabled){border-color:var(--champagne);color:var(--champagne)}
+.testTop button:disabled{opacity:.3;cursor:not-allowed}
+#reset-btn{width:32px;height:32px;padding:0;border-radius:50%;font-size:18px;display:inline-flex;align-items:center;justify-content:center;line-height:1}
+.progressTrack{height:6px;border-radius:999px;background:#121827;overflow:hidden;margin-bottom:22px}
+.progressTrack div{height:100%;background:linear-gradient(90deg,var(--champagne),var(--warm-gold));transition:width .25s ease}
+
+.qStem{margin:0 0 6px;color:var(--champagne);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600}
+.qHint{margin:0 0 14px;color:#B8BAC6;font-size:13px;font-style:italic}
+.qTitle{margin:0 0 18px;font-size:19px;line-height:1.4;font-weight:600}
+
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:flex-start;gap:14px;text-align:left;width:100%;padding:14px 16px;border:2px solid var(--line);background:rgba(13,20,35,.84);color:var(--ivory);border-radius:16px;font-size:14.5px;line-height:1.4;font-weight:500;transition:all .15s ease}
+.opt:not(:disabled):hover{border-color:var(--champagne)}
+.opt.picked{border-color:var(--champagne);background:rgba(229,183,122,.16)}
+.opt.correct{border-color:#22c55e;background:rgba(34,197,94,.12)}
+.opt.correctPicked{border-color:#22c55e;background:rgba(34,197,94,.18)}
+.opt.wrongPicked{border-color:#ef4444;background:rgba(239,68,68,.14)}
+.opt.dim{opacity:.45}
+.optBox{flex:0 0 auto;width:22px;height:22px;border:2px solid var(--line);background:transparent;display:inline-flex;align-items:center;justify-content:center;color:transparent;font-weight:900;font-size:14px;margin-top:1px;transition:all .12s ease}
+.optBox.checkbox{border-radius:6px}
+.optBox.radio{border-radius:50%}
+.opt.picked .optBox{border-color:var(--champagne);background:var(--champagne);color:#080E18}
+.opt.correct .optBox,.opt.correctPicked .optBox{border-color:#22c55e;background:#22c55e;color:#052e16}
+.opt.wrongPicked .optBox{border-color:#ef4444;background:#ef4444;color:#450a0a}
+.optText{flex:1;padding-top:1px}
+
+.controls{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.checkBtn{border:0;border-radius:14px;padding:13px 18px;background:var(--champagne);color:#080E18;font-weight:850;font-size:14px}
+.checkBtn:disabled{background:#1C2438;color:#5A6376;cursor:not-allowed}
+.checkBtn:not(:disabled):hover{background:var(--warm-gold)}
+
+.feedback{margin-top:14px;padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:#0D1423;display:flex;flex-direction:column;gap:12px}
+.badge{align-self:flex-start;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.12em;padding:5px 11px;border-radius:999px}
+.badge.ok{background:rgba(34,197,94,.18);color:#4ade80;border:1px solid rgba(34,197,94,.45)}
+.badge.no{background:rgba(239,68,68,.18);color:#f87171;border:1px solid rgba(239,68,68,.45)}
+.feedback p{margin:0;font-size:13.5px;line-height:1.55;color:#d0c8b8}
+.nextBtn{align-self:stretch;border:0;border-radius:14px;padding:13px 18px;background:var(--champagne);color:#080E18;font-weight:850;font-size:14px}
+.nextBtn:hover{background:var(--warm-gold)}
+
+.resultHero{text-align:center;padding:32px 22px;border:2px solid var(--accent,var(--champagne));border-radius:24px;background:#121827}
+.resultHero .tag{margin:0 0 12px;color:#E5B77A;font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:500}
+.resultHero h1{margin:0;font-size:38px;font-weight:900;line-height:1.05;color:var(--accent)}
+.resultHero .score{font-family:Georgia,serif;font-size:48px;font-weight:700;color:var(--accent);margin-top:10px;line-height:1}
+.resultHero .score small{font-size:22px;color:#B8BAC6;font-weight:400}
+.resultHero .sub{display:block;margin-top:14px;color:var(--muted);font-size:14px;line-height:1.5}
+
+.panel{margin-top:18px;padding:22px;border:1px solid var(--line);border-radius:22px;background:var(--panel-navy)}
+.panel.featured{border-width:2px}
+.panel p.eyebrow{margin-bottom:6px}
+.panel .levelDesc{margin:10px 0 0;font-size:14.5px;line-height:1.6;color:#E0DBD0}
+
+.shareRow{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.shareRow button,.shareRow a{padding:13px 18px;border:1px solid var(--line);background:transparent;color:var(--ivory);border-radius:14px;font-weight:600;font-size:14px;text-align:center}
+.shareRow .restart{background:var(--champagne);color:#080E18;border:0;font-weight:850;box-shadow:0 0 30px rgba(229,183,122,.28)}
+
+.footer{text-align:center;padding:24px 18px;color:#5A6376;font-size:12px;border-top:1px solid var(--line);margin-top:auto;line-height:1.6}
+
+@media (min-width:720px){.qTitle{font-size:21px}.resultHero h1{font-size:46px}.resultHero .score{font-size:60px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <a href="index.html" class="brandLogo" id="brand-btn" aria-label="Testomnia"><img class="brandMark" src="testomnia-logo.png" alt="Testomnia" /></a>
+    <a href="index.html#testy" class="backLink" id="back-link">← Wszystkie testy</a>
+  </header>
+  <main class="main" id="root"></main>
+  <footer class="footer">© 2026 Testomnia · Doskonała Obsługa Pacjenta · <a href="regulamin.html" style="color:#B8BAC6;text-decoration:underline;text-decoration-color:rgba(229,183,122,.4);text-underline-offset:2px">Regulamin</a><br><span style="opacity:.7;font-size:11px">Test ma charakter rozwojowy i edukacyjny. Nie stanowi diagnozy psychologicznej ani medycznej.</span><br><span style="opacity:.55;font-size:10px">Test na podstawie standardu DOP — LIMED · klucz odpowiedzi z formularza Google Forms (n=34)</span></footer>
+</div>
+<script>
+const Q = [{"q": "Ile kroków obsługowych/etapów ma standard Doskonałej Obsługi Pacjenta?", "type": "single", "opts": ["1", "2", "3", "4", "5", "6"], "correct": [4], "expl": "Standard DOP ma 5 etapów: powitanie → wywiad przy biurku → przygotowanie i badanie/zabieg → omówienie i plan leczenia → finalizacja i rejestracja."}, {"q": "Kto wita pacjenta w poczekalni?", "type": "multi", "opts": ["Lekarz dentysta", "Asystentka stomatologiczna", "Higienistka stomatologiczna"], "correct": [0, 1, 2], "expl": "Każda osoba z zespołu medycznego może powitać pacjenta zależnie od dostępności i sytuacji. Najważniejsze, by pacjent nie czekał sam — ktoś z zespołu zawsze wychodzi do poczekalni."}, {"q": "Jak wywołać pacjenta w poczekalni?", "type": "single", "opts": ["Dzień dobry, Pan Kowalski?", "Dzień dobry, Pan Jan Kowalski?", "Dzień dobry, Pan Jan? na godzinę 17:00?"], "correct": [2], "expl": "Imię + godzina wizyty — to jest osobiste i jednoznaczne (jeśli w poczekalni jest kilku Kowalskich, godzina rozwiązuje problem)."}, {"q": "W jaki sposób przedstawić się pacjentowi?", "type": "single", "opts": ["Imię i nazwisko, funkcja", "Imię i nazwisko", "Imię, funkcja"], "correct": [0], "expl": "Pełne imię, nazwisko + funkcja — buduje autorytet i ułatwia pacjentowi zapamiętanie z kim rozmawia."}, {"q": "Co zrobić po wejściu do gabinetu?", "type": "single", "opts": ["Zaprosić pacjenta na fotel", "Przedstawić asystentkę i zaprosić do biurka", "Zaprosić do biurka"], "correct": [1], "expl": "Sekwencja DOP: najpierw biurko (rozmowa, wywiad, omówienie obaw), dopiero potem fotel. Asystentkę przedstawiamy, żeby pacjent znał cały zespół."}, {"q": "W jaki sposób przeprosić pacjenta, w przypadku spóźnienia?", "type": "single", "opts": ["Przepraszam bardzo", "Przepraszam bardzo, dziękuję za cierpliwość, ale przyjęliśmy nieplanowanego pacjenta z bólem", "Przepraszam bardzo, dziękuję za cierpliwość, długość wizyty będzie zgodna z planem"], "correct": [2], "expl": "Pełne przeprosiny + zapewnienie, że długość wizyty będzie zachowana. NIE tłumaczymy okoliczności (nie wymieniamy „nieplanowanego pacjenta z bólem” — obniża profesjonalizm i wprowadza pacjenta w niepotrzebny kontekst)."}, {"q": "W jaki sposób rozpocząć rozmowę z pacjentem pierwszorazowym?", "type": "single", "opts": ["Jaki jest powód wizyty", "Widzę, że przyjechał/a Pan/i z ...", "Widzę, że wywiad medyczny nie jest wypełniony"], "correct": [1], "expl": "Osobisty start — okazujemy, że zapoznaliśmy się z danymi pacjenta. Tworzy poczucie indywidualnego traktowania, nie urzędowego."}, {"q": "Jakie pytania warto zadawać pacjentowi przy omawianiu ankiety?", "type": "multi", "opts": ["Kiedy ostatnio był u lekarza stomatologa?", "Jakie leczenie było wtedy wykonywane?", "Jaki jest powód dzisiejszej wizyty?", "Jakie ma oczekiwania związane z leczeniem stomatologicznym?", "Jakie ma uprzedzenia do lekarzy dentystów?", "Czego obawia się podczas zabiegu?", "Czy dotychczasowe leczenie odbywało się w znieczuleniu?"], "correct": [0, 1, 2, 3, 6], "expl": "Pytamy o kontekst i doświadczenia (ostatnia wizyta, leczenie, powód, oczekiwania, znieczulenie). NIE pytamy o „uprzedzenia” (sugestywne, negatywne słowo) ani wprost o „obawy” (zaszczepia lęk niepotrzebnie — pacjent sam je zasygnalizuje jeśli ma)."}, {"q": "Jak omawiać wywiad medyczny?", "type": "multi", "opts": ["Chwalić za dobry stan zdrowia", "Dopytywać o dolegliwości i zapewniać o braku kolizji z leczeniem stomatologicznym", "W przypadku dolegliwości kolidujących z leczeniem stomatologicznym ustosunkować się adekwatnie i zanotować w systemie", "Jeżeli dolegliwości nie kolidują nic nie mówić w trosce o komfort pacjenta"], "correct": [0, 1, 2], "expl": "Zawsze ustosunkować się — milczenie buduje niepokój. „Nic nie mówić w trosce o komfort” to błąd: pacjent nie wie, czy zostało zauważone."}, {"q": "Podczas rozmowy przy biurku lekarz ma szansę na:", "type": "multi", "opts": ["Budowę relacji", "Budowę bliskiej znajomości", "Budowę autorytetu po stronie sympatii i szacunku"], "correct": [0, 2], "expl": "Relacja + autorytet (sympatia/szacunek). „Bliska znajomość” przekracza granicę profesjonalnej relacji lekarz-pacjent."}, {"q": "Przed zaproszeniem na fotel lekarz informuje pacjenta o:", "type": "multi", "opts": ["Powikłaniach po zabiegowych", "Czasie i metodzie wykonania badania lub zabiegu", "O przerwach, podnoszeniu ręki i komunikacji w zespole i z pacjentem"], "correct": [1, 2], "expl": "Czas/metoda + zasady komunikacji = pacjent wie czego oczekiwać i czuje się bezpiecznie. Powikłania nie na tym etapie — wprowadzają lęk niepotrzebnie."}, {"q": "Jakie elementy aseptyki i antyseptyki lekarz i asystentka eksponują przed pacjentem?", "type": "multi", "opts": ["Lekarz mówi że idzie umyć ręce", "Asystentka mówi, że lampa jest czysta", "Lekarz dziękuje za sterylny pakiet narzędzi", "Asystentka nalewa wodę do kubka przy pacjencie", "Lekarz zakłada rękawiczki na oczach pacjenta"], "correct": [0, 2, 3, 4], "expl": "Eksponujemy aseptykę naturalnie — mycie rąk, sterylny pakiet, świeża woda, rękawiczki przy pacjencie. Komunikat „lampa jest czysta” brzmi nienaturalnie i sugeruje, że bywa nieczysta."}, {"q": "W jaki sposób Asystentka przygotowuje pacjenta przed badaniem lub zabiegiem?", "type": "multi", "opts": ["Zakłada śliniak stojąc z tyłu", "Smaruje usta balsamem", "Podaje okulary ochronne", "Pyta o temperaturę", "Uśmiecha się stojąc przed pacjentem, a potem zakłada serwetę", "Smaruje kąciki ust wazeliną"], "correct": [1, 2, 3, 4], "expl": "Asystentka jest z przodu pacjenta (kontakt wzrokowy + uśmiech) i dba o komfort: balsam na usta, okulary ochronne, pyta o temperaturę (czy nie za zimno/ciepło), zakłada serwetę. Wazelina NIE — może uczulać. Stojąc z tyłu buduje dystans."}, {"q": "Jakie słowa są NIEODPOWIEDNIE w komunikacji z pacjentem?", "type": "multi", "opts": ["buźka", "usta", "ból", "końcówka", "wytrawiacz", "płukanie", "ząbek", "Berteny", "skalpel", "kwas"], "correct": [0, 2, 4, 6, 8, 9], "expl": "Unikamy słów wywołujących lęk (ból, skalpel, kwas, wytrawiacz) i zdrobnień infantylizujących (buźka, ząbek). Neutralne (dopuszczalne): usta, końcówka, płukanie, Berteny — nie wywołują negatywnej reakcji."}, {"q": "Jakie zwroty są PRAWIDŁOWE?", "type": "multi", "opts": ["na pewno nie będzie bolało", "może Pan/Pani być spokojny/a", "nikt tu jeszcze nie umarł", "proszę się zrelaksować", "proszę się nie martwić", "proszę się nie denerwować, znieczulenie jest bardzo komfortowe", "jakby coś bolało to zrobimy przerwę", "nie ma, to proszę o zamiennik", "Dorotko proszę bond", "Pani Doktor zaraz wrócę", "18 do usunięcia", "24 MOD", "33 do 43 trochę kamienia"], "correct": [1, 3, 11], "expl": "Tylko 3 prawidłowe: pozytywne komunikaty bez sugestii negatywnej („może być spokojny/a”, „proszę się zrelaksować”) oraz neutralny kod leczenia („24 MOD”). BŁĘDY: nigdy nie obiecuj braku bólu („nie będzie bolało” = sugeruje że może), nie negacjami („nie martwić”, „nie denerwować” = utwierdzają lęk), nie sugeruj problemu („jakby coś bolało”, „nie ma — proszę o zamiennik”, „zaraz wrócę”), nie używaj zdrobnień („Dorotko”), nie wypowiadaj zębów do usunięcia ani opisów kamienia przy pacjencie."}, {"q": "Jakie czynności podczas badania pacjenta pierwszorazowego są PRAWIDŁOWE?", "type": "multi", "opts": ["Dyktowanie diagramu specjalistycznym językiem", "Tłumaczenie na bieżąco problemów", "Skupianie się tylko na problemie, z którym pacjent się zgłosił", "Wykonanie pełnego protokołu zdjęć wewnątrzustnych", "Przedstawienie planu leczenia", "Odpowiedź na wszystkie pytania pacjenta na fotelu"], "correct": [0, 3], "expl": "Dyktowanie diagramu specjalistycznym językiem (asystentka rozumie, pacjent nie jest zaszczepiany niepełną informacją) + pełen protokół zdjęć wewnątrzustnych. NIE tłumaczymy na bieżąco (przeciąża pacjenta i wprowadza chaos). Plan leczenia i pełne odpowiedzi — przy biurku po badaniu, NIE na fotelu."}, {"q": "Od jakich komunikatów lekarz, siedzący przy biurku rozpoczyna rozmowę po badaniu lub zabiegu?", "type": "multi", "opts": ["Przedstawienie planu leczenia", "Omówienie problemu, z którym pacjent się zgłosił", "Podziękowanie za współpracę, pochwalenie pacjenta lub pozytywów"], "correct": [2], "expl": "ZAWSZE rozpoczynamy od podziękowania/pochwały — to rozluźnia, buduje sympatię i otwiera pacjenta. Omówienie problemu i plan leczenia przychodzą JAKO KOLEJNE etapy, nie jako otwarcie rozmowy."}, {"q": "Które komunikaty w omawianiu problemu NIE są prawidłowe?", "type": "multi", "opts": ["Ten ząb jest bardzo zniszczony", "Tutaj jest próchnica", "Widzę bardzo duży problem zgryzowy i estetyczny", "Leczenie tego zęba jeszcze może poczekać", "Proszę zobaczyć ten stan zapalny dziąseł spowodowany kamieniem nazębnym", "Nie ma problemu jest Pan/Pani w dobrych rękach"], "correct": [1, 3, 5], "expl": "NIEPRAWIDŁOWE: „Tutaj jest próchnica” (sucha diagnoza bez kontekstu i konsekwencji — nie motywuje), „Leczenie może poczekać” (demobilizuje — pacjent rzeczywiście odłoży), „Nie ma problemu, jest Pan w dobrych rękach” (umniejsza, brzmi protekcjonalnie). Prawidłowe są komunikaty pokazujące wagę problemu („bardzo zniszczony”, „duży problem”) i opisowe edukacyjne („stan zapalny spowodowany kamieniem”)."}, {"q": "Które pytania spowodują motywację pacjenta do podjęcia leczenia?", "type": "multi", "opts": ["Co Pan/Pani na te problemy?", "Czy był/a Pan/Pani świadoma tego problemu stomatologicznego/estetycznego/ortodontycznego?", "Ma Pan/i jakieś pytania?", "Czy chce Pan/i, mieć te zęby znowu zdrowe?", "Czy chce Pan/i mieć piękny zdrowy uśmiech zgodnie z oczekiwaniami?"], "correct": [1, 3, 4], "expl": "Motywujące: pytanie o świadomość problemu + pytania o pożądany stan końcowy (zdrowe zęby, piękny uśmiech). NIE: „Co Pan/Pani na te problemy?” jest zbyt ogólne i otwarte na unik. „Ma jakieś pytania?” to typowa zamknięta klauzula — rzadko coś otwiera."}, {"q": "W jaki sposób przedstawiać plan leczenia?", "type": "multi", "opts": ["Używać języka korzyści, używając słów dzięki czemu, naj", "Używać języka konsekwencji, mówiąc o naturalnych konsekwencjach nie rozpoczęcia leczenia czas, koszty, ból, cierpienie", "Budować autorytet higienistek i innych lekarzy", "Informować o kosztach leczenia zaprezentowanych rozwiązań", "Dozować wrażenia i zachęcać pacjenta do dalszej diagnostyki jeżeli jest potrzebna", "Prezentować zdjęcia innych przypadków przed i po", "Prezentować animacje i tłumaczyć zrozumiale metody leczenia", "Rysować i tłumaczyć metody leczenia"], "correct": [0, 1, 2, 3, 4, 5, 6, 7], "expl": "Wszystkie 8 elementów buduje dobrze poprowadzoną prezentację planu — korzyści + konsekwencje + autorytet zespołu + transparentność kosztów + edukacja wizualna (zdjęcia, animacje, rysunki). To kompletny zestaw narzędzi."}, {"q": "Jakim zwrotem finalizować propozycję planu leczenia?", "type": "single", "opts": ["Proponuję, aby zapisał/a się Pan/i na te wizyty", "To zapraszam do rejestracji", "To decyduje się Pan/i czy nie?", "Co Pan/i na to?"], "correct": [0], "expl": "„Proponuję, aby zapisał/a się Pan/i na te wizyty” — mocne, zdecydowane, kierunkuje na konkretne działanie. Pozostałe są pasywne („zapraszam do rejestracji”), presyjne („decyduje czy nie”) lub otwierają unik („Co Pan/i na to?”)."}, {"q": "Co powiedzieć po akceptacji propozycji leczenia?", "type": "multi", "opts": ["Od razu zaprosić do rejestracji", "Pochwalić pacjenta za decyzję", "Pomimo akceptacji powiedzieć o konsekwencjach nie podjęcia leczenia", "Ustalić zasady współpracy - warunki potwierdzania wizyt, odwoływania"], "correct": [1, 2, 3], "expl": "Po akceptacji: pochwała (utwierdza dobrą decyzję) + przypomnienie konsekwencji (utrwala motywację) + zasady współpracy (zapobiega no-show). Zaproszenie do rejestracji to dopiero ostatni krok — najpierw te trzy elementy."}, {"q": "Co zrobić przed odprowadzeniem pacjenta do rejestracji?", "type": "multi", "opts": ["Podsumować wizytę i koszty", "Podziękować Asystentce przy pacjencie", "Zapisać na kartce lub w systemie kwotę do zapłaty oraz następne wizyty", "Zapytać pacjenta o pytania", "Podpisać zgodę na leczenie, które właśnie się odbyło"], "correct": [0, 1, 2, 3], "expl": "Przed odprowadzeniem: podsumowanie + podziękowanie asystentce (buduje atmosferę zespołową) + zapis dla rejestracji + pytania pacjenta. Zgoda na leczenie podpisywana jest PRZED leczeniem, nie po."}, {"q": "Jak zachować się w rejestracji odprowadzając pacjenta?", "type": "multi", "opts": ["Przywitać się z wszystkimi pacjentami w poczekalni przez podanie ręki", "Powiedzieć dzień dobry z uśmiechem i utrzymać kontakt wzrokowy z pacjentami w poczekalni", "W przypadku spóźnienia natychmiast przeprosić następnego pacjenta", "Poinformować słownie Panią rejestratorkę o kosztach do zapłaty oraz następnych planowanych wizytach", "Podać kartkę z kwotą i planowanymi wizytami lub poinformować, że wszystkie dane są w systemie.", "Pożegnać się z pacjentem przez podanie ręki z uśmiechem i życzenie miłego dnia/wieczoru i do zobaczenia"], "correct": [1, 4, 5], "expl": "Tylko 3 elementy: kontakt wzrokowy + uśmiech do poczekalni (NIE podawanie ręki wszystkim — zbyt inwazyjne, niehigieniczne), kartka lub system (NIE słowne mówienie kwot — rejestratorka ma dostęp), pożegnanie przez podanie ręki. Przeproszenie następnego pacjenta robi rejestratorka, nie lekarz."}];
+let state = {screen:"intro", idx:0, answers:[]};
+const root = document.getElementById("root");
+
+function go(s){state.screen=s;render();window.scrollTo({top:0,behavior:"smooth"});}
+function arrayEqual(a,b){if(a.length!==b.length) return false; const sa=[...a].sort(),sb=[...b].sort(); return sa.every((v,i)=>v===sb[i]);}
+
+function render(){
+  if(state.screen==="intro") return renderIntro();
+  if(state.screen==="q") return renderQuestion();
+  if(state.screen==="r") return renderResult();
+}
+
+function renderIntro(){
+  root.innerHTML = `
+    <section class="introCard">
+      <p class="eyebrow">Test wiedzy DOP</p>
+      <h1>Doskonała Obsługa Pacjenta</h1>
+      <p>24 pytania o standardzie DOP — od powitania w poczekalni, przez wywiad, badanie i prezentację planu, aż po finalizację i rejestrację.</p>
+      <p style="margin-top:12px"><strong>Większość pytań to test wielokrotnego wyboru</strong> — kilka odpowiedzi może być poprawnych. Punkt przyznawany tylko jeśli zaznaczysz <strong>wszystkie poprawne</strong> i <strong>żadnej błędnej</strong>.</p>
+      <p style="margin-top:12px">Po każdej odpowiedzi zobaczysz które opcje są poprawne i krótkie wyjaśnienie. Test trwa ok. 8 minut.</p>
+      <button class="primaryBtn" id="start-btn">Rozpocznij test →</button>
+    </section>
+  `;
+  document.getElementById("start-btn").onclick = ()=>{state.idx=0;state.answers=[];go("q");};
+}
+
+function renderQuestion(){
+  const q = Q[state.idx];
+  const total = Q.length;
+  const ans = state.answers[state.idx];
+  const submitted = ans !== undefined;
+  const picked = submitted ? ans.picked : [];
+  const isCorrect = submitted ? arrayEqual(ans.picked, q.correct) : false;
+  const pct = Math.round(((state.idx + (submitted?1:0))/total)*100);
+  const isLast = state.idx === total-1;
+
+  const opts = q.opts.map((opt,i)=>{
+    const isPicked = picked.includes(i);
+    const isCorrectAnswer = q.correct.includes(i);
+    let cls = "opt";
+    if(!submitted){
+      if(isPicked) cls += " picked";
+    } else {
+      if(isCorrectAnswer && isPicked) cls += " correctPicked";
+      else if(isCorrectAnswer && !isPicked) cls += " correct";
+      else if(!isCorrectAnswer && isPicked) cls += " wrongPicked";
+      else cls += " dim";
+    }
+    const boxClass = q.type === "single" ? "radio" : "checkbox";
+    const mark = q.type === "single" ? "●" : "✓";
+    return `<button class="${cls}" data-i="${i}" ${submitted?'disabled':''}>
+      <span class="optBox ${boxClass}">${mark}</span>
+      <span class="optText">${opt}</span>
+    </button>`;
+  }).join("");
+
+  let controls = "";
+  if(!submitted){
+    const canSubmit = picked.length > 0;
+    const hint = q.type === "multi" ? "Możesz zaznaczyć kilka odpowiedzi" : "Wybierz jedną odpowiedź";
+    controls = `<p class="qHint">${hint}</p>
+      <div class="controls">
+        <button class="checkBtn" id="check-btn"${canSubmit?'':' disabled'}>Sprawdź odpowiedź</button>
+      </div>`;
+  } else {
+    const correctTexts = q.correct.map(i=>"<li>"+q.opts[i]+"</li>").join("");
+    controls = `<div class="feedback">
+      <div class="badge ${isCorrect?'ok':'no'}">${isCorrect?'✓ Dobrze':'✗ Niepoprawnie'}</div>
+      <p><strong>Poprawne odpowiedzi:</strong></p>
+      <ul style="margin:0;padding-left:18px;color:#E0DBD0;font-size:13.5px;line-height:1.6">${correctTexts}</ul>
+      <p style="border-top:1px solid var(--line);padding-top:12px;margin-top:6px">${q.expl}</p>
+      <button class="nextBtn" id="next-btn">${isLast?'Zobacz wynik →':'Dalej →'}</button>
+    </div>`;
+  }
+
+  root.innerHTML = `
+    <div class="testTop">
+      <button id="back-btn"${state.idx===0?' disabled':''}>← Wstecz</button>
+      <span>Pytanie ${state.idx+1} / ${total} · ${pct}%</span>
+      <button id="reset-btn" title="Zacznij od nowa">×</button>
+    </div>
+    <div class="progressTrack"><div style="width:${pct}%"></div></div>
+    <p class="qStem">Pytanie ${state.idx+1}${q.type==='multi'?' · wielokrotnego wyboru':''}</p>
+    <h1 class="qTitle">${q.q}</h1>
+    <section class="opts">${opts}</section>
+    ${controls}
+  `;
+
+  if(!submitted){
+    let currentPicked = [...picked];
+    document.querySelectorAll(".opt").forEach(b=>{
+      b.onclick = ()=>{
+        const i = parseInt(b.dataset.i,10);
+        if(q.type === "single"){
+          currentPicked = [i];
+        } else {
+          if(currentPicked.includes(i)) currentPicked = currentPicked.filter(x=>x!==i);
+          else currentPicked.push(i);
+        }
+        document.querySelectorAll(".opt").forEach((ob,oi)=>{
+          if(currentPicked.includes(oi)) ob.classList.add("picked");
+          else ob.classList.remove("picked");
+        });
+        const cb = document.getElementById("check-btn");
+        if(cb) cb.disabled = currentPicked.length === 0;
+        cb.dataset.picked = JSON.stringify(currentPicked);
+      };
+    });
+    document.getElementById("check-btn").onclick = (e)=>{
+      const pickedArr = JSON.parse(e.target.dataset.picked || "[]");
+      if(pickedArr.length === 0) return;
+      state.answers[state.idx] = {picked: pickedArr};
+      render();
+    };
+    document.getElementById("check-btn").dataset.picked = JSON.stringify(currentPicked);
+  } else {
+    document.getElementById("next-btn").onclick = ()=>{
+      if(isLast) go("r");
+      else {state.idx++; render(); window.scrollTo({top:0,behavior:"smooth"});}
+    };
+  }
+
+  document.getElementById("back-btn").onclick = ()=>{
+    if(state.idx>0){state.idx--;render();window.scrollTo({top:0,behavior:"smooth"});}
+  };
+  document.getElementById("reset-btn").onclick = ()=>{
+    if(confirm("Zacząć od nowa? Stracisz dotychczasowe odpowiedzi.")){
+      state.idx=0;state.answers=[];go("intro");
+    }
+  };
+}
+
+function renderResult(){
+  let correct = 0;
+  Q.forEach((q,i)=>{
+    const ans = state.answers[i];
+    if(ans && arrayEqual(ans.picked, q.correct)) correct++;
+  });
+  const pct = Math.round((correct/Q.length)*100);
+  let level, levelColor, levelDesc;
+  if(pct >= 85){
+    level = "Mistrz DOP"; levelColor = "#22c55e";
+    levelDesc = "Świetna znajomość standardu — Twój zespół ma w Tobie wzór. Możesz prowadzić wewnętrzne szkolenia z DOP.";
+  } else if(pct >= 65){
+    level = "Praktyk DOP"; levelColor = "#a78bfa";
+    levelDesc = "Solidna baza (powyżej średniej z grupy referencyjnej n=34: 17,35/24 = 72%). Większość elementów standardu znasz dobrze. Wybrane obszary wymagają dopracowania.";
+  } else if(pct >= 40){
+    level = "Świadomy"; levelColor = "#eab308";
+    levelDesc = "Rozumiesz kierunek, ale wiele detali wciąż jest nieoczywistych. Warto wrócić do materiałów kursu i przejrzeć omawiane sytuacje raz jeszcze.";
+  } else {
+    level = "Początkujący"; levelColor = "#ef4444";
+    levelDesc = "Standard DOP jest skomplikowany — bez systematycznej praktyki łatwo coś przeoczyć. Sięgnij po materiały LIMED i powtórz test za 2-3 tygodnie po przepracowaniu z zespołem.";
+  }
+
+  root.innerHTML = `
+    <section class="resultHero" style="--accent:${levelColor}">
+      <p class="tag">Twój wynik · Test wiedzy DOP</p>
+      <h1>${level}</h1>
+      <div class="score">${correct}<small> / ${Q.length}</small></div>
+      <p class="sub">${pct}% poprawnych odpowiedzi</p>
+    </section>
+    <section class="panel featured" style="border-color:${levelColor}">
+      <p class="eyebrow">Co to dla Ciebie znaczy</p>
+      <p class="levelDesc">${levelDesc}</p>
+    </section>
+    <section class="panel" style="text-align:center">
+      <p class="eyebrow">Benchmark grupy</p>
+      <p class="levelDesc">Średnia z grupy referencyjnej (n=34): <strong>17,35 / 24 pkt (72%)</strong>. Mediana: 17/24. Zakres wyników: 8–24. Najtrudniejsze pytania w grupie: 18 (komunikaty o problemie) — 12/34 poprawnych, oraz 19 (pytania motywujące) — 16/34 poprawnych.</p>
+    </section>
+    <div class="shareRow">
+      <button class="restart" id="restart-btn">Wykonaj ponownie</button>
+      <a href="index.html#testy">← Wróć do wszystkich testów</a>
+    </div>
+  `;
+  document.getElementById("restart-btn").onclick = ()=>{state.idx=0;state.answers=[];go("intro");};
+}
+
+document.getElementById("brand-btn").addEventListener("click",(e)=>{
+  if(state.screen !== "intro" && !confirm("Wrócić do menu testów? Stracisz dotychczasowe odpowiedzi.")) e.preventDefault();
+});
+document.getElementById("back-link").addEventListener("click",(e)=>{
+  if(state.screen !== "intro" && !confirm("Wrócić do menu testów? Stracisz dotychczasowe odpowiedzi.")) e.preventDefault();
+});
+
+render();
+</script>
+</body>
+</html>

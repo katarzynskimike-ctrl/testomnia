@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080E18">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Testomnia · Test stylu przywództwa | Doskonała Obsługa Pacjenta</title>
+<style>
+:root{color-scheme:dark;--champagne:#E5B77A;--warm-gold:#C99055;--ivory:#F6F1E8;--muted:#B8BAC6;--line:#2B3445;--panel-navy:#0D1423;--deep-navy:#080E18}
+*{box-sizing:border-box}html,body{min-height:100%;margin:0}
+body{background:var(--deep-navy);font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ivory);min-height:100dvh}
+button{font:inherit;cursor:pointer}a{color:inherit;text-decoration:none}
+.app{min-height:100dvh;display:flex;flex-direction:column}
+.header{height:78px;display:flex;gap:10px;padding:0 18px;align-items:center;border-bottom:1px solid var(--line);background:rgba(8,14,24,.96);position:sticky;top:0;z-index:30;backdrop-filter:blur(18px)}
+.brandLogo{display:flex;align-items:center;height:54px;cursor:pointer;border:0;background:transparent;color:inherit;padding:0}
+.brandMark{height:100%;width:auto;max-width:260px;display:block;border-radius:6px}
+.backLink{margin-left:auto;color:#B8BAC6;font-size:13px;padding:7px 14px;border:1px solid var(--line);border-radius:12px;transition:all .15s ease}
+.backLink:hover{border-color:var(--champagne);color:var(--champagne)}
+.main{flex:1;padding:24px 18px 40px;max-width:660px;margin:0 auto;width:100%}
+.eyebrow{margin:0;color:var(--champagne);font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:600}
+
+.introCard{padding:36px 28px;border:1px solid var(--line);border-radius:28px;background:rgba(13,20,35,.84);text-align:center;margin-top:28px}
+.introCard h1{margin:18px 0 12px;font-size:30px;line-height:1.15;font-weight:900}
+.introCard p{color:var(--muted);line-height:1.6;font-size:15px;margin:8px 0 0}
+.introCard p strong{color:var(--ivory)}
+.styles4{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:24px;text-align:left}
+.styleChip{padding:12px 14px;border-radius:14px;display:flex;align-items:center;gap:10px;font-size:13px;background:rgba(255,255,255,.02);border:1px solid var(--line)}
+.styleChip .dot{width:12px;height:12px;border-radius:3px;flex:0 0 auto}
+.styleChip strong{font-size:14px;font-weight:800}
+.primaryBtn{margin-top:24px;border:0;border-radius:16px;padding:15px 28px;background:var(--champagne);color:#080E18;font-weight:850;font-size:15px;width:100%;box-shadow:0 0 30px rgba(229,183,122,.28)}
+.primaryBtn:hover{background:var(--warm-gold)}
+
+.testTop{display:flex;justify-content:space-between;align-items:center;gap:10px;color:#B8BAC6;margin-bottom:10px;font-size:13px}
+.testTop > span{flex:1;text-align:center}
+.testTop button{background:#121827;border:1px solid var(--line);color:#B8BAC6;border-radius:12px;padding:7px 12px;font-size:13px;transition:all .15s ease}
+.testTop button:hover:not(:disabled){border-color:var(--champagne);color:var(--champagne)}
+.testTop button:disabled{opacity:.3;cursor:not-allowed}
+#reset-btn{width:32px;height:32px;padding:0;border-radius:50%;font-size:18px;display:inline-flex;align-items:center;justify-content:center;line-height:1}
+.progressTrack{height:6px;border-radius:999px;background:#121827;overflow:hidden;margin-bottom:22px}
+.progressTrack div{height:100%;background:linear-gradient(90deg,var(--champagne),var(--warm-gold));transition:width .25s ease}
+
+.qStem{margin:0 0 6px;color:var(--champagne);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600}
+.qHint{margin:0 0 14px;color:#B8BAC6;font-size:13px}
+.qTitle{margin:0 0 18px;font-size:20px;line-height:1.4;font-weight:600}
+
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:flex-start;gap:14px;text-align:left;width:100%;padding:16px 18px;border:2px solid var(--line);background:rgba(13,20,35,.84);color:var(--ivory);border-radius:18px;font-size:15px;line-height:1.4;font-weight:500;transition:all .15s ease}
+.opt:hover{border-color:var(--champagne)}
+.opt.picked{border-color:var(--champagne);background:rgba(229,183,122,.16);transform:scale(.99)}
+.optIdx{flex:0 0 auto;width:32px;height:32px;border-radius:50%;background:#1C2438;color:var(--champagne);font-size:14px;font-weight:900;display:inline-flex;align-items:center;justify-content:center}
+.opt.picked .optIdx{background:var(--champagne);color:#080E18}
+.optText{flex:1;padding-top:5px}
+
+.resultHero{text-align:center;padding:28px 22px;border:2px solid var(--accent,var(--champagne));border-radius:24px;background:#121827}
+.resultHero .tag{margin:0 0 12px;color:#E5B77A;font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:500}
+.resultHero .headRow{display:flex;align-items:baseline;justify-content:center;gap:14px;flex-wrap:wrap}
+.resultHero h1{margin:0;font-size:36px;font-weight:900;line-height:1;color:var(--accent)}
+.resultHero .pct{font-family:Georgia,serif;font-size:30px;font-weight:700;color:var(--accent)}
+.resultHero .sub{display:block;margin-top:10px;color:#8E94A8;font-size:14px;line-height:1.5;max-width:520px;margin-left:auto;margin-right:auto}
+
+.panel{margin-top:18px;padding:20px;border:1px solid var(--line);border-radius:20px;background:#121827}
+
+.rankRow{margin:6px 0 0;padding:8px 0}
+.rankHead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px;color:#E0DBD0;font-size:14px}
+.rankHead .nm{display:flex;align-items:center;gap:8px;font-weight:500}
+.rankHead .dot{width:10px;height:10px;border-radius:3px}
+.rankHead .nm small{color:#5A6376;font-weight:400;font-size:12px;margin-left:6px}
+.rankHead strong{font-size:15px;font-weight:500}
+.rankBar{height:10px;border-radius:999px;background:#1C2438;overflow:hidden}
+.rankBar > div{height:100%;border-radius:999px;transition:width .4s ease}
+.rankRow.dominant .rankBar{outline:2px solid var(--accent);outline-offset:3px}
+.rankRow.neglect .rankBar > div{opacity:.5}
+
+.twoCol{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media (max-width:580px){.twoCol{grid-template-columns:1fr}}
+.miniPanel{padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:#0D1423}
+.miniPanel.green{border-color:rgba(34,197,94,.35)}
+.miniPanel.red{border-color:rgba(239,68,68,.35)}
+.miniPanel p.eyebrow{color:#22c55e;margin-bottom:10px}
+.miniPanel.red p.eyebrow{color:#ef4444}
+.miniItem{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;color:#E0DBD0;font-size:13.5px;font-weight:500}
+.miniPanel.green .miniItem strong{color:#4ade80}
+.miniPanel.red .miniItem strong{color:#f87171}
+
+.wheelWrap{display:flex;justify-content:center;margin:14px 0 6px}
+.wheelWrap svg{width:100%;max-width:380px;height:auto}
+.wheelLegend{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;font-size:12px;color:#B8BAC6;margin-top:4px}
+.wheelLegend .lg{display:inline-flex;align-items:center;gap:6px}
+.wheelLegend .lgDot{width:8px;height:8px;border-radius:50%}
+
+.shareRow{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.shareRow button,.shareRow a{padding:13px 18px;border:1px solid var(--line);background:transparent;color:var(--ivory);border-radius:14px;font-weight:600;font-size:14px;text-align:center}
+.shareRow .restart{background:var(--champagne);color:#080E18;border:0;font-weight:850;box-shadow:0 0 30px rgba(229,183,122,.28)}
+
+.footer{text-align:center;padding:24px 18px;color:#5A6376;font-size:12px;border-top:1px solid var(--line);margin-top:auto}
+
+@media (min-width:720px){.styles4{grid-template-columns:repeat(4,1fr)}.qTitle{font-size:22px}.resultHero h1{font-size:46px}.resultHero .pct{font-size:38px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <a href="index.html" class="brandLogo" id="brand-btn" aria-label="Testomnia"><img class="brandMark" src="testomnia-logo.png" alt="Testomnia" /></a>
+    <a href="index.html#testy" class="backLink" id="back-link">← Wszystkie testy</a>
+  </header>
+  <main class="main" id="root"></main>
+  <footer class="footer">© 2026 Testomnia · Wszechstronne przywództwo · <a href="regulamin.html" style="color:#B8BAC6;text-decoration:underline;text-decoration-color:rgba(229,183,122,.4);text-underline-offset:2px">Regulamin</a><br><span style="opacity:.7;font-size:11px">Test ma charakter rozwojowy i edukacyjny. Nie stanowi diagnozy psychologicznej ani medycznej.</span></footer>
+</div>
+<script>
+const Q = [{"stem": "Zespół drugi raz w tym kwartale nie wykonał projektu/zadania na czas.", "opts": [{"t": "Wzywam wszystkich — każdy mówi co zrobi inaczej. Konsekwencje jasne.", "st": "F", "sub": "wymagajacy"}, {"t": "Razem rozbieramy proces na kawałki — szukamy wąskiego gardła.", "st": "O", "sub": "organizacja"}, {"t": "Pytam czy nie są przeciążeni. Co się dzieje pod spodem?", "st": "A", "sub": "wspiera"}, {"t": "Wracam do priorytetów — może w ogóle robimy nie to co trzeba.", "st": "S", "sub": "kierunek"}]}, {"stem": "Pracownik z 8-letnim stażem chce odejść. Powód: brak rozwoju.", "opts": [{"t": "„Co byś musiał dostać żeby został? Mów konkretnie.”", "st": "F", "sub": "jasnestan"}, {"t": "Liczby na stół — co go warto utrzymać, jaką wartość wnosi.", "st": "O", "sub": "wydajnosc"}, {"t": "Słucham co go skłoniło. Nie odpowiadam — najpierw rozumiem.", "st": "A", "sub": "slucha"}, {"t": "Patrzymy razem — co mogłoby otworzyć mu nowe pole rozwoju.", "st": "S", "sub": "innowacje"}]}, {"stem": "Asystentka odkryła sposób skrócenia procesu o 30%.", "opts": [{"t": "Decyzja moja — wdrażamy od poniedziałku.", "st": "F", "sub": "odpowiedzialny"}, {"t": "Próbujemy 30 dni, mierzymy efekty, decyzja na danych.", "st": "O", "sub": "wdrozenie"}, {"t": "Daję jej budżet i wolną rękę żeby to poprowadziła.", "st": "A", "sub": "dajesile"}, {"t": "Pokazuję że ma talent — plan rozwoju w tym kierunku.", "st": "S", "sub": "rozwoj"}]}, {"stem": "Nowy pracownik (3 tygodnie) zrobił błąd kosztujący 5000 zł.", "opts": [{"t": "„Tak nie może być. Co robisz inaczej od jutra?”", "st": "F", "sub": "jasnestan"}, {"t": "Razem rozkładamy to na czynniki pierwsze. Spisuję co się stało.", "st": "O", "sub": "organizacja"}, {"t": "Pytam co czuje, co potrzebuje teraz. Słucham.", "st": "A", "sub": "slucha"}, {"t": "„To lekcja, którą zapamiętamy jako zespół” — szersza rama.", "st": "S", "sub": "kierunek"}]}, {"stem": "Zespół chce 4-dniowy tydzień pracy (4×10h zamiast 5×8h).", "opts": [{"t": "Decyduję — robimy. Plan w 2 tygodnie.", "st": "F", "sub": "odpowiedzialny"}, {"t": "Pokaż mi liczby — jak to wpłynie na wynik i obciążenie.", "st": "O", "sub": "wydajnosc"}, {"t": "„Wprowadzamy — każdy z Was decyduje jak ułoży swoje 4 dni.”", "st": "A", "sub": "dajesile"}, {"t": "Ciekawe — to mógłby być nasz wyróżnik na rynku.", "st": "S", "sub": "innowacje"}]}, {"stem": "Młody pracownik w zespole — jego skuteczność 25% przy średniej zespołu 55%.", "opts": [{"t": "„Następne 30 dni rośniesz do 40%. Inaczej zmieniamy rolę.”", "st": "F", "sub": "wymagajacy"}, {"t": "Plan rozwoju 90 dni, mentor-senior, mierzalne kroki tygodniowe.", "st": "O", "sub": "wdrozenie"}, {"t": "Pytam co go niepokoi w tej pracy. Buduję bezpieczeństwo.", "st": "A", "sub": "wspiera"}, {"t": "Mapujemy jego ścieżkę — gdzie chce być za 2 lata, co go napędza.", "st": "S", "sub": "rozwoj"}]}, {"stem": "Pierwsza linia kontaktu w panice — system padł, 40 osób dzwoni.", "opts": [{"t": "Przejmuję telefon. Najpierw uspokajam pacjentów.", "st": "F", "sub": "odpowiedzialny"}, {"t": "Spisuję sprawy, ustawiam priorytety: pilny / niepilny.", "st": "O", "sub": "organizacja"}, {"t": "„Powiedz co potrzebujesz — wsparcia, kogoś dorzucić?”", "st": "A", "sub": "dajesile"}, {"t": "„Po opanowaniu — wracamy do pytania jak temu zapobiec.”", "st": "S", "sub": "kierunek"}]}, {"stem": "3 z 6 pracowników ignoruje nowy standard pracy.", "opts": [{"t": "„Standard to nie opcja. Od jutra wszyscy. Inaczej konsekwencje.”", "st": "F", "sub": "wymagajacy"}, {"t": "Sprawdzam kto wdrożył, kto nie. Patrzymy na efekty.", "st": "O", "sub": "wydajnosc"}, {"t": "Indywidualne rozmowy — co stoi na przeszkodzie u każdego.", "st": "A", "sub": "wspiera"}, {"t": "„Reset — może to ja źle to pokazałem. Wracamy do PO CO.”", "st": "S", "sub": "innowacje"}]}, {"stem": "Pracownica wraca z macierzyńskiego — chce 60% etatu.", "opts": [{"t": "„Akceptuję, pod warunkiem że jakość konsultacji się utrzyma.”", "st": "F", "sub": "jasnestan"}, {"t": "Analizujemy wpływ na grafik, planujemy zastępstwa.", "st": "O", "sub": "wdrozenie"}, {"t": "„Łatwy powrót — pierwsze 4 tygodnie patrzymy razem jak idzie.”", "st": "A", "sub": "slucha"}, {"t": "„Elastyczność to wartość którą tu budujemy.”", "st": "S", "sub": "rozwoj"}]}, {"stem": "Wspólnik chce kupić sprzęt za 200 tys. zł — chce decyzji dziś.", "opts": [{"t": "„Tak lub nie w tym tygodniu. Dane mam — decyduję.”", "st": "F", "sub": "wymagajacy"}, {"t": "„Pokaż liczby — co wniesie, kiedy się zwróci. Decyzja na podstawie.”", "st": "O", "sub": "wydajnosc"}, {"t": "„Sprawdźmy z zespołem — kto by tego używał, czy widzi sens.”", "st": "A", "sub": "dajesile"}, {"t": "„Co to znaczy dla naszej długoterminowej wizji praktyki?”", "st": "S", "sub": "kierunek"}]}, {"stem": "Spotkanie tygodniowe zespołu — jakie ono jest u Ciebie?", "opts": [{"t": "Jasne decyzje, kto za co odpowiada, do kiedy.", "st": "F", "sub": "jasnestan"}, {"t": "Podsumowanie poprzedniego tygodnia + plan na następny.", "st": "O", "sub": "wdrozenie"}, {"t": "Najpierw runda „jak się macie”, potem sprawy.", "st": "A", "sub": "wspiera"}, {"t": "Wprowadzam element „co możemy zrobić inaczej”.", "st": "S", "sub": "innowacje"}]}, {"stem": "Pracownik przychodzi z osobistym problemem (rozwód, choroba bliskiej).", "opts": [{"t": "„Co z grafiku zdjąć? Powiedz konkretnie.”", "st": "F", "sub": "odpowiedzialny"}, {"t": "Sprawdzam jakie dni mu się należą, przeplanowuję obciążenia.", "st": "O", "sub": "organizacja"}, {"t": "„Siadam. Słucham. Tyle ile potrzebujesz.”", "st": "A", "sub": "slucha"}, {"t": "„To nie definiuje Twojej kariery. Wrócisz silniejszy.”", "st": "S", "sub": "rozwoj"}]}, {"stem": "Firma rośnie — czas na drugą lokalizację. Pierwszy krok?", "opts": [{"t": "„Decyduję — robimy. Plan wdrożeniowy w 2 tygodnie.”", "st": "F", "sub": "jasnestan"}, {"t": "Plan etapowy: lokalizacja 30 dni, finansowanie 60, otwarcie 120.", "st": "O", "sub": "wdrozenie"}, {"t": "„Kto z Was chce to poprowadzić? Komu by to dało wzrost?”", "st": "A", "sub": "dajesile"}, {"t": "„Wpisuje się w naszą długoterminową wizję? Sprawdźmy.”", "st": "S", "sub": "kierunek"}]}, {"stem": "Pracownik — 3 raz w miesiącu ta sama pomyłka.", "opts": [{"t": "„Trzecia pomyłka to wzór. Kończymy to dziś.”", "st": "F", "sub": "odpowiedzialny"}, {"t": "Tworzymy pisany checklist na tę sytuację.", "st": "O", "sub": "organizacja"}, {"t": "„Co się u Ciebie dzieje? Czego potrzebujesz?”", "st": "A", "sub": "wspiera"}, {"t": "„Może to nie jej rola. Pomyślmy gdzie jej talenty pasują.”", "st": "S", "sub": "innowacje"}]}, {"stem": "Roczna ocena pracownicy — rok temu była naszą gwiazdą, teraz wyniki średnie.", "opts": [{"t": "„Następny rok — wracasz do swoich standardów. Spisujemy cele.”", "st": "F", "sub": "wymagajacy"}, {"t": "„Pokaż mi dane. Co konkretnie zmieniło się w Twoim podejściu?”", "st": "O", "sub": "wydajnosc"}, {"t": "„Co się u Ciebie zmieniło? Wyczuwam że coś jest inne.”", "st": "A", "sub": "slucha"}, {"t": "„Wracamy do pytania — co Cię kiedyś napędzało?”", "st": "S", "sub": "rozwoj"}]}, {"stem": "Wprowadzasz politykę „brak pracy w weekendy” — zespół sceptyczny.", "opts": [{"t": "„To moja decyzja. Wprowadzamy. Powody są takie a takie.”", "st": "F", "sub": "odpowiedzialny"}, {"t": "„Pokażę dane — wypalenie spada, ludzie zostają na dłużej.”", "st": "O", "sub": "wydajnosc"}, {"t": "„Co Was niepokoi? Co byście musieli zmienić żeby to działało?”", "st": "A", "sub": "wspiera"}, {"t": "„To wartość której chcę dla tego zespołu — razem znajdziemy jak.”", "st": "S", "sub": "kierunek"}]}, {"stem": "Nowy pracownik świetnie się rozwija — czas powiedzieć mu o tym wprost.", "opts": [{"t": "Krótko, konkretnie — „dobra robota, widzę”.", "st": "F", "sub": "wymagajacy"}, {"t": "Spisuję konkretne sytuacje gdzie się sprawdził — konkretna informacja zwrotna.", "st": "O", "sub": "wdrozenie"}, {"t": "Rozmowa 1:1 — „opowiedz mi jak się czujesz w tej roli”.", "st": "A", "sub": "slucha"}, {"t": "„Widzę dokąd idziesz. Tu są role X, Y. Co o tym myślisz?”", "st": "S", "sub": "innowacje"}]}, {"stem": "Koniec roku. Czas zaplanować następny.", "opts": [{"t": "Liczby — ile chcemy zarobić, ilu klientów, twarde cele.", "st": "F", "sub": "jasnestan"}, {"t": "Plan wdrożeniowy — kwartalne kamienie milowe, kto odpowiada, jak mierzymy.", "st": "O", "sub": "organizacja"}, {"t": "Z zespołem — co dla każdego ma być ważne w tym roku.", "st": "A", "sub": "dajesile"}, {"t": "Roczna wizja — gdzie chcemy być za 12 miesięcy.", "st": "S", "sub": "rozwoj"}]}];
+const STYLES = {
+  S:{name:"Strategiczny",color:"#3b82f6",subs:["kierunek","innowacje","rozwoj"],desc:"Patrzysz dalej niż na ten kwartał. Wskazujesz kierunek, otwierasz zespół na nowe, rozwijasz ludzi."},
+  A:{name:"Angażujący",color:"#22c55e",subs:["wspiera","slucha","dajesile"],desc:"Ludzie idą za Tobą, bo czują się widziani. Słuchasz, wspierasz, dajesz autonomię i uznanie."},
+  O:{name:"Operacyjny",color:"#eab308",subs:["organizacja","wydajnosc","wdrozenie"],desc:"Wszystko działa: procesy, plany, wdrożenia. Trzymasz zespół w torach i dowozisz wyniki."},
+  F:{name:"Forsujący",color:"#ef4444",subs:["wymagajacy","jasnestan","odpowiedzialny"],desc:"Stawiasz wysoką poprzeczkę i pociągasz do odpowiedzialności. Twoja jasność i tempo są walutą tego zespołu."}
+};
+const SUBDIM_LABELS = {"kierunek": "Kierunek", "innowacje": "Innowacje", "rozwoj": "Rozwój", "wspiera": "Wspiera", "slucha": "Słucha", "dajesile": "Daje siłę", "organizacja": "Dobra organizacja", "wydajnosc": "Wydajność", "wdrozenie": "Wdrożenie", "wymagajacy": "Wymagający", "jasnestan": "Jasne stanowisko", "odpowiedzialny": "Odpowiedzialny"};
+const STYLE_ORDER = ["S","A","O","F"];
+
+let state = {screen:"intro", idx:0, answers:[]};
+const root = document.getElementById("root");
+
+function shuffle(a){const c=[...a];for(let i=c.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[c[i],c[j]]=[c[j],c[i]];}return c;}
+function go(s){state.screen=s;render();window.scrollTo({top:0,behavior:"smooth"});}
+
+function render(){
+  if(state.screen==="intro") return renderIntro();
+  if(state.screen==="q") return renderQuestion();
+  if(state.screen==="r") return renderResult();
+}
+
+function renderIntro(){
+  const chips = STYLE_ORDER.map(k=>{const s=STYLES[k];return `<div class="styleChip"><span class="dot" style="background:${s.color}"></span><div><strong>${s.name}</strong></div></div>`;}).join("");
+  root.innerHTML = `
+    <section class="introCard">
+      <p class="eyebrow">Test stylu przywództwa</p>
+      <h1>Jaki masz styl?</h1>
+      <p>18 sytuacji z życia menedżera. W każdej zobaczysz 4 możliwe reakcje. Wybierz tę która <strong>najbardziej</strong> pasuje do Ciebie.</p>
+      <p style="margin-top:14px"><strong>Każda odpowiedź jest valid</strong> — nie ma „dobrej” i „złej”. Pytanie tylko która z nich jest najbliżej Ciebie. Test ujawni Twój dominujący styl + obszary do pracy.</p>
+      <p style="margin-top:14px;font-size:13px;color:#B8BAC6">Klik = następne pytanie. Test trwa ok. 4 minuty.</p>
+      <div class="styles4">${chips}</div>
+      <button class="primaryBtn" id="start-btn">Rozpocznij test →</button>
+    </section>
+  `;
+  document.getElementById("start-btn").onclick = ()=>{
+    state.idx=0;state.answers=[];
+    state.qs = Q.map(q=>{
+      const idxs = shuffle([0,1,2,3]);
+      return {...q, shuffled: idxs.map(i=>q.opts[i])};
+    });
+    go("q");
+  };
+}
+
+function renderQuestion(){
+  const q = state.qs[state.idx];
+  const total = state.qs.length;
+  const picked = state.answers[state.idx];
+  const answered = state.answers.filter(a=>a!==undefined && a!==null).length;
+  const pct = Math.round((answered/total)*100);
+
+  const optRows = q.shuffled.map((opt,i)=>{
+    return `<button class="opt${picked===i?' picked':''}" data-i="${i}">
+      <span class="optIdx">${String.fromCharCode(65+i)}</span>
+      <span class="optText">${opt.t}</span>
+    </button>`;
+  }).join("");
+
+  root.innerHTML = `
+    <div class="testTop">
+      <button id="back-btn"${state.idx===0?' disabled':''}>← Wstecz</button>
+      <span>Pytanie ${state.idx+1} / ${total} · ${pct}%</span>
+      <button id="reset-btn" title="Zacznij od nowa">×</button>
+    </div>
+    <div class="progressTrack"><div style="width:${pct}%"></div></div>
+    <p class="qStem">Sytuacja ${state.idx+1}</p>
+    <h1 class="qTitle">${q.stem}</h1>
+    <p class="qHint">Co byś zrobił najbardziej naturalnie?</p>
+    <section class="opts">${optRows}</section>
+  `;
+
+  document.querySelectorAll(".opt").forEach(b=>{
+    b.onclick = ()=>{
+      const i = parseInt(b.dataset.i,10);
+      state.answers[state.idx] = i;
+      b.classList.add("picked");
+      setTimeout(()=>{
+        if(state.idx===state.qs.length-1) go("r");
+        else {state.idx++;render();window.scrollTo({top:0,behavior:"smooth"});}
+      }, 200);
+    };
+  });
+
+  document.getElementById("back-btn").onclick = ()=>{
+    if(state.idx>0){state.idx--;render();window.scrollTo({top:0,behavior:"smooth"});}
+  };
+  document.getElementById("reset-btn").onclick = ()=>{
+    if(confirm("Zacząć od nowa? Stracisz dotychczasowe odpowiedzi.")){
+      state.idx=0;state.answers=[];state.qs=null;go("intro");
+    }
+  };
+}
+
+function computeScores(){
+  const styleScore = {S:0,A:0,O:0,F:0};
+  const subScore = {};
+  Object.keys(SUBDIM_LABELS).forEach(k=>{subScore[k]=0;});
+  state.answers.forEach((a,qi)=>{
+    if(a===undefined||a===null) return;
+    const opt = state.qs[qi].shuffled[a];
+    styleScore[opt.st]++;
+    subScore[opt.sub]++;
+  });
+  return {styleScore, subScore};
+}
+
+function renderResult(){
+  const {styleScore, subScore} = computeScores();
+  const total = state.answers.filter(a=>a!==undefined && a!==null).length;
+
+  const styleData = STYLE_ORDER.map(k=>{
+    const count = styleScore[k];
+    const pct = total>0 ? Math.round((count/total)*1000)/10 : 0;
+    return {k, name:STYLES[k].name, color:STYLES[k].color, count, pct};
+  });
+  let pctSum = styleData.reduce((s,d)=>s+d.pct,0);
+  if(Math.abs(pctSum-100)>0.05 && styleData[0]){
+    const diff = 100 - pctSum;
+    styleData[0].pct = Math.round((styleData[0].pct + diff)*10)/10;
+  }
+  styleData.sort((a,b)=>b.count-a.count);
+  const dom = styleData[0];
+  const neg = styleData[styleData.length-1];
+
+  const subData = Object.entries(subScore).map(([k,v])=>{
+    const styleKey = STYLE_ORDER.find(sk=>STYLES[sk].subs.includes(k));
+    return {k, label:SUBDIM_LABELS[k], count:v, styleKey, color:STYLES[styleKey].color};
+  });
+  const subSorted = [...subData].sort((a,b)=>b.count-a.count);
+  const top3 = subSorted.slice(0,3);
+  const bottom3 = subSorted.slice(-3).reverse();
+
+  const rankRows = styleData.map(d=>{
+    const isDom = d.k===dom.k;
+    const isNeg = d.k===neg.k && d.count < dom.count-3;
+    let suffix = "";
+    if(isDom) suffix = `<small>— Dominujący</small>`;
+    else if(isNeg) suffix = `<small style="color:#ef4444">— Zaniedbany</small>`;
+    return `<div class="rankRow${isDom?' dominant':''}${isNeg?' neglect':''}" style="--accent:${d.color}">
+      <div class="rankHead">
+        <span class="nm"${isDom?' style="color:'+d.color+'"':''}><span class="dot" style="background:${d.color}"></span>${d.name}${suffix}</span>
+        <strong${isDom?' style="color:'+d.color+'"':''}>${d.pct.toFixed(1)}%</strong>
+      </div>
+      <div class="rankBar"><div style="width:${d.pct}%;background:${d.color}"></div></div>
+    </div>`;
+  }).join("");
+
+  const topRows = top3.map(s=>{
+    return `<div class="miniItem"><span>${s.label}</span><strong>${s.count}/6</strong></div>`;
+  }).join("");
+  const botRows = bottom3.map(s=>{
+    return `<div class="miniItem"><span>${s.label}</span><strong>${s.count}/6</strong></div>`;
+  }).join("");
+
+  const wheel = renderWheel(subData);
+
+  let interp = `<p>Jesteś liderem typu <strong style="color:${dom.color}">${dom.name}</strong>. ${STYLES[dom.k].desc}</p>`;
+  if(neg.count < dom.count-3){
+    interp += `<p style="margin-top:10px"><strong>Zaniedbany styl:</strong> ${neg.name} (${neg.pct.toFixed(1)}%). Konsekwentnie rzadziej wybierasz reakcje tego typu. Najbardziej brakuje Ci: <span style="color:${bottom3[0].color}">${bottom3[0].label}</span>.</p>`;
+  }
+  if(top3.length>0 && top3[0].count>=3){
+    interp += `<p style="margin-top:10px"><strong>Twoje 3 najmocniejsze obszary:</strong> ${top3.map(s=>s.label).join(", ")}.</p>`;
+  }
+
+  root.innerHTML = `
+    <section class="resultHero" style="--accent:${dom.color}">
+      <p class="tag">Twój dominujący styl</p>
+      <div class="headRow">
+        <h1>${dom.name}</h1>
+        <span class="pct">${dom.pct.toFixed(1)}%</span>
+      </div>
+      <p class="sub">${STYLES[dom.k].desc}</p>
+    </section>
+    <section class="panel">
+      <p class="eyebrow">Hierarchia 4 stylów</p>
+      ${rankRows}
+    </section>
+    <div class="twoCol">
+      <div class="miniPanel green">
+        <p class="eyebrow">Twoje 3 mocne strony</p>
+        ${topRows}
+      </div>
+      <div class="miniPanel red">
+        <p class="eyebrow">Top 3 do pracy</p>
+        ${botRows}
+      </div>
+    </div>
+    <section class="panel">
+      <p class="eyebrow">Koło 12 obszarów</p>
+      <div class="wheelWrap">${wheel}</div>
+      <div class="wheelLegend">
+        ${STYLE_ORDER.map(k=>`<span class="lg"><span class="lgDot" style="background:${STYLES[k].color}"></span>${STYLES[k].name}</span>`).join("")}
+      </div>
+      <p style="margin:12px 0 0;text-align:center;color:#B8BAC6;font-size:12px;line-height:1.5">Każda kropka to jeden z 12 sub-wymiarów. Im dalej od środka — tym częściej wybierałeś.</p>
+    </section>
+    <section class="panel" style="border-color:${dom.color}">
+      <p class="eyebrow">Co to dla Ciebie znaczy</p>
+      ${interp}
+    </section>
+    <div class="shareRow">
+      <button class="restart" id="restart-btn">Wykonaj ponownie</button>
+      <a href="index.html#testy">← Wróć do wszystkich testów</a>
+    </div>
+  `;
+
+  document.getElementById("restart-btn").onclick = ()=>{
+    state = {screen:"intro",idx:0,answers:[]};
+    go("intro");
+  };
+}
+
+function renderWheel(subData){
+  const cx=200, cy=200, rMax=140, rMin=25;
+  const orderedSubs = [];
+  STYLE_ORDER.forEach(sk=>{
+    STYLES[sk].subs.forEach(sub=>{
+      const d = subData.find(x=>x.k===sub);
+      orderedSubs.push({...d, styleKey:sk});
+    });
+  });
+  const n = orderedSubs.length;
+  const angleStep = 360/n;
+  const toRad = a => (a-90)*Math.PI/180;
+  function ptForCount(idx, count){
+    const r = rMin + (count/6)*(rMax-rMin);
+    const a = toRad(idx*angleStep + angleStep/2);
+    return [cx + Math.cos(a)*r, cy + Math.sin(a)*r];
+  }
+  const polyPts = orderedSubs.map((s,i)=>ptForCount(i, s.count).join(",")).join(" ");
+  const dots = orderedSubs.map((s,i)=>{
+    const [x,y] = ptForCount(i, s.count);
+    return `<circle cx="${x}" cy="${y}" r="4" fill="${s.color}" stroke="#0D1423" stroke-width="1.5"/>`;
+  }).join("");
+  let labels = "";
+  orderedSubs.forEach((s,i)=>{
+    const a = toRad(i*angleStep + angleStep/2);
+    const r = rMax + 22;
+    const lx = cx + Math.cos(a)*r;
+    const ly = cy + Math.sin(a)*r;
+    labels += `<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="500" fill="${s.color}">${s.label}</text>`;
+  });
+  let sectors = "";
+  STYLE_ORDER.forEach((sk,si)=>{
+    const a1 = toRad(si*3*angleStep);
+    const a2 = toRad((si+1)*3*angleStep);
+    const x1 = cx + Math.cos(a1)*rMax;
+    const y1 = cy + Math.sin(a1)*rMax;
+    const x2 = cx + Math.cos(a2)*rMax;
+    const y2 = cy + Math.sin(a2)*rMax;
+    sectors += `<path d="M ${cx} ${cy} L ${x1} ${y1} A ${rMax} ${rMax} 0 0 1 ${x2} ${y2} Z" fill="${STYLES[sk].color}" opacity=".04"/>`;
+  });
+  let rings = "";
+  [rMin, rMin+(rMax-rMin)*0.5, rMax].forEach(r=>{
+    rings += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#2B3445" stroke-width="0.5" stroke-dasharray="${r===rMax?'':'2 3'}" opacity="${r===rMax?1:0.4}"/>`;
+  });
+  return `<svg viewBox="0 0 400 400" role="img" aria-label="Koło 12 obszarów stylów przywództwa">
+    ${sectors}
+    ${rings}
+    <line x1="${cx}" y1="${cy-rMax}" x2="${cx}" y2="${cy+rMax}" stroke="#1f1c17" stroke-width="0.5"/>
+    <line x1="${cx-rMax}" y1="${cy}" x2="${cx+rMax}" y2="${cy}" stroke="#1f1c17" stroke-width="0.5"/>
+    <polygon points="${polyPts}" fill="rgba(229,183,122,.1)" stroke="#E5B77A" stroke-width="1.5" stroke-linejoin="round"/>
+    ${dots}
+    ${labels}
+  </svg>`;
+}
+
+document.getElementById("brand-btn").addEventListener("click",(e)=>{
+  if(state.screen !== "intro" && !confirm("Wrócić do menu testów? Stracisz dotychczasowe odpowiedzi.")) e.preventDefault();
+});
+document.getElementById("back-link").addEventListener("click",(e)=>{
+  if(state.screen !== "intro" && !confirm("Wrócić do menu testów? Stracisz dotychczasowe odpowiedzi.")) e.preventDefault();
+});
+
+render();
+</script>
+</body>
+</html>

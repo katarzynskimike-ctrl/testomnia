@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#0B0F1A" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Test ukończony · testomnia</title>
+<meta name="description" content="Twój test jest gotowy. Zobacz wynik podstawowy i zdecyduj, czy chcesz pełny raport PDF." />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%231A1109'/><text x='32' y='46' font-family='Georgia, serif' font-style='italic' font-size='42' fill='%23D4A574' text-anchor='middle'>t</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<style>
+:root{ --bg:#0B0F1A; --surface:#131826; --border:rgba(255,255,255,.08); --ink:#F5F4F0; --ink-soft:#C9CAD3; --ink-muted:#8B8E9C; --ink-dim:#5E6273; --accent:#D4A574; --accent-soft:#E8C499; --accent-deep:#A87C4F; --success:#6FCF97; --serif:'Instrument Serif',Georgia,serif; --sans:'Inter',sans-serif; }
+*,*::before,*::after{ box-sizing:border-box; }
+body{ margin:0; font-family:var(--sans); color:var(--ink); background:var(--bg); min-height:100vh; display:grid; place-items:center; padding:40px 24px; line-height:1.55; -webkit-font-smoothing:antialiased; }
+body::before{ content:""; position:fixed; inset:0; pointer-events:none; background:radial-gradient(900px 600px at 50% -10%, rgba(212,165,116,.12), transparent 60%); }
+.brand{ display:flex; align-items:center; gap:10px; font-weight:600; font-size:17px; justify-content:center; margin-bottom:40px; }
+.brand__mark{ width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg, var(--accent-soft), var(--accent-deep)); display:grid; place-items:center; color:#1a1109; font-family:var(--serif); font-style:italic; font-size:18px; font-weight:700; }
+.card{
+  position:relative; z-index:1; max-width:600px; width:100%;
+  padding:60px 50px;
+  border-radius:28px;
+  background:linear-gradient(180deg, #161B27, #11151F);
+  border:1px solid var(--border);
+  box-shadow:0 40px 80px -30px rgba(0,0,0,.65);
+  text-align:center;
+}
+@media (max-width:560px){ .card{ padding:40px 26px; } }
+.success-circle{
+  width:72px; height:72px; border-radius:50%; margin:0 auto 22px;
+  background:linear-gradient(180deg, rgba(111,207,151,.16), rgba(111,207,151,.04));
+  border:1px solid rgba(111,207,151,.3);
+  display:grid; place-items:center; color:var(--success);
+  animation:pop .5s cubic-bezier(.2,.7,.2,1.2);
+}
+.success-circle svg{ width:34px; height:34px; }
+@keyframes pop{ 0%{ transform:scale(.7); opacity:0; } 100%{ transform:scale(1); opacity:1; } }
+.eyebrow{ font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:600; }
+h1{ font-family:var(--serif); font-size:clamp(32px,5vw,46px); line-height:1.1; margin:14px 0 14px; font-weight:400; letter-spacing:-.01em; }
+h1 em{ font-style:italic; background:linear-gradient(180deg, var(--accent-soft), var(--accent)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.lead{ font-size:16px; color:var(--ink-soft); margin:0 0 30px; }
+.btn{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:14px 26px; border-radius:999px; font-weight:500; font-size:15px;
+  text-decoration:none; transition:transform .25s, box-shadow .25s;
+}
+.btn--primary{
+  background:linear-gradient(180deg, var(--accent-soft), var(--accent) 70%);
+  color:#1A1109;
+  box-shadow:0 10px 30px -10px rgba(212,165,116,.5);
+}
+.btn--primary:hover{ transform:translateY(-1px); }
+.btn--ghost{ color:var(--ink); border:1px solid var(--border); background:rgba(255,255,255,.02); margin-left:8px; }
+.next{ margin-top:30px; padding:22px; border:1px solid var(--border); border-radius:18px; background:rgba(255,255,255,.02); text-align:left; }
+.next h3{ font-family:var(--sans); font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-muted); margin:0 0 12px; font-weight:600; }
+.next ol{ margin:0; padding-left:18px; color:var(--ink-soft); font-size:14px; display:grid; gap:6px; }
+:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:4px; }
+</style>
+</head>
+<body>
+
+<main class="card" role="main">
+  <a href="index.html" class="brand" aria-label="Testomnia">
+    <img src="testomnia-logo.png" alt="Testomnia" style="height:36px;width:auto;max-width:200px;display:block">
+  </a>
+
+  <div class="success-circle" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+
+  <span class="eyebrow">Test ukończony</span>
+  <h1>Gotowe. <em>Twój wynik</em> czeka.</h1>
+  <p class="lead">Dziękujemy za wypełnienie testu. Twój wynik podstawowy jest już obliczony i&nbsp;czeka po prawej. Pełny raport PDF z&nbsp;interpretacją, gotowymi zdaniami i&nbsp;planem rozwoju — opcjonalny, jeden klik dalej.</p>
+
+  <a href="#" class="btn btn--primary">Zobacz wynik <span>→</span></a>
+  <a href="/" class="btn btn--ghost">Wróć do katalogu</a>
+
+  <div class="next">
+    <h3>Co dalej</h3>
+    <ol>
+      <li>Twój wynik podstawowy + dominujący profil — od&nbsp;razu, bezpłatnie</li>
+      <li>Cena pełnego raportu PDF — widoczna na ekranie wyniku</li>
+      <li>Jeśli kupisz raport — wyślemy go na mejla w&nbsp;ciągu kilku minut</li>
+    </ol>
+  </div>
+</main>
+
+</body>
+</html>
