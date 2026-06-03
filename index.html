@@ -32,7 +32,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="image" href="testomnia-logo.png">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <title>Testomnia · Test bezpłatny. Raport za cenę kawy.</title>
 <style>
 :root{
@@ -153,12 +153,12 @@ h2{font-size:clamp(28px,3.4vw,40px)}
 }
 
 :focus-visible{outline:2px solid var(--champagne);outline-offset:3px;border-radius:6px}
-.skip-link{position:fixed;top:-100px;left:12px;background:var(--champagne);color:#1A1109;padding:10px 16px;border-radius:8px;font-weight:600;z-index:200;text-decoration:none;transition:top .2s}.skip-link:focus{top:12px;outline:0}
+.skip-link{position:fixed;top:-100px;left:12px;background:var(--champagne);color:#1A1109;padding:10px 16px;border-radius:8px;font-weight:500;z-index:200;text-decoration:none;transition:top .2s}.skip-link:focus{top:12px;outline:0}
 .btn:focus-visible,.testCard:focus-visible,.faq summary:focus-visible{outline:0;box-shadow:0 0 0 3px rgba(229,183,122,.5)}
 .stickyCta{display:none}
 @media (max-width:759px){
   .stickyCta{display:flex;position:fixed;bottom:14px;left:14px;right:14px;z-index:60;justify-content:center;pointer-events:none}
-  .stickyCta a{pointer-events:auto;background:linear-gradient(180deg,var(--champagne-soft),var(--champagne) 70%);color:#1A1109;border:0;border-radius:999px;padding:13px 22px;font-size:14px;font-weight:600;text-decoration:none;box-shadow:0 12px 28px -8px rgba(229,183,122,.5),inset 0 1px 0 rgba(255,255,255,.4);transition:transform .15s;display:inline-flex;align-items:center;gap:8px}
+  .stickyCta a{pointer-events:auto;background:linear-gradient(180deg,var(--champagne-soft),var(--champagne) 70%);color:#1A1109;border:0;border-radius:999px;padding:13px 22px;font-size:14px;font-weight:500;text-decoration:none;box-shadow:0 12px 28px -8px rgba(229,183,122,.5),inset 0 1px 0 rgba(255,255,255,.4);transition:transform .15s;display:inline-flex;align-items:center;gap:8px}
   .stickyCta a:active{transform:scale(.97)}
   body.in-testy .stickyCta{opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
 }
@@ -166,6 +166,30 @@ h2{font-size:clamp(28px,3.4vw,40px)}
 
 .nav.is-scrolled{box-shadow:0 6px 24px -8px rgba(0,0,0,.5)}
 .nav{transition:box-shadow .25s}
+
+/* F1 Hamburger mobile menu */
+.nav__hamb{display:none;width:42px;height:42px;border-radius:10px;background:transparent;border:1px solid var(--border);color:var(--ink);cursor:pointer;align-items:center;justify-content:center;transition:background .2s}
+.nav__hamb:hover{background:rgba(255,255,255,.04)}
+.nav__hamb:focus-visible{outline:0;box-shadow:0 0 0 3px rgba(229,183,122,.5)}
+.nav__hamb svg{width:20px;height:20px}
+.nav__drawer{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(8,14,24,.97);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);z-index:49;padding:18px 24px 24px;flex-direction:column;gap:14px;max-height:calc(100vh - 64px);overflow-y:auto}
+.nav__drawer.is-open{display:flex}
+.nav__drawer a{font-size:18px;color:var(--ink);padding:8px 0;border-bottom:1px solid var(--border);text-decoration:none;font-family:'Cormorant Garamond',serif;font-weight:500}
+.nav__drawer a:last-child{border-bottom:0}
+.nav__drawer a:hover{color:var(--champagne)}
+@media (max-width:759px){
+  .nav__hamb{display:inline-flex}
+  .topbar__cta .btn--primary,.nav__inner > .btn--primary{padding:10px 14px;font-size:13px}
+}
+
+/* F24 Cookie banner */
+.cookieBanner{position:fixed;bottom:14px;left:14px;right:14px;z-index:65;max-width:560px;margin:0 auto;background:rgba(13,20,35,.96);backdrop-filter:blur(14px);border:1px solid rgba(229,183,122,.3);border-radius:14px;padding:14px 18px;display:none;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between;box-shadow:0 16px 40px -16px rgba(0,0,0,.6);font-size:13px;color:#D8D6CF;line-height:1.5}
+.cookieBanner.show{display:flex}
+.cookieBanner p{margin:0;flex:1;min-width:220px}
+.cookieBanner a{color:#E5B77A;text-decoration:underline;text-decoration-color:rgba(229,183,122,.4)}
+.cookieBanner button{background:linear-gradient(180deg,#F0D5A8,#E5B77A 70%);color:#1A1109;border:0;padding:8px 18px;border-radius:999px;font-weight:600;font-size:13px;cursor:pointer;font-family:Inter,sans-serif}
+.cookieBanner button:focus-visible{outline:0;box-shadow:0 0 0 3px rgba(229,183,122,.5)}
+@media (max-width:480px){.cookieBanner{font-size:12.5px;padding:12px 14px}}
 </style>
 
 <script type="application/ld+json">
@@ -232,9 +256,20 @@ h2{font-size:clamp(28px,3.4vw,40px)}
       <a href="#testy">Testy</a>
       <a href="#faq">FAQ</a>
     </div>
+      <button class="nav__hamb" id="nav-hamb" aria-label="Otwórz menu" aria-expanded="false" aria-controls="nav-drawer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
     <a href="#testy" class="btn btn--primary">Wybierz test →</a>
   </div>
 </nav>
+<div class="nav__drawer" id="nav-drawer" role="navigation" aria-label="Menu mobilne">
+  <a href="#testy">Testy</a>
+  <a href="#dla-kogo">Dla kogo</a>
+  <a href="#faq">FAQ</a>
+  <a href="regulamin.html">Regulamin</a>
+  <a href="polityka-prywatnosci.html">Polityka prywatności</a>
+  <a href="mailto:kontakt@testomnia.pl">Kontakt</a>
+</div>
 
 <main id="main">
 
@@ -398,6 +433,35 @@ h2{font-size:clamp(28px,3.4vw,40px)}
   var n=document.querySelector('.nav');if(!n)return;
   var oS=function(){n.classList.toggle('is-scrolled',window.scrollY>20)};
   document.addEventListener('scroll',oS,{passive:true});oS();
+})();
+</script>
+
+<script>
+(function(){
+  var h=document.getElementById('nav-hamb');var d=document.getElementById('nav-drawer');if(!h||!d)return;
+  function close(){d.classList.remove('is-open');h.setAttribute('aria-expanded','false')}
+  h.addEventListener('click',function(){
+    var o=d.classList.toggle('is-open');h.setAttribute('aria-expanded',o?'true':'false');
+  });
+  d.querySelectorAll('a').forEach(function(a){a.addEventListener('click',close)});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+})();
+</script>
+<div class="cookieBanner" id="cookieBanner" role="dialog" aria-label="Informacja o cookies">
+  <p>Używamy tylko <strong>niezbędnych cookies</strong> (zapisanie postępu w teście). Bez trackingu ani reklam. <a href="polityka-prywatnosci.html">Polityka</a>.</p>
+  <button type="button" id="cookieAck">OK, rozumiem</button>
+</div>
+<script>
+(function(){
+  try{
+    if(localStorage.getItem('cookie-ack')==='1')return;
+    var b=document.getElementById('cookieBanner');if(!b)return;
+    setTimeout(function(){b.classList.add('show')},900);
+    document.getElementById('cookieAck').addEventListener('click',function(){
+      try{localStorage.setItem('cookie-ack','1')}catch(e){}
+      b.classList.remove('show');
+    });
+  }catch(e){}
 })();
 </script>
 </body>

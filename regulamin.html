@@ -35,13 +35,13 @@ nav.topbar{position:sticky;top:0;z-index:10;background:rgba(11,15,26,.82);backdr
 .back{font-size:14px;color:var(--ink-muted);border-bottom:0;padding:8px 14px;border:1px solid var(--border);border-radius:999px;transition:border-color .2s,color .2s}
 .back:hover{color:var(--accent);border-color:var(--accent)}
 main{max-width:var(--max);margin:0 auto;padding:60px 24px 80px;position:relative;z-index:1}
-.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:18px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:18px}
 .eyebrow::before{content:"";width:22px;height:1px;background:var(--accent);opacity:.7}
 h1{font-family:var(--serif);font-size:clamp(36px,5vw,52px);line-height:1.05;letter-spacing:-.015em;color:var(--ink);font-weight:400;margin:0 0 16px}
 .lead{font-size:17.5px;color:var(--ink-soft);margin:0 0 36px;padding:22px 26px;border-left:2px solid var(--accent);background:linear-gradient(90deg,rgba(212,165,116,.06),transparent 80%);border-radius:0 var(--radius) var(--radius) 0}
-.lead strong{color:var(--ink);font-weight:600}
+.lead strong{color:var(--ink);font-weight:500}
 h2{font-family:var(--serif);font-size:clamp(24px,3vw,32px);line-height:1.15;color:var(--ink);margin:60px 0 18px;font-weight:400;padding-top:24px;border-top:1px solid var(--border)}
-h2 .num{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--accent);display:block;letter-spacing:.06em;margin-bottom:6px}
+h2 .num{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--accent);display:block;letter-spacing:.06em;margin-bottom:6px}
 p{margin:0 0 16px;color:var(--ink-soft)}
 p strong{color:var(--ink)}
 ol,ul{margin:0 0 22px;padding-left:0}
@@ -66,7 +66,16 @@ footer a:hover{color:var(--accent)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
 @media (prefers-reduced-motion:reduce){*{transition-duration:.001ms !important;scroll-behavior:auto !important}}
 
-.skip-link{position:fixed;top:-100px;left:12px;background:var(--champagne);color:#1A1109;padding:10px 16px;border-radius:8px;font-weight:600;z-index:200;text-decoration:none;transition:top .2s}.skip-link:focus{top:12px;outline:0}
+.skip-link{position:fixed;top:-100px;left:12px;background:var(--champagne);color:#1A1109;padding:10px 16px;border-radius:8px;font-weight:500;z-index:200;text-decoration:none;transition:top .2s}.skip-link:focus{top:12px;outline:0}
+
+/* F24 Cookie banner */
+.cookieBanner{position:fixed;bottom:14px;left:14px;right:14px;z-index:65;max-width:560px;margin:0 auto;background:rgba(13,20,35,.96);backdrop-filter:blur(14px);border:1px solid rgba(229,183,122,.3);border-radius:14px;padding:14px 18px;display:none;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between;box-shadow:0 16px 40px -16px rgba(0,0,0,.6);font-size:13px;color:#D8D6CF;line-height:1.5}
+.cookieBanner.show{display:flex}
+.cookieBanner p{margin:0;flex:1;min-width:220px}
+.cookieBanner a{color:#E5B77A;text-decoration:underline;text-decoration-color:rgba(229,183,122,.4)}
+.cookieBanner button{background:linear-gradient(180deg,#F0D5A8,#E5B77A 70%);color:#1A1109;border:0;padding:8px 18px;border-radius:999px;font-weight:600;font-size:13px;cursor:pointer;font-family:Inter,sans-serif}
+.cookieBanner button:focus-visible{outline:0;box-shadow:0 0 0 3px rgba(229,183,122,.5)}
+@media (max-width:480px){.cookieBanner{font-size:12.5px;padding:12px 14px}}
 </style>
 </head>
 <body>
@@ -289,5 +298,23 @@ footer a:hover{color:var(--accent)}
   <p>© 2026 Testomnia · Profesjonalne testy rozwojowe i psychometryczne</p>
 </footer>
 
+
+<div class="cookieBanner" id="cookieBanner" role="dialog" aria-label="Informacja o cookies">
+  <p>Używamy tylko <strong>niezbędnych cookies</strong> (zapisanie postępu w teście). Bez trackingu ani reklam. <a href="polityka-prywatnosci.html">Polityka</a>.</p>
+  <button type="button" id="cookieAck">OK, rozumiem</button>
+</div>
+<script>
+(function(){
+  try{
+    if(localStorage.getItem('cookie-ack')==='1')return;
+    var b=document.getElementById('cookieBanner');if(!b)return;
+    setTimeout(function(){b.classList.add('show')},900);
+    document.getElementById('cookieAck').addEventListener('click',function(){
+      try{localStorage.setItem('cookie-ack','1')}catch(e){}
+      b.classList.remove('show');
+    });
+  }catch(e){}
+})();
+</script>
 </body>
 </html>

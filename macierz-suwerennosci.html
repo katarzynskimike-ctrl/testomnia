@@ -20,7 +20,7 @@
 <link rel="canonical" href="https://testomnia.pl/macierz-suwerennosci.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <title>Macierz Wskaźnika Suwerenności | Test diagnostyczny dla praktyki</title>
 <style>
 :root{color-scheme:dark;--champagne:#E5B77A;--warm-gold:#C99055;--ivory:#F6F1E8;--muted:#B8BAC6;--line:#2B3445;--panel-navy:#0D1423;--deep-navy:#080E18;
@@ -41,7 +41,7 @@ button{font:inherit;cursor:pointer}
 
 .main{flex:1;padding:24px 18px 40px;max-width:760px;margin:0 auto;width:100%}
 
-.eyebrow{margin:0;color:var(--champagne);font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:600}
+.eyebrow{margin:0;color:var(--champagne);font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:500}
 
 .introCard{padding:36px 28px;border:1px solid var(--line);border-radius:28px;background:rgba(13,20,35,.84);text-align:center;margin-top:28px}
 .introCard h1{margin:18px 0 12px;font-size:30px;line-height:1.15;font-weight:900;letter-spacing:-.01em}
@@ -50,8 +50,8 @@ button{font:inherit;cursor:pointer}
 .introCard p strong{color:var(--ivory)}
 .introCard .note{margin-top:18px;font-size:13px;color:#B8BAC6}
 .formulaCard{margin:24px auto;padding:18px 24px;border:1px solid var(--champagne);border-radius:14px;background:rgba(229,183,122,.06);max-width:380px}
-.formulaCard p{margin:0;color:var(--champagne);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:700}
-.formulaCard h2{margin:8px 0 0;font-family:Georgia,serif;font-size:24px;font-weight:700;letter-spacing:.04em}
+.formulaCard p{margin:0;color:var(--champagne);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:500}
+.formulaCard h2{margin:8px 0 0;font-family:Georgia,serif;font-size:24px;font-weight:500;letter-spacing:.04em}
 .pillars3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px;text-align:center}
 .pillarBox{padding:14px 10px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02)}
 .pillarBox .letter{width:34px;height:34px;border-radius:50%;background:#1C2438;color:var(--champagne);font-weight:900;font-size:18px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px}
@@ -66,7 +66,8 @@ button{font:inherit;cursor:pointer}
 .testTop button:hover:not(:disabled){border-color:var(--champagne);color:var(--champagne)}
 .testTop button:disabled{opacity:0;visibility:hidden;cursor:not-allowed}
 #reset-btn{width:32px;height:32px;padding:0;border-radius:50%;font-size:18px;display:inline-flex;align-items:center;justify-content:center;line-height:1}
-.progressTrack{height:6px;border-radius:999px;background:#121827;overflow:hidden;margin-bottom:18px}
+.progressTrack{height:8px;border-radius:999px;background:#121827;overflow:hidden;margin-bottom:18px}
+.milestone{margin:-8px 0 14px;font-size:11px;color:var(--champagne);text-align:center;opacity:.85;letter-spacing:.08em;text-transform:uppercase;font-weight:600;min-height:14px}
 .progressTrack div{height:100%;background:linear-gradient(90deg,var(--champagne),var(--warm-gold));transition:width .25s ease}
 
 .qPillarBar{display:flex;gap:6px;margin-bottom:18px}
@@ -74,9 +75,9 @@ button{font:inherit;cursor:pointer}
 .qPillarBar .seg.active{background:var(--champagne)}
 
 .question{margin-bottom:18px}
-.qLabel{margin:0 0 6px;color:var(--champagne);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;display:flex;align-items:center;gap:8px}
+.qLabel{margin:0 0 6px;color:var(--champagne);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:500;display:flex;align-items:center;gap:8px}
 .qLabel .pNum{padding:2px 8px;border-radius:10px;background:#1C2438;color:var(--champagne);font-weight:800;letter-spacing:.06em;font-size:10px}
-.qTitle{margin:0;font-size:22px;line-height:1.32;font-weight:600}
+.qTitle{margin:0;font-size:22px;line-height:1.32;font-weight:500}
 .qStem{margin:6px 0 0;color:#B8BAC6;font-size:13px;line-height:1.5;font-style:italic}
 
 .scaleOpts{display:flex;flex-direction:column;gap:8px;margin-top:18px}
@@ -86,15 +87,15 @@ button{font:inherit;cursor:pointer}
 .sNum{flex:0 0 auto;width:36px;height:36px;border-radius:10px;background:#1C2438;color:var(--champagne);font-size:17px;font-weight:900;display:inline-flex;align-items:center;justify-content:center}
 .sOpt.picked .sNum{background:var(--champagne);color:#080E18}
 .sLabel{flex:1;padding-top:4px}
-.sNw{flex:0 0 auto;width:36px;height:36px;border-radius:10px;background:#1C2438;color:#B8BAC6;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
+.sNw{flex:0 0 auto;width:36px;height:36px;border-radius:10px;background:#1C2438;color:#B8BAC6;font-size:11px;font-weight:500;display:inline-flex;align-items:center;justify-content:center}
 
 .dontKnow{margin-top:6px;text-align:center;padding:10px;font-size:13px;color:#B8BAC6;background:transparent;border:1px dashed var(--line);border-radius:12px;cursor:pointer;width:100%}
 .dontKnow:hover{border-color:#B8BAC6;color:#8E94A8}
 
 /* === WYNIK === */
 .wsHero{text-align:center;padding:36px 24px;border:2px solid var(--line);border-radius:28px;background:rgba(13,20,35,.85)}
-.wsHero .tag{margin:0 0 14px;color:var(--champagne);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:700}
-.wsHero .wsNum{font-family:Georgia,serif;font-size:88px;font-weight:700;line-height:1;letter-spacing:-.02em}
+.wsHero .tag{margin:0 0 14px;color:var(--champagne);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:500}
+.wsHero .wsNum{font-family:Georgia,serif;font-size:88px;font-weight:500;line-height:1;letter-spacing:-.02em}
 .wsHero .wsNum small{font-size:24px;color:#B8BAC6;font-weight:400;margin-left:6px}
 .wsHero .formula{margin-top:14px;color:#B8BAC6;font-size:14px;font-family:Georgia,serif}
 .wsHero .zoneLabel{margin:18px 0 0;display:inline-block;padding:8px 18px;border-radius:999px;font-weight:800;font-size:14px;letter-spacing:.04em}
@@ -103,13 +104,13 @@ button{font:inherit;cursor:pointer}
 .pillarsResult{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
 .pillarCard{padding:18px;border:1px solid var(--line);border-radius:20px;background:var(--panel-navy);text-align:center}
 .pillarCard .letter{width:40px;height:40px;border-radius:50%;background:#1C2438;font-weight:900;font-size:20px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px}
-.pillarCard .pillarName{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#B8BAC6;font-weight:700;margin-bottom:6px}
-.pillarCard .score{font-family:Georgia,serif;font-size:42px;font-weight:700;line-height:1}
+.pillarCard .pillarName{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#B8BAC6;font-weight:500;margin-bottom:6px}
+.pillarCard .score{font-family:Georgia,serif;font-size:42px;font-weight:500;line-height:1}
 .pillarCard .score small{font-size:18px;color:#B8BAC6;font-weight:400}
-.pillarCard .label{margin-top:8px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;display:inline-block}
+.pillarCard .label{margin-top:8px;font-size:11px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;display:inline-block}
 
 .panel{margin-top:18px;border:1px solid var(--line);border-radius:24px;background:var(--panel-navy);padding:22px}
-.panel h2{margin:8px 0 4px;font-size:18px;font-weight:700}
+.panel h2{margin:8px 0 4px;font-size:18px;font-weight:500}
 .panel p{margin:8px 0 0;font-size:14.5px;line-height:1.6;color:#E0DBD0}
 .panel p strong{color:var(--ivory)}
 .panel .diagBox{padding:14px 16px;border-left:3px solid var(--champagne);background:rgba(229,183,122,.04);border-radius:0 12px 12px 0;margin-top:12px}
@@ -121,15 +122,15 @@ button{font:inherit;cursor:pointer}
 .formulaExplain{margin-top:14px}
 .formulaSteps{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
 .fStep{font-size:13.5px;color:#E0DBD0;padding:8px 12px;background:rgba(255,255,255,.02);border-radius:10px}
-.fLabel{color:var(--champagne);font-weight:700;margin-right:8px;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
-.formulaCalc{display:flex;align-items:center;justify-content:center;gap:10px;font-family:Georgia,serif;font-size:24px;font-weight:700;padding:10px 0}
+.fLabel{color:var(--champagne);font-weight:500;margin-right:8px;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.formulaCalc{display:flex;align-items:center;justify-content:center;gap:10px;font-family:Georgia,serif;font-size:24px;font-weight:500;padding:10px 0}
 .fNum{display:inline-block;min-width:48px;text-align:center;padding:4px 10px;background:#1C2438;border-radius:10px}
 .fOp{color:#B8BAC6;font-size:18px}
 .formulaNote{margin-top:14px;font-size:13.5px;line-height:1.6;color:#8E94A8;font-style:italic}
 .formulaNote strong{color:var(--ivory);font-style:normal}
 
 .shareRow{display:flex;flex-direction:column;gap:10px;margin-top:24px}
-.shareRow button{padding:13px 18px;border:1px solid var(--line);background:transparent;color:var(--ivory);border-radius:14px;font-weight:600;font-size:14px}
+.shareRow button{padding:13px 18px;border:1px solid var(--line);background:transparent;color:var(--ivory);border-radius:14px;font-weight:500;font-size:14px}
 .shareRow button:hover{border-color:var(--champagne);color:var(--champagne)}
 .shareRow .restart{background:var(--champagne);color:#080E18;border:0;font-weight:850;box-shadow:0 0 30px rgba(229,183,122,.28)}
 .shareRow .restart:hover{background:var(--warm-gold)}
@@ -144,7 +145,16 @@ button{font:inherit;cursor:pointer}
   .wsHero .wsNum{font-size:120px}
 }
 
-.skip-link{position:fixed;top:-100px;left:12px;background:var(--champagne);color:#1A1109;padding:10px 16px;border-radius:8px;font-weight:600;z-index:200;text-decoration:none;transition:top .2s}.skip-link:focus{top:12px;outline:0}
+.skip-link{position:fixed;top:-100px;left:12px;background:var(--champagne);color:#1A1109;padding:10px 16px;border-radius:8px;font-weight:500;z-index:200;text-decoration:none;transition:top .2s}.skip-link:focus{top:12px;outline:0}
+
+/* F24 Cookie banner */
+.cookieBanner{position:fixed;bottom:14px;left:14px;right:14px;z-index:65;max-width:560px;margin:0 auto;background:rgba(13,20,35,.96);backdrop-filter:blur(14px);border:1px solid rgba(229,183,122,.3);border-radius:14px;padding:14px 18px;display:none;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between;box-shadow:0 16px 40px -16px rgba(0,0,0,.6);font-size:13px;color:#D8D6CF;line-height:1.5}
+.cookieBanner.show{display:flex}
+.cookieBanner p{margin:0;flex:1;min-width:220px}
+.cookieBanner a{color:#E5B77A;text-decoration:underline;text-decoration-color:rgba(229,183,122,.4)}
+.cookieBanner button{background:linear-gradient(180deg,#F0D5A8,#E5B77A 70%);color:#1A1109;border:0;padding:8px 18px;border-radius:999px;font-weight:600;font-size:13px;cursor:pointer;font-family:Inter,sans-serif}
+.cookieBanner button:focus-visible{outline:0;box-shadow:0 0 0 3px rgba(229,183,122,.5)}
+@media (max-width:480px){.cookieBanner{font-size:12.5px;padding:12px 14px}}
 </style>
 </head>
 <body>
@@ -534,6 +544,7 @@ button{font:inherit;cursor:pointer}
   }
 
   function renderResult(){
+    clearPersist();
     setTimeout(function(){var h=document.querySelector(".resultHero h1");if(h)h.focus()},120);
     const {Z, K, S, WS} = computeScores();
     const zone = getZone(WS);
@@ -653,6 +664,24 @@ button{font:inherit;cursor:pointer}
   });
 
   render();
+})();
+</script>
+
+<div class="cookieBanner" id="cookieBanner" role="dialog" aria-label="Informacja o cookies">
+  <p>Używamy tylko <strong>niezbędnych cookies</strong> (zapisanie postępu w teście). Bez trackingu ani reklam. <a href="polityka-prywatnosci.html">Polityka</a>.</p>
+  <button type="button" id="cookieAck">OK, rozumiem</button>
+</div>
+<script>
+(function(){
+  try{
+    if(localStorage.getItem('cookie-ack')==='1')return;
+    var b=document.getElementById('cookieBanner');if(!b)return;
+    setTimeout(function(){b.classList.add('show')},900);
+    document.getElementById('cookieAck').addEventListener('click',function(){
+      try{localStorage.setItem('cookie-ack','1')}catch(e){}
+      b.classList.remove('show');
+    });
+  }catch(e){}
 })();
 </script>
 </body>

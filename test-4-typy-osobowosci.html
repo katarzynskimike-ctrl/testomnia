@@ -20,7 +20,7 @@
 <link rel="canonical" href="https://testomnia.pl/test-4-typy-osobowosci.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <title>Testomnia · 4 typy osobowości | Doskonała Obsługa Pacjenta</title>
 <style>
 :root{color-scheme:dark;--champagne:#E5B77A;--warm-gold:#C99055;--ivory:#F6F1E8;--muted:#B8BAC6;--line:#2B3445;--panel-navy:#0D1423;--deep-navy:#080E18}
@@ -36,10 +36,10 @@ a{color:inherit;text-decoration:none}
 .backLink{margin-left:auto;color:#B8BAC6;font-size:13px;padding:7px 14px;border:1px solid var(--line);border-radius:12px;transition:all .15s ease}
 .backLink:hover{border-color:var(--champagne);color:var(--champagne)}
 .main{flex:1;padding:24px 18px 40px;max-width:560px;margin:0 auto;width:100%}
-.eyebrow{margin:0;color:var(--champagne);font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:600}
+.eyebrow{margin:0;color:var(--champagne);font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:500}
 
 .introCard{padding:36px 28px;border:1px solid var(--line);border-radius:28px;background:rgba(13,20,35,.84);text-align:center;margin-top:28px}
-.introCard h1{margin:18px 0 12px;font-size:34px;line-height:1.05;font-weight:600;font-family:'Cormorant Garamond','Tinos',Georgia,serif;letter-spacing:-.01em}
+.introCard h1{margin:18px 0 12px;font-size:34px;line-height:1.05;font-weight:500;font-family:'Cormorant Garamond','Tinos',Georgia,serif;letter-spacing:-.01em}
 .introCard p{color:var(--muted);line-height:1.6;font-size:15px;margin:8px 0 0}
 .archetypes{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:24px;text-align:left}
 .archetype{padding:12px 14px;border-radius:14px;display:flex;align-items:center;gap:10px;font-size:13px;background:rgba(255,255,255,.02);border:1px solid var(--line)}
@@ -55,14 +55,15 @@ a{color:inherit;text-decoration:none}
 .testTop button:hover:not(:disabled){border-color:var(--champagne);color:var(--champagne)}
 .testTop button:disabled{opacity:0;visibility:hidden;cursor:not-allowed}
 #reset-btn{width:32px;height:32px;padding:0;border-radius:50%;font-size:18px;display:inline-flex;align-items:center;justify-content:center;line-height:1}
-.progressTrack{height:6px;border-radius:999px;background:#121827;overflow:hidden;margin-bottom:22px}
+.progressTrack{height:8px;border-radius:999px;background:#121827;overflow:hidden;margin-bottom:22px}
+.milestone{margin:-8px 0 14px;font-size:11px;color:var(--champagne);text-align:center;opacity:.85;letter-spacing:.08em;text-transform:uppercase;font-weight:600;min-height:14px}
 .progressTrack div{height:100%;background:linear-gradient(90deg,var(--champagne),var(--warm-gold));transition:width .25s ease}
 
-.qLabel{margin:0 0 8px;color:var(--champagne);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600}
+.qLabel{margin:0 0 8px;color:var(--champagne);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:500}
 .qTitle{margin:0 0 18px;font-size:24px;line-height:1.25;font-weight:500;font-family:'Cormorant Garamond','Tinos',Georgia,serif;color:var(--ivory)}
 
 .options{display:flex;flex-direction:column;gap:10px}
-.opt{display:flex;align-items:flex-start;gap:12px;text-align:left;width:100%;padding:14px 16px;border:2px solid var(--line);background:rgba(13,20,35,.84);color:var(--ivory);border-radius:18px;font-size:15px;line-height:1.4;font-weight:600;transition:all .15s ease}
+.opt{display:flex;align-items:flex-start;gap:12px;text-align:left;width:100%;padding:14px 16px;border:2px solid var(--line);background:rgba(13,20,35,.84);color:var(--ivory);border-radius:18px;font-size:15px;line-height:1.4;font-weight:500;transition:all .15s ease}
 .opt:hover{border-color:var(--champagne)}
 .opt:focus-visible{outline:0;box-shadow:0 0 0 3px rgba(229,183,122,.45);border-color:var(--champagne)}
 .opt.picked{border-color:var(--champagne);background:rgba(229,183,122,.16);transform:scale(.99)}
@@ -71,7 +72,7 @@ a{color:inherit;text-decoration:none}
 
 .resultHero{text-align:center;padding:32px 20px;border:1px solid var(--line);border-radius:28px;background:rgba(13,20,35,.84)}
 .resultHero p.tag{display:inline-block;margin:0 0 14px;border:1px solid #2B3445;border-radius:999px;padding:6px 14px;color:#F0E6D5;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
-.resultHero h1{margin:0;font-size:52px;line-height:1.05;font-weight:600;font-family:'Cormorant Garamond','Tinos',Georgia,serif;letter-spacing:-.01em}
+.resultHero h1{margin:0;font-size:52px;line-height:1.05;font-weight:500;font-family:'Cormorant Garamond','Tinos',Georgia,serif;letter-spacing:-.01em}
 .resultHero .sub{display:block;margin-top:10px;color:var(--muted);font-size:14px}
 
 .panel{margin-top:18px;padding:22px;border:1px solid var(--line);border-radius:24px;background:var(--panel-navy)}
@@ -80,7 +81,7 @@ a{color:inherit;text-decoration:none}
 .styleRow{padding:14px 0;border-bottom:1px solid var(--line)}
 .styleRow:last-child{border-bottom:0}
 .styleHeader{display:flex;justify-content:space-between;align-items:baseline;color:#E0DBD0;font-size:15px}
-.styleHeader .nm{display:inline-flex;align-items:center;gap:8px;font-weight:700}
+.styleHeader .nm{display:inline-flex;align-items:center;gap:8px;font-weight:500}
 .styleHeader .nm .dot{width:10px;height:10px;border-radius:3px}
 .styleHeader .nm small{color:#B8BAC6;font-size:11px;font-weight:500;margin-left:6px}
 .styleHeader strong{font-size:17px;font-weight:900;color:var(--ivory)}
@@ -91,18 +92,18 @@ a{color:inherit;text-decoration:none}
 .axisBlock{margin:14px 0 0;padding:14px 0;border-top:1px solid var(--line)}
 .axisBlock:first-child{border-top:0;padding-top:0;margin-top:0}
 .axisLabels{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#8E94A8;margin-bottom:8px}
-.axisLabels span:first-child,.axisLabels span:last-child{font-weight:700;color:#E0DBD0}
+.axisLabels span:first-child,.axisLabels span:last-child{font-weight:500;color:#E0DBD0}
 .axisLabels span.dom{color:var(--champagne)}
-.axisLabels span:nth-child(2){font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#7A8294;font-weight:600}
+.axisLabels span:nth-child(2){font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#7A8294;font-weight:500}
 .axisBar{display:flex;height:18px;border-radius:999px;background:#121827;overflow:hidden}
 .axisSegLeft,.axisSegRight{height:100%;transition:width .25s ease}
 .axisVals{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:13px}
 .axisVals strong{font-weight:800;color:var(--ivory)}
 .axisVals strong small{font-weight:500;color:var(--muted);margin-left:3px;font-size:11px}
-.axisVals .domTag{font-size:11px;letter-spacing:.08em;color:var(--champagne);font-weight:700}
+.axisVals .domTag{font-size:11px;letter-spacing:.08em;color:var(--champagne);font-weight:500}
 
 .shareRow{display:flex;flex-direction:column;gap:10px;margin-top:24px}
-.shareRow button,.shareRow a{padding:13px 18px;border:1px solid var(--line);background:transparent;color:var(--ivory);border-radius:14px;font-weight:600;font-size:14px;text-align:center}
+.shareRow button,.shareRow a{padding:13px 18px;border:1px solid var(--line);background:transparent;color:var(--ivory);border-radius:14px;font-weight:500;font-size:14px;text-align:center}
 .shareRow button:hover,.shareRow a:hover{border-color:var(--champagne);color:var(--champagne)}
 .shareRow .restart{background:var(--champagne);color:#080E18;border:0;font-weight:850;box-shadow:0 0 30px rgba(229,183,122,.28)}
 .shareRow .restart:hover{background:var(--warm-gold)}
@@ -111,7 +112,16 @@ a{color:inherit;text-decoration:none}
 
 @media (min-width:720px){.archetypes{grid-template-columns:repeat(4,1fr)}.qTitle{font-size:24px}.resultHero h1{font-size:60px}}
 
-.skip-link{position:fixed;top:-100px;left:12px;background:var(--champagne);color:#1A1109;padding:10px 16px;border-radius:8px;font-weight:600;z-index:200;text-decoration:none;transition:top .2s}.skip-link:focus{top:12px;outline:0}
+.skip-link{position:fixed;top:-100px;left:12px;background:var(--champagne);color:#1A1109;padding:10px 16px;border-radius:8px;font-weight:500;z-index:200;text-decoration:none;transition:top .2s}.skip-link:focus{top:12px;outline:0}
+
+/* F24 Cookie banner */
+.cookieBanner{position:fixed;bottom:14px;left:14px;right:14px;z-index:65;max-width:560px;margin:0 auto;background:rgba(13,20,35,.96);backdrop-filter:blur(14px);border:1px solid rgba(229,183,122,.3);border-radius:14px;padding:14px 18px;display:none;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between;box-shadow:0 16px 40px -16px rgba(0,0,0,.6);font-size:13px;color:#D8D6CF;line-height:1.5}
+.cookieBanner.show{display:flex}
+.cookieBanner p{margin:0;flex:1;min-width:220px}
+.cookieBanner a{color:#E5B77A;text-decoration:underline;text-decoration-color:rgba(229,183,122,.4)}
+.cookieBanner button{background:linear-gradient(180deg,#F0D5A8,#E5B77A 70%);color:#1A1109;border:0;padding:8px 18px;border-radius:999px;font-weight:600;font-size:13px;cursor:pointer;font-family:Inter,sans-serif}
+.cookieBanner button:focus-visible{outline:0;box-shadow:0 0 0 3px rgba(229,183,122,.5)}
+@media (max-width:480px){.cookieBanner{font-size:12.5px;padding:12px 14px}}
 </style>
 </head>
 <body>
@@ -201,7 +211,14 @@ a{color:inherit;text-decoration:none}
     </section>`;
     document.getElementById("start-btn").onclick = ()=>{
       state.qs = Q.map(q=>({...q,options:shuffle(q.options)}));
-      state.idx=0;state.answers={};go("q");
+      var prev = hasPersist();
+      if(prev && showResumeModal(prev)){
+        state.idx = Math.min(prev.i, state.qs.length-1);
+        state.answers = prev.a;
+      } else {
+        state.idx=0;state.answers={};
+      }
+      go("q");
     };
   }
 
@@ -220,6 +237,7 @@ a{color:inherit;text-decoration:none}
         <button id="reset-btn" title="Zacznij od nowa" aria-label="Zacznij test od nowa">×</button>
       </div>
       <div class="progressTrack"><div style="width:${pct}%"></div></div>
+      <div class="milestone">${pct<25?"Dobry start!":pct<50?"Już 1/4 za Tobą":pct<75?"Połowa zrobiona":pct<95?"Ostatnia prosta":"Ostatnie pytania"}</div>
       <p class="qLabel">Wybierz odpowiedź, która najbardziej Cię opisuje</p>
       <h1 class="qTitle">${q.title}</h1>
       <section class="options">${opts}</section>
@@ -231,6 +249,7 @@ a{color:inherit;text-decoration:none}
         advancing = true;
         document.querySelectorAll(".opt").forEach(x=>x.style.pointerEvents="none");
         state.answers[q.id] = b.dataset.type;
+        savePersist();
         b.classList.add("picked");
         setTimeout(()=>{
           if(state.idx===state.qs.length-1){
@@ -257,12 +276,13 @@ a{color:inherit;text-decoration:none}
     };
     document.getElementById("reset-btn").onclick = ()=>{
       if(confirm("Zacząć od nowa? Stracisz dotychczasowe odpowiedzi.")){
-        state.answers={};state.idx=0;state.qs=null;go("intro");
+        clearPersist();state.answers={};state.idx=0;state.qs=null;go("intro");
       }
     };
   }
 
   function renderResult(){
+    clearPersist();
     setTimeout(function(){var h=document.querySelector(".resultHero h1");if(h)h.focus()},120);
     const counts = {opiekun:0,inspirator:0,strateg:0,ekspert:0};
     Object.values(state.answers).forEach(v=>{if(counts[v]!==undefined) counts[v]++;});
@@ -366,7 +386,7 @@ a{color:inherit;text-decoration:none}
       </div>
     `;
     document.getElementById("restart-btn").onclick = ()=>{
-      state.answers={};state.idx=0;state.qs=null;go("intro");
+      clearPersist();state.answers={};state.idx=0;state.qs=null;go("intro");
     };
   }
 
@@ -382,6 +402,24 @@ a{color:inherit;text-decoration:none}
   });
 
   render();
+})();
+</script>
+
+<div class="cookieBanner" id="cookieBanner" role="dialog" aria-label="Informacja o cookies">
+  <p>Używamy tylko <strong>niezbędnych cookies</strong> (zapisanie postępu w teście). Bez trackingu ani reklam. <a href="polityka-prywatnosci.html">Polityka</a>.</p>
+  <button type="button" id="cookieAck">OK, rozumiem</button>
+</div>
+<script>
+(function(){
+  try{
+    if(localStorage.getItem('cookie-ack')==='1')return;
+    var b=document.getElementById('cookieBanner');if(!b)return;
+    setTimeout(function(){b.classList.add('show')},900);
+    document.getElementById('cookieAck').addEventListener('click',function(){
+      try{localStorage.setItem('cookie-ack','1')}catch(e){}
+      b.classList.remove('show');
+    });
+  }catch(e){}
 })();
 </script>
 </body>
