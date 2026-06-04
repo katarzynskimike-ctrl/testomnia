@@ -404,7 +404,8 @@ a{color:inherit;text-decoration:none}
 
     const frame = `<rect x="${cx-rMax}" y="${cy-rMax}" width="${rMax*2}" height="${rMax*2}" fill="none" stroke="rgba(229,183,122,.32)" stroke-width="1"/>`;
 
-    const tickVals = [3, 18, 33];
+    const minAxisPt = Math.min(emoc, rac, mowca, sluchacz);
+    const tickVals = minAxisPt > 3 ? [18, 33] : [3, 18, 33];
     let ticks = '';
     tickVals.forEach(p => {
       const o = p * ptScale;
