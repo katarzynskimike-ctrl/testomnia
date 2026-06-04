@@ -366,7 +366,7 @@ a{color:inherit;text-decoration:none}
     const emoc = opi + ins, rac = str + eks;
 
     const maxPt = 33;
-    const cx=300, cy=260, rMax=158;
+    const cx=320, cy=260, rMax=158;
     const ptScale = rMax / maxPt;
 
     const mowcaX   = cx + mowca * ptScale;
@@ -387,12 +387,14 @@ a{color:inherit;text-decoration:none}
     const dotY = cy + dom.dy * domFrac * rMax * diag;
     const dotPct = Math.round(dom.pkt / totalQ * 100);
 
-    function verticalText(text, x, yStart, yEnd, fontSize, color, weight){
+    function verticalText(text, x, _yS, _yE, fontSize, color, weight){
+      // Natural spacing 14px, centered on cy
       const chars = Array.from(text);
       const n = chars.length;
-      const spacing = n > 1 ? (yEnd - yStart) / (n - 1) : 0;
+      const SP = 14;
+      const half = ((n - 1) * SP) / 2;
       return chars.map((ch, i) =>
-        `<text x="${x}" y="${yStart + i*spacing}" text-anchor="middle" font-size="${fontSize}" font-weight="${weight}" fill="${color}" font-family="Inter,sans-serif" letter-spacing="1">${ch}</text>`
+        `<text x="${x}" y="${cy - half + i*SP}" text-anchor="middle" font-size="${fontSize}" font-weight="${weight}" fill="${color}" font-family="Inter,sans-serif" letter-spacing="1">${ch}</text>`
       ).join('');
     }
 
@@ -448,11 +450,11 @@ a{color:inherit;text-decoration:none}
 
     // Pozycje X dla kolumn poza ramka (od ramy na zewnatrz)
     const xPktL = cx - rMax - 8;     // "16 pkt" tuz przy ramie (anchor end)
-    const xSluL = cx - rMax - 30;    // SLUCHACZ pionowo
-    const xIntL = cx - rMax - 50;    // INTROWERTYK pionowo (najdalej)
+    const xSluL = cx - rMax - 50;    // SLUCHACZ pionowo
+    const xIntL = cx - rMax - 70;    // INTROWERTYK pionowo (najdalej)
     const xPktR = cx + rMax + 8;     // "17 pkt" przy ramie (anchor start)
-    const xMowR = cx + rMax + 30;    // MOWCA pionowo
-    const xEkstR = cx + rMax + 50;   // EKSTRAWERTYK pionowo (najdalej)
+    const xMowR = cx + rMax + 50;    // MOWCA pionowo
+    const xEkstR = cx + rMax + 70;   // EKSTRAWERTYK pionowo (najdalej)
 
     const axLabels =
       // Gora
@@ -476,7 +478,7 @@ a{color:inherit;text-decoration:none}
       <circle cx="${dotX}" cy="${dotY}" r="4.5" fill="#E5B77A" stroke="#0D1423" stroke-width="1.8"/>
       <text x="${dotX + (dom.dx*10)}" y="${dotY + (dom.dy*10) + 4}" text-anchor="${dom.dx>0?'start':'end'}" font-size="10" font-weight="700" fill="#E5B77A" font-family="Inter,sans-serif">${dotPct}%</text>`;
 
-    return `<svg viewBox="0 0 620 520" role="img" aria-label="Kompas 4 typów osobowości" style="width:100%;max-width:620px;height:auto;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg">
+    return `<svg viewBox="0 0 680 520" role="img" aria-label="Kompas 4 typów osobowości" style="width:100%;max-width:680px;height:auto;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg">
       ${quad}
       ${frame}
       ${ticks}
