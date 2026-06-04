@@ -27,7 +27,7 @@ function buildSvg(counts) {
   const mowca = str + ins, sluchacz = opi + eks;
   const emoc = opi + ins, rac = str + eks;
   const maxPt = 33;
-  const cx = 320, cy = 260, rMax = 158;
+  const cx = 390, cy = 320, rMax = 200;
   const ptScale = rMax / maxPt;
   const mowcaX = cx + mowca * ptScale;
   const sluchaczX = cx - sluchacz * ptScale;
@@ -65,22 +65,22 @@ function buildSvg(counts) {
     const o = p * ptScale;
     const atEdge = (p === maxPt);
     ticks += `<line x1="${cx+o}" y1="${cy-3}" x2="${cx+o}" y2="${cy+3}" stroke="#E5B77A" stroke-width="1"/>`;
-    ticks += `<text x="${cx+o - (atEdge?5:0)}" y="${cy+13}" text-anchor="${atEdge?'end':'middle'}" font-size="10" fill="#9CA0B1">${p}</text>`;
+    ticks += `<text x="${cx+o - (atEdge?5:0)}" y="${cy+13}" text-anchor="${atEdge?'end':'middle'}" font-size="12" fill="#9CA0B1">${p}</text>`;
     ticks += `<line x1="${cx-o}" y1="${cy-3}" x2="${cx-o}" y2="${cy+3}" stroke="#E5B77A" stroke-width="1"/>`;
-    ticks += `<text x="${cx-o + (atEdge?5:0)}" y="${cy+13}" text-anchor="${atEdge?'start':'middle'}" font-size="10" fill="#9CA0B1">${p}</text>`;
+    ticks += `<text x="${cx-o + (atEdge?5:0)}" y="${cy+13}" text-anchor="${atEdge?'start':'middle'}" font-size="12" fill="#9CA0B1">${p}</text>`;
     ticks += `<line x1="${cx-3}" y1="${cy-o}" x2="${cx+3}" y2="${cy-o}" stroke="#E5B77A" stroke-width="1"/>`;
-    ticks += `<text x="${cx-7}" y="${cy-o + (atEdge?10:3)}" text-anchor="end" font-size="10" fill="#9CA0B1">${p}</text>`;
+    ticks += `<text x="${cx-7}" y="${cy-o + (atEdge?10:3)}" text-anchor="end" font-size="12" fill="#9CA0B1">${p}</text>`;
     ticks += `<line x1="${cx-3}" y1="${cy+o}" x2="${cx+3}" y2="${cy+o}" stroke="#E5B77A" stroke-width="1"/>`;
-    ticks += `<text x="${cx-7}" y="${cy+o - (atEdge?5:-3)}" text-anchor="end" font-size="10" fill="#9CA0B1">${p}</text>`;
+    ticks += `<text x="${cx-7}" y="${cy+o - (atEdge?5:-3)}" text-anchor="end" font-size="12" fill="#9CA0B1">${p}</text>`;
   });
-  ticks += `<text x="${cx-6}" y="${cy+13}" text-anchor="end" font-size="10" fill="#9CA0B1">0</text>`;
+  ticks += `<text x="${cx-6}" y="${cy+13}" text-anchor="end" font-size="12" fill="#9CA0B1">0</text>`;
 
   const arrSz = 6;
   const xPktL = cx - rMax - 10, xSluL = cx - rMax - 50, xIntL = cx - rMax - 70;
   const xPktR = cx + rMax + 10, xMowR = cx + rMax + 50, xEkstR = cx + rMax + 70;
 
-  return `<svg viewBox="0 0 680 520" xmlns="http://www.w3.org/2000/svg" width="680" height="520">
-<rect width="680" height="520" fill="#0D1423"/>
+  return `<svg viewBox="0 0 820 640" xmlns="http://www.w3.org/2000/svg" width="820" height="640">
+<rect width="820" height="640" fill="#0D1423"/>
 <rect x="${cx-rMax}" y="${cy-rMax}" width="${rMax}" height="${rMax}" fill="${META.opiekun.color}" opacity=".04"/>
 <rect x="${cx}" y="${cy-rMax}" width="${rMax}" height="${rMax}" fill="${META.inspirator.color}" opacity=".04"/>
 <rect x="${cx-rMax}" y="${cy}" width="${rMax}" height="${rMax}" fill="${META.ekspert.color}" opacity=".04"/>
@@ -98,23 +98,23 @@ ${ticks}
 <circle cx="${mowcaX}" cy="${cy}" r="5" fill="${META.strateg.color}" stroke="#0D1423" stroke-width="1.5"/>
 <circle cx="${cx}" cy="${racY}" r="5" fill="${META.ekspert.color}" stroke="#0D1423" stroke-width="1.5"/>
 <circle cx="${sluchaczX}" cy="${cy}" r="5" fill="${META.inspirator.color}" stroke="#0D1423" stroke-width="1.5"/>
-<text x="${cx-rMax+10}" y="${cy-rMax+18}" font-size="13" font-weight="700" fill="${META.opiekun.color}">Przyjaciel</text>
-<text x="${cx+rMax-10}" y="${cy-rMax+18}" font-size="13" font-weight="700" fill="${META.inspirator.color}" text-anchor="end">Entuzjasta</text>
-<text x="${cx-rMax+10}" y="${cy+rMax-7}" font-size="13" font-weight="700" fill="${META.ekspert.color}">Analityk</text>
-<text x="${cx+rMax-10}" y="${cy+rMax-7}" font-size="13" font-weight="700" fill="${META.strateg.color}" text-anchor="end">Wódz</text>
-<text x="${cx}" y="${cy-rMax-22}" text-anchor="middle" font-size="11" font-weight="700" fill="#F6F1E8" letter-spacing="2">EMOCJONALNY</text>
-<text x="${cx}" y="${cy-rMax-8}" text-anchor="middle" font-size="10" font-weight="600" fill="#E5B77A" letter-spacing="1.5">EMOCJE &#183; <tspan fill="${META.opiekun.color}" font-weight="700">${emoc} pkt</tspan></text>
-<text x="${cx}" y="${cy+rMax+30}" text-anchor="middle" font-size="11" font-weight="700" fill="#F6F1E8" letter-spacing="2">RACJONALNY</text>
-<text x="${cx}" y="${cy+rMax+18}" text-anchor="middle" font-size="10" font-weight="600" fill="#E5B77A" letter-spacing="1.5">FAKTY &#183; <tspan fill="${META.ekspert.color}" font-weight="700">${rac} pkt</tspan></text>
-<text x="${xPktL}" y="${cy+4}" text-anchor="end" font-size="11" font-weight="700" fill="${META.inspirator.color}">${sluchacz} pkt</text>
+<text x="${cx-rMax+10}" y="${cy-rMax+18}" font-size="15" font-weight="700" fill="${META.opiekun.color}">Przyjaciel</text>
+<text x="${cx+rMax-10}" y="${cy-rMax+18}" font-size="15" font-weight="700" fill="${META.inspirator.color}" text-anchor="end">Entuzjasta</text>
+<text x="${cx-rMax+10}" y="${cy+rMax-7}" font-size="15" font-weight="700" fill="${META.ekspert.color}">Analityk</text>
+<text x="${cx+rMax-10}" y="${cy+rMax-7}" font-size="15" font-weight="700" fill="${META.strateg.color}" text-anchor="end">Wódz</text>
+<text x="${cx}" y="${cy-rMax-22}" text-anchor="middle" font-size="13" font-weight="700" fill="#F6F1E8" letter-spacing="2">EMOCJONALNY</text>
+<text x="${cx}" y="${cy-rMax-8}" text-anchor="middle" font-size="12" font-weight="600" fill="#E5B77A" letter-spacing="1.5">EMOCJE &#183; <tspan fill="${META.opiekun.color}" font-weight="700">${emoc} pkt</tspan></text>
+<text x="${cx}" y="${cy+rMax+30}" text-anchor="middle" font-size="13" font-weight="700" fill="#F6F1E8" letter-spacing="2">RACJONALNY</text>
+<text x="${cx}" y="${cy+rMax+18}" text-anchor="middle" font-size="12" font-weight="600" fill="#E5B77A" letter-spacing="1.5">FAKTY &#183; <tspan fill="${META.ekspert.color}" font-weight="700">${rac} pkt</tspan></text>
+<text x="${xPktL}" y="${cy+4}" text-anchor="end" font-size="13" font-weight="700" fill="${META.inspirator.color}">${sluchacz} pkt</text>
 ${vt('SŁUCHACZ', xSluL, 10, '#E5B77A', '600')}
 ${vt('INTROWERTYK', xIntL, 10, '#F6F1E8', '700')}
-<text x="${xPktR}" y="${cy+4}" text-anchor="start" font-size="11" font-weight="700" fill="${META.strateg.color}">${mowca} pkt</text>
+<text x="${xPktR}" y="${cy+4}" text-anchor="start" font-size="13" font-weight="700" fill="${META.strateg.color}">${mowca} pkt</text>
 ${vt('MÓWCA', xMowR, 10, '#E5B77A', '600')}
 ${vt('EKSTRAWERTYK', xEkstR, 10, '#F6F1E8', '700')}
 <line x1="${cx}" y1="${cy}" x2="${dotX}" y2="${dotY}" stroke="${dom.color}" stroke-width="1" stroke-dasharray="3 3" opacity=".55"/>
 <circle cx="${dotX}" cy="${dotY}" r="4.5" fill="#E5B77A" stroke="#0D1423" stroke-width="1.8"/>
-<text x="${dotX + (dom.dx*10)}" y="${dotY + (dom.dy*10) + 4}" text-anchor="${dom.dx>0?'start':'end'}" font-size="10" font-weight="700" fill="#E5B77A">${dotPct}%</text>
+<text x="${dotX + (dom.dx*10)}" y="${dotY + (dom.dy*10) + 4}" text-anchor="${dom.dx>0?'start':'end'}" font-size="12" font-weight="700" fill="#E5B77A">${dotPct}%</text>
 </svg>`;
 }
 
@@ -145,7 +145,7 @@ export default async function handler(req, res) {
       join(FONTS_DIR, 'DejaVuSans-Bold.ttf')
     ];
     const resvg = new Resvg(svg, {
-      fitTo: { mode: 'width', value: 680 },
+      fitTo: { mode: 'width', value: 820 },
       font: {
         fontFiles,
         loadSystemFonts: false,

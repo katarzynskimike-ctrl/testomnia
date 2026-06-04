@@ -133,6 +133,16 @@ a{color:inherit;text-decoration:none}
 .intro-preview h4{margin:0 0 8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--champagne);font-weight:600;font-family:Inter,sans-serif}
 .intro-preview ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
 .intro-preview li{font-size:13px;color:var(--ivory);padding-left:18px;position:relative;line-height:1.5;opacity:.92}
+.compassWrap{cursor:pointer;position:relative;transition:transform .2s;border-radius:14px}
+.compassWrap:hover{transform:scale(1.01)}
+.compassWrap:focus-visible{outline:2px solid #E5B77A;outline-offset:4px}
+.compassZoomHint{display:block;text-align:center;margin-top:8px;font-size:11px;color:#7A8294;letter-spacing:.06em;font-family:Inter,sans-serif}
+.compassModal{position:fixed;inset:0;background:rgba(8,14,24,.92);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.compassModal.open{display:flex}
+.compassModalInner{max-width:1100px;width:100%;max-height:95vh;overflow:auto;position:relative}
+.compassModalInner svg{width:100%;height:auto;max-height:90vh}
+.compassModalClose{position:absolute;top:-12px;right:-12px;width:40px;height:40px;border-radius:50%;background:#E5B77A;color:#0D1423;border:0;cursor:pointer;font-size:22px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.5);transition:transform .15s}
+.compassModalClose:hover{transform:scale(1.1)}
 .intro-preview li::before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;background:var(--champagne);border-radius:50%;opacity:.7}
 
 
@@ -588,7 +598,10 @@ a{color:inherit;text-decoration:none}
       </section>
       <section class="panel">
         <p class="eyebrow">Twój kompas 4 typów</p>
-        ${compassSvg(counts)}
+        <div class="compassWrap" onclick="openCompassModal()" title="Kliknij, żeby powiększyć" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){openCompassModal();event.preventDefault();}">
+          ${compassSvg(counts)}
+          <span class="compassZoomHint">↗ kliknij, żeby powiększyć</span>
+        </div>
       </section>
       <section class="panel">
         <p class="eyebrow">Podsumowanie 4 stylów</p>
@@ -639,6 +652,28 @@ a{color:inherit;text-decoration:none}
 })();
 </script>
 
+<div class="compassModal" id="compassModal" onclick="if(event.target===this)closeCompassModal()" role="dialog" aria-label="Powiększony kompas">
+  <div class="compassModalInner">
+    <button type="button" class="compassModalClose" onclick="closeCompassModal()" aria-label="Zamknij">×</button>
+    <div id="compassModalContent"></div>
+  </div>
+</div>
+<script>
+function openCompassModal(){
+  var inner=document.querySelector('.compassWrap svg');
+  if(!inner)return;
+  var clone=inner.cloneNode(true);
+  document.getElementById('compassModalContent').innerHTML='';
+  document.getElementById('compassModalContent').appendChild(clone);
+  document.getElementById('compassModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCompassModal(){
+  document.getElementById('compassModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeCompassModal();});
+</script>
 <div class="cookieBanner" id="cookieBanner" role="dialog" aria-label="Informacja o cookies">
   <p>Używamy tylko <strong>niezbędnych cookies</strong> (zapisanie postępu w teście). Bez trackingu ani reklam. <a href="polityka-prywatnosci.html">Polityka</a>.</p>
   <button type="button" id="cookieAck">OK, rozumiem</button>

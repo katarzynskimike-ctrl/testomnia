@@ -43,9 +43,16 @@ async function compassChartMail(counts, total) {
   const s = counts.strateg || 0;
   const e = counts.ekspert || 0;
   // Uzyj wlasnego endpointu /api/compass (resvg renderuje pelny SVG kompasu na PNG)
-  const url = `https://www.testomnia.pl/api/compass.png?o=${o}&i=${i}&s=${s}&e=${e}&v=${Date.now()}`;
+  const stamp = Date.now();
+  const url = `https://www.testomnia.pl/api/compass.png?o=${o}&i=${i}&s=${s}&e=${e}&v=${stamp}`;
   const alt = `Kompas: Przyjaciel ${o}, Entuzjasta ${i}, Wodz ${s}, Analityk ${e}`;
-  return `<div style="text-align:center;margin:8px 0 4px"><img src="${url}" width="680" height="520" alt="${alt}" style="display:block;width:100%;max-width:680px;height:auto;margin:0 auto;border-radius:12px"/></div>`;
+  // Wrap w link - klik otwiera PNG na pelnym rozmiarze w przegladarce
+  return `<div style="text-align:center;margin:8px 0 4px">
+    <a href="${url}" style="display:inline-block;text-decoration:none">
+      <img src="${url}" width="820" height="640" alt="${alt}" style="display:block;width:100%;max-width:820px;height:auto;margin:0 auto;border-radius:12px"/>
+    </a>
+    <p style="margin:6px 0 0;font-size:11px;color:#7A8294;letter-spacing:.06em">↗ kliknij wykres, żeby powiększyć</p>
+  </div>`;
 }
 
 async function discReport(r) {
