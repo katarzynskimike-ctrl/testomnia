@@ -27,7 +27,7 @@ function buildSvg(counts) {
   const mowca = str + ins, sluchacz = opi + eks;
   const emoc = opi + ins, rac = str + eks;
   const maxPt = 33;
-  const cx = 430, cy = 340, rMax = 220;
+  const cx = 430, cy = 380, rMax = 220;
   const ptScale = rMax / maxPt;
   const mowcaX = cx + mowca * ptScale;
   const sluchaczX = cx - sluchacz * ptScale;
@@ -79,8 +79,8 @@ function buildSvg(counts) {
   const xPktL = cx - rMax - 14, xSluL = cx - rMax - 90, xIntL = cx - rMax - 120;
   const xPktR = cx + rMax + 14, xMowR = cx + rMax + 90, xEkstR = cx + rMax + 120;
 
-  return `<svg viewBox="0 0 900 680" xmlns="http://www.w3.org/2000/svg" width="900" height="680">
-<rect width="900" height="680" fill="#0D1423"/>
+  return `<svg viewBox="0 0 900 760" xmlns="http://www.w3.org/2000/svg" width="900" height="760">
+<rect width="900" height="760" fill="#0D1423"/>
 <rect x="${cx-rMax}" y="${cy-rMax}" width="${rMax}" height="${rMax}" fill="${META.opiekun.color}" opacity=".04"/>
 <rect x="${cx}" y="${cy-rMax}" width="${rMax}" height="${rMax}" fill="${META.inspirator.color}" opacity=".04"/>
 <rect x="${cx-rMax}" y="${cy}" width="${rMax}" height="${rMax}" fill="${META.ekspert.color}" opacity=".04"/>
@@ -102,10 +102,12 @@ ${ticks}
 <text x="${cx+rMax-10}" y="${cy-rMax+18}" font-size="15" font-weight="700" fill="${META.inspirator.color}" text-anchor="end">Entuzjasta</text>
 <text x="${cx-rMax+10}" y="${cy+rMax-7}" font-size="15" font-weight="700" fill="${META.ekspert.color}">Analityk</text>
 <text x="${cx+rMax-10}" y="${cy+rMax-7}" font-size="15" font-weight="700" fill="${META.strateg.color}" text-anchor="end">Wódz</text>
-<text x="${cx}" y="${cy-rMax-22}" text-anchor="middle" font-size="13" font-weight="700" fill="#F6F1E8" letter-spacing="2">EMOCJONALNY</text>
-<text x="${cx}" y="${cy-rMax-8}" text-anchor="middle" font-size="12" font-weight="600" fill="#E5B77A" letter-spacing="1.5">EMOCJE &#183; <tspan fill="${META.opiekun.color}" font-weight="700">${emoc} pkt</tspan></text>
-<text x="${cx}" y="${cy+rMax+30}" text-anchor="middle" font-size="13" font-weight="700" fill="#F6F1E8" letter-spacing="2">RACJONALNY</text>
-<text x="${cx}" y="${cy+rMax+18}" text-anchor="middle" font-size="12" font-weight="600" fill="#E5B77A" letter-spacing="1.5">FAKTY &#183; <tspan fill="${META.ekspert.color}" font-weight="700">${rac} pkt</tspan></text>
+<text x="${cx}" y="${cy-rMax-16}" text-anchor="middle" font-size="13" font-weight="700" fill="${META.opiekun.color}">${emoc} pkt</text>
+<text x="${cx}" y="${cy-rMax-42}" text-anchor="middle" font-size="12" font-weight="600" fill="#E5B77A" letter-spacing="1.5">EMOCJE</text>
+<text x="${cx}" y="${cy-rMax-68}" text-anchor="middle" font-size="13" font-weight="700" fill="#F6F1E8" letter-spacing="2">EMOCJONALNY</text>
+<text x="${cx}" y="${cy+rMax+26}" text-anchor="middle" font-size="13" font-weight="700" fill="${META.ekspert.color}">${rac} pkt</text>
+<text x="${cx}" y="${cy+rMax+50}" text-anchor="middle" font-size="12" font-weight="600" fill="#E5B77A" letter-spacing="1.5">FAKTY</text>
+<text x="${cx}" y="${cy+rMax+76}" text-anchor="middle" font-size="13" font-weight="700" fill="#F6F1E8" letter-spacing="2">RACJONALNY</text>
 <text x="${xPktL}" y="${cy+4}" text-anchor="end" font-size="13" font-weight="700" fill="${META.inspirator.color}">${sluchacz} pkt</text>
 ${vt('SŁUCHACZ', xSluL, 10, '#E5B77A', '600')}
 ${vt('INTROWERTYK', xIntL, 10, '#F6F1E8', '700')}
