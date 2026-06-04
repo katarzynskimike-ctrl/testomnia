@@ -135,6 +135,29 @@ a{color:inherit;text-decoration:none}
 .intro-preview li{font-size:13px;color:var(--ivory);padding-left:18px;position:relative;line-height:1.5;opacity:.92}
 .intro-preview li::before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;background:var(--champagne);border-radius:50%;opacity:.7}
 
+
+.sendReportRow{margin-top:18px;text-align:center}
+.sendReportBtn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:999px;background:linear-gradient(180deg,#F0D5A8,#E5B77A 70%);color:#1A1109;border:0;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 10px 28px -10px rgba(229,183,122,.5),inset 0 1px 0 rgba(255,255,255,.4);font-family:Inter,sans-serif;transition:transform .15s}
+.sendReportBtn:hover{transform:translateY(-1px)}
+.sendReportBtn:focus-visible{outline:0;box-shadow:0 0 0 3px rgba(229,183,122,.5),0 10px 28px -10px rgba(229,183,122,.5)}
+.reportModal{display:none;position:fixed;inset:0;z-index:200;background:rgba(8,14,24,.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px}
+.reportModal.open{display:flex}
+.reportModal__inner{background:#0D1423;border:1px solid rgba(229,183,122,.3);border-radius:20px;padding:32px 28px;max-width:440px;width:100%;box-shadow:0 30px 70px -30px rgba(0,0,0,.7);text-align:left;position:relative}
+.reportModal__close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:0;color:#9CA0B1;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+.reportModal__close:hover{background:rgba(255,255,255,.1);color:var(--ivory)}
+.reportModal h3{margin:0 0 8px;font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;color:var(--ivory);font-weight:500}
+.reportModal p{margin:0 0 18px;color:#B8BAC6;font-size:14px;line-height:1.55}
+.reportModal label{display:block;margin-bottom:6px;font-size:12px;color:#9CA0B1;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+.reportModal input[type=email]{width:100%;padding:13px 16px;border:1px solid rgba(255,255,255,.12);background:#080E18;color:var(--ivory);border-radius:12px;font-size:15px;font-family:Inter,sans-serif;transition:border-color .15s}
+.reportModal input[type=email]:focus{outline:0;border-color:var(--champagne);box-shadow:0 0 0 3px rgba(229,183,122,.18)}
+.reportModal__consent{margin:14px 0 18px;font-size:12px;color:#9CA0B1;line-height:1.5}
+.reportModal__consent a{color:var(--champagne);text-decoration:underline}
+.reportModal__submit{width:100%;padding:14px;border-radius:999px;background:linear-gradient(180deg,#F0D5A8,#E5B77A 70%);color:#1A1109;border:0;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 8px 22px -10px rgba(229,183,122,.5);font-family:Inter,sans-serif;transition:transform .15s}
+.reportModal__submit:hover:not(:disabled){transform:translateY(-1px)}
+.reportModal__submit:disabled{opacity:.6;cursor:not-allowed}
+.reportModal__status{margin-top:14px;padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.5;display:none}
+.reportModal__status.ok{display:block;background:rgba(111,207,151,.12);color:#6FCF97;border:1px solid rgba(111,207,151,.3)}
+.reportModal__status.err{display:block;background:rgba(226,106,106,.12);color:#E26A6A;border:1px solid rgba(226,106,106,.3)}
 </style>
 
 <!-- Vercel Web Analytics + Speed Insights -->
@@ -336,6 +359,13 @@ a{color:inherit;text-decoration:none}
 
   function renderResult(){
     clearPersist();
+    // Zachowaj wynik dla modal wysyłki raportu
+    try{
+      var __counts={opiekun:0,inspirator:0,strateg:0,ekspert:0};
+      Object.values(state.answers).forEach(function(v){if(__counts[v]!==undefined)__counts[v]++});
+      var __dom=Object.keys(__counts).sort(function(a,b){return __counts[b]-__counts[a]})[0];
+      window._lastResult={dominant:__dom,counts:__counts,total:state.qs?state.qs.length:33};
+    }catch(e){}
     setTimeout(function(){var h=document.querySelector(".resultHero h1");if(h)h.focus()},120);
     const counts = {opiekun:0,inspirator:0,strateg:0,ekspert:0};
     Object.values(state.answers).forEach(v=>{if(counts[v]!==undefined) counts[v]++;});
@@ -490,5 +520,79 @@ a{color:inherit;text-decoration:none}
   });
 })();
 </script>
+
+<div class="reportModal" id="reportModal" role="dialog" aria-modal="true" aria-labelledby="reportModalTitle">
+  <div class="reportModal__inner">
+    <button class="reportModal__close" id="reportModalClose" aria-label="Zamknij">×</button>
+    <h3 id="reportModalTitle">Wyślij raport na mejla</h3>
+    <p>Dostaniesz pełny raport z wynikiem testu w skrzynce w ciągu 1 minuty. <strong>Bez płatności, bez zobowiązań.</strong></p>
+    <form id="reportForm" novalidate>
+      <label for="reportEmail">Twój e-mail</label>
+      <input type="email" id="reportEmail" name="email" required placeholder="ty@gabinet.pl" autocomplete="email">
+      <p class="reportModal__consent">Klikając „Wyślij" akceptujesz <a href="regulamin.html">regulamin</a> i <a href="polityka-prywatnosci.html">politykę prywatności</a>. Twój e-mail używamy tylko do wysłania tego raportu.</p>
+      <button type="submit" class="reportModal__submit" id="reportSubmit">Wyślij raport →</button>
+      <div class="reportModal__status" id="reportStatus"></div>
+    </form>
+  </div>
+</div>
+<script>
+(function(){
+  var modal=document.getElementById('reportModal');
+  var closeBtn=document.getElementById('reportModalClose');
+  var form=document.getElementById('reportForm');
+  var emailInput=document.getElementById('reportEmail');
+  var submitBtn=document.getElementById('reportSubmit');
+  var status=document.getElementById('reportStatus');
+  if(!modal)return;
+  
+  window.openReportModal=function(){
+    modal.classList.add('open');
+    setTimeout(function(){emailInput.focus()},100);
+    status.className='reportModal__status';status.textContent='';
+  };
+  function close(){modal.classList.remove('open')}
+  closeBtn.addEventListener('click',close);
+  modal.addEventListener('click',function(e){if(e.target===modal)close();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))close();});
+  
+  form.addEventListener('submit',async function(e){
+    e.preventDefault();
+    var email=emailInput.value.trim();
+    if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+      status.className='reportModal__status err';status.textContent='Podaj poprawny adres e-mail.';return;
+    }
+    if(typeof window._lastResult==='undefined'||!window._lastResult){
+      status.className='reportModal__status err';status.textContent='Brak danych wyniku. Odśwież stronę i spróbuj ponownie.';return;
+    }
+    submitBtn.disabled=true;
+    submitBtn.textContent='Wysyłam...';
+    status.className='reportModal__status';status.textContent='';
+    try{
+      var r=await fetch('/api/send-report',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({email:email,slug:'4-typy-osobowosci',result:window._lastResult})
+      });
+      var data=await r.json();
+      if(r.ok&&data.success){
+        status.className='reportModal__status ok';
+        status.textContent='Wysłane! Sprawdź skrzynkę '+email+' za ok. 30 sekund. Jeśli nie widzisz maila, sprawdź folder Spam.';
+        submitBtn.textContent='Wysłano ✓';
+      }else{
+        status.className='reportModal__status err';
+        status.textContent='Coś poszło nie tak: '+(data.error||'błąd serwera')+'. Spróbuj ponownie za chwilę.';
+        submitBtn.disabled=false;
+        submitBtn.textContent='Wyślij raport →';
+      }
+    }catch(err){
+      status.className='reportModal__status err';
+      status.textContent='Błąd połączenia: '+err.message+'. Spróbuj ponownie.';
+      submitBtn.disabled=false;
+      submitBtn.textContent='Wyślij raport →';
+    }
+  });
+})();
+</script>
+
 </body>
 </html>

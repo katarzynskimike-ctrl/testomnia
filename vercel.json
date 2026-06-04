@@ -3,5 +3,10 @@
   "outputDirectory": ".",
   "framework": null,
   "trailingSlash": false,
-  "cleanUrls": false
+  "cleanUrls": false,
+  "functions": {
+    "api/send-report.js": {
+      "maxDuration": 10
+    }
+  }
 }
