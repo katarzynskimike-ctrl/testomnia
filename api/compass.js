@@ -27,7 +27,7 @@ function buildSvg(counts) {
   const mowca = str + ins, sluchacz = opi + eks;
   const emoc = opi + ins, rac = str + eks;
   const maxPt = 33;
-  const cx = 390, cy = 320, rMax = 200;
+  const cx = 430, cy = 340, rMax = 220;
   const ptScale = rMax / maxPt;
   const mowcaX = cx + mowca * ptScale;
   const sluchaczX = cx - sluchacz * ptScale;
@@ -48,7 +48,7 @@ function buildSvg(counts) {
   const dotPct = Math.round(dom.pkt / totalQ * 100);
 
   function vt(text, x, fs, color, w) {
-    const SP = 16;
+    const SP = 18;
     const chars = Array.from(text);
     const n = chars.length;
     const half = ((n - 1) * SP) / 2;
@@ -76,11 +76,11 @@ function buildSvg(counts) {
   ticks += `<text x="${cx-6}" y="${cy+13}" text-anchor="end" font-size="12" fill="#9CA0B1">0</text>`;
 
   const arrSz = 6;
-  const xPktL = cx - rMax - 12, xSluL = cx - rMax - 75, xIntL = cx - rMax - 100;
-  const xPktR = cx + rMax + 12, xMowR = cx + rMax + 75, xEkstR = cx + rMax + 100;
+  const xPktL = cx - rMax - 14, xSluL = cx - rMax - 90, xIntL = cx - rMax - 120;
+  const xPktR = cx + rMax + 14, xMowR = cx + rMax + 90, xEkstR = cx + rMax + 120;
 
-  return `<svg viewBox="0 0 820 640" xmlns="http://www.w3.org/2000/svg" width="820" height="640">
-<rect width="820" height="640" fill="#0D1423"/>
+  return `<svg viewBox="0 0 900 680" xmlns="http://www.w3.org/2000/svg" width="900" height="680">
+<rect width="900" height="680" fill="#0D1423"/>
 <rect x="${cx-rMax}" y="${cy-rMax}" width="${rMax}" height="${rMax}" fill="${META.opiekun.color}" opacity=".04"/>
 <rect x="${cx}" y="${cy-rMax}" width="${rMax}" height="${rMax}" fill="${META.inspirator.color}" opacity=".04"/>
 <rect x="${cx-rMax}" y="${cy}" width="${rMax}" height="${rMax}" fill="${META.ekspert.color}" opacity=".04"/>
@@ -145,7 +145,7 @@ export default async function handler(req, res) {
       join(FONTS_DIR, 'DejaVuSans-Bold.ttf')
     ];
     const resvg = new Resvg(svg, {
-      fitTo: { mode: 'width', value: 820 },
+      fitTo: { mode: 'width', value: 1800 },
       font: {
         fontFiles,
         loadSystemFonts: false,

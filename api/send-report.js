@@ -49,7 +49,7 @@ async function compassChartMail(counts, total) {
   // Wrap w link - klik otwiera PNG na pelnym rozmiarze w przegladarce
   return `<div style="text-align:center;margin:8px 0 4px">
     <a href="${url}" style="display:inline-block;text-decoration:none">
-      <img src="${url}" width="820" height="640" alt="${alt}" style="display:block;width:100%;max-width:820px;height:auto;margin:0 auto;border-radius:12px"/>
+      <img src="${url}" width="900" height="680" alt="${alt}" style="display:block;width:100%;max-width:900px;height:auto;margin:0 auto;border-radius:12px"/>
     </a>
     <p style="margin:6px 0 0;font-size:11px;color:#7A8294;letter-spacing:.06em">↗ kliknij wykres, żeby powiększyć</p>
   </div>`;
