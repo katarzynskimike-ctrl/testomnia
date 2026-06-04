@@ -6,10 +6,10 @@ import { dirname, join } from 'node:path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 // Fonty zlokalizowane w public/fonts; sciezka wzgledem api/compass.js
-const FONTS_DIR = join(__dirname, '..', 'public', 'fonts');
+const FONTS_DIR = join(__dirname, '_fonts');
 let FONT_REG = null, FONT_BOLD = null;
-try { FONT_REG = readFileSync(join(FONTS_DIR, 'DejaVuSans.ttf')); } catch {}
-try { FONT_BOLD = readFileSync(join(FONTS_DIR, 'DejaVuSans-Bold.ttf')); } catch {}
+try { FONT_REG = readFileSync(join(FONTS_DIR, 'DejaVuSans.ttf')); console.log('FONT_REG loaded:', FONT_REG.length, 'bytes from', FONTS_DIR); } catch(e) { console.log('FONT_REG failed:', e.message, 'dir:', FONTS_DIR); }
+try { FONT_BOLD = readFileSync(join(FONTS_DIR, 'DejaVuSans-Bold.ttf')); console.log('FONT_BOLD loaded:', FONT_BOLD.length, 'bytes'); } catch(e) { console.log('FONT_BOLD failed:', e.message); }
 
 const META = {
   opiekun:    {name:'Przyjaciel', color:'#22c55e'},
