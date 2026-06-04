@@ -1,4 +1,15 @@
 import { Resvg } from '@resvg/resvg-js';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+// Fonty zlokalizowane w public/fonts; sciezka wzgledem api/compass.js
+const FONTS_DIR = join(__dirname, '..', 'public', 'fonts');
+let FONT_REG = null, FONT_BOLD = null;
+try { FONT_REG = readFileSync(join(FONTS_DIR, 'DejaVuSans.ttf')); } catch {}
+try { FONT_BOLD = readFileSync(join(FONTS_DIR, 'DejaVuSans-Bold.ttf')); } catch {}
 
 const META = {
   opiekun:    {name:'Przyjaciel', color:'#22c55e'},
@@ -42,7 +53,7 @@ function buildSvg(counts) {
     const n = chars.length;
     const half = ((n - 1) * SP) / 2;
     return chars.map((ch, i) =>
-      `<text x="${x}" y="${cy - half + i*SP}" text-anchor="middle" font-size="${fs}" font-weight="${w}" fill="${color}" font-family="Helvetica,Arial,sans-serif" letter-spacing="1">${ch}</text>`
+      `<text x="${x}" y="${cy - half + i*SP}" text-anchor="middle" font-size="${fs}" font-weight="${w}" fill="${color}" font-family="DejaVu Sans" letter-spacing="1">${ch}</text>`
     ).join('');
   }
 
@@ -54,15 +65,15 @@ function buildSvg(counts) {
     const o = p * ptScale;
     const atEdge = (p === maxPt);
     ticks += `<line x1="${cx+o}" y1="${cy-3}" x2="${cx+o}" y2="${cy+3}" stroke="#E5B77A" stroke-width="1"/>`;
-    ticks += `<text x="${cx+o - (atEdge?5:0)}" y="${cy+13}" text-anchor="${atEdge?'end':'middle'}" font-size="10" fill="#9CA0B1" font-family="Helvetica,Arial,sans-serif">${p}</text>`;
+    ticks += `<text x="${cx+o - (atEdge?5:0)}" y="${cy+13}" text-anchor="${atEdge?'end':'middle'}" font-size="10" fill="#9CA0B1" font-family="DejaVu Sans">${p}</text>`;
     ticks += `<line x1="${cx-o}" y1="${cy-3}" x2="${cx-o}" y2="${cy+3}" stroke="#E5B77A" stroke-width="1"/>`;
-    ticks += `<text x="${cx-o + (atEdge?5:0)}" y="${cy+13}" text-anchor="${atEdge?'start':'middle'}" font-size="10" fill="#9CA0B1" font-family="Helvetica,Arial,sans-serif">${p}</text>`;
+    ticks += `<text x="${cx-o + (atEdge?5:0)}" y="${cy+13}" text-anchor="${atEdge?'start':'middle'}" font-size="10" fill="#9CA0B1" font-family="DejaVu Sans">${p}</text>`;
     ticks += `<line x1="${cx-3}" y1="${cy-o}" x2="${cx+3}" y2="${cy-o}" stroke="#E5B77A" stroke-width="1"/>`;
-    ticks += `<text x="${cx-7}" y="${cy-o + (atEdge?10:3)}" text-anchor="end" font-size="10" fill="#9CA0B1" font-family="Helvetica,Arial,sans-serif">${p}</text>`;
+    ticks += `<text x="${cx-7}" y="${cy-o + (atEdge?10:3)}" text-anchor="end" font-size="10" fill="#9CA0B1" font-family="DejaVu Sans">${p}</text>`;
     ticks += `<line x1="${cx-3}" y1="${cy+o}" x2="${cx+3}" y2="${cy+o}" stroke="#E5B77A" stroke-width="1"/>`;
-    ticks += `<text x="${cx-7}" y="${cy+o - (atEdge?5:-3)}" text-anchor="end" font-size="10" fill="#9CA0B1" font-family="Helvetica,Arial,sans-serif">${p}</text>`;
+    ticks += `<text x="${cx-7}" y="${cy+o - (atEdge?5:-3)}" text-anchor="end" font-size="10" fill="#9CA0B1" font-family="DejaVu Sans">${p}</text>`;
   });
-  ticks += `<text x="${cx-6}" y="${cy+13}" text-anchor="end" font-size="10" fill="#9CA0B1" font-family="Helvetica,Arial,sans-serif">0</text>`;
+  ticks += `<text x="${cx-6}" y="${cy+13}" text-anchor="end" font-size="10" fill="#9CA0B1" font-family="DejaVu Sans">0</text>`;
 
   const arrSz = 6;
   const xPktL = cx - rMax - 10, xSluL = cx - rMax - 50, xIntL = cx - rMax - 70;
@@ -87,23 +98,23 @@ ${ticks}
 <circle cx="${mowcaX}" cy="${cy}" r="5" fill="${META.strateg.color}" stroke="#0D1423" stroke-width="1.5"/>
 <circle cx="${cx}" cy="${racY}" r="5" fill="${META.ekspert.color}" stroke="#0D1423" stroke-width="1.5"/>
 <circle cx="${sluchaczX}" cy="${cy}" r="5" fill="${META.inspirator.color}" stroke="#0D1423" stroke-width="1.5"/>
-<text x="${cx-rMax+10}" y="${cy-rMax+18}" font-size="13" font-weight="700" fill="${META.opiekun.color}" font-family="Helvetica,Arial,sans-serif">Przyjaciel</text>
-<text x="${cx+rMax-10}" y="${cy-rMax+18}" font-size="13" font-weight="700" fill="${META.inspirator.color}" font-family="Helvetica,Arial,sans-serif" text-anchor="end">Entuzjasta</text>
-<text x="${cx-rMax+10}" y="${cy+rMax-7}" font-size="13" font-weight="700" fill="${META.ekspert.color}" font-family="Helvetica,Arial,sans-serif">Analityk</text>
-<text x="${cx+rMax-10}" y="${cy+rMax-7}" font-size="13" font-weight="700" fill="${META.strateg.color}" font-family="Helvetica,Arial,sans-serif" text-anchor="end">Wódz</text>
-<text x="${cx}" y="${cy-rMax-22}" text-anchor="middle" font-size="11" font-weight="700" fill="#F6F1E8" font-family="Helvetica,Arial,sans-serif" letter-spacing="2">EMOCJONALNY</text>
-<text x="${cx}" y="${cy-rMax-8}" text-anchor="middle" font-size="10" font-weight="600" fill="#E5B77A" font-family="Helvetica,Arial,sans-serif" letter-spacing="1.5">EMOCJE &#183; <tspan fill="${META.opiekun.color}" font-weight="700">${emoc} pkt</tspan></text>
-<text x="${cx}" y="${cy+rMax+30}" text-anchor="middle" font-size="11" font-weight="700" fill="#F6F1E8" font-family="Helvetica,Arial,sans-serif" letter-spacing="2">RACJONALNY</text>
-<text x="${cx}" y="${cy+rMax+18}" text-anchor="middle" font-size="10" font-weight="600" fill="#E5B77A" font-family="Helvetica,Arial,sans-serif" letter-spacing="1.5">FAKTY &#183; <tspan fill="${META.ekspert.color}" font-weight="700">${rac} pkt</tspan></text>
-<text x="${xPktL}" y="${cy+4}" text-anchor="end" font-size="11" font-weight="700" fill="${META.inspirator.color}" font-family="Helvetica,Arial,sans-serif">${sluchacz} pkt</text>
+<text x="${cx-rMax+10}" y="${cy-rMax+18}" font-size="13" font-weight="700" fill="${META.opiekun.color}" font-family="DejaVu Sans">Przyjaciel</text>
+<text x="${cx+rMax-10}" y="${cy-rMax+18}" font-size="13" font-weight="700" fill="${META.inspirator.color}" font-family="DejaVu Sans" text-anchor="end">Entuzjasta</text>
+<text x="${cx-rMax+10}" y="${cy+rMax-7}" font-size="13" font-weight="700" fill="${META.ekspert.color}" font-family="DejaVu Sans">Analityk</text>
+<text x="${cx+rMax-10}" y="${cy+rMax-7}" font-size="13" font-weight="700" fill="${META.strateg.color}" font-family="DejaVu Sans" text-anchor="end">Wódz</text>
+<text x="${cx}" y="${cy-rMax-22}" text-anchor="middle" font-size="11" font-weight="700" fill="#F6F1E8" font-family="DejaVu Sans" letter-spacing="2">EMOCJONALNY</text>
+<text x="${cx}" y="${cy-rMax-8}" text-anchor="middle" font-size="10" font-weight="600" fill="#E5B77A" font-family="DejaVu Sans" letter-spacing="1.5">EMOCJE &#183; <tspan fill="${META.opiekun.color}" font-weight="700">${emoc} pkt</tspan></text>
+<text x="${cx}" y="${cy+rMax+30}" text-anchor="middle" font-size="11" font-weight="700" fill="#F6F1E8" font-family="DejaVu Sans" letter-spacing="2">RACJONALNY</text>
+<text x="${cx}" y="${cy+rMax+18}" text-anchor="middle" font-size="10" font-weight="600" fill="#E5B77A" font-family="DejaVu Sans" letter-spacing="1.5">FAKTY &#183; <tspan fill="${META.ekspert.color}" font-weight="700">${rac} pkt</tspan></text>
+<text x="${xPktL}" y="${cy+4}" text-anchor="end" font-size="11" font-weight="700" fill="${META.inspirator.color}" font-family="DejaVu Sans">${sluchacz} pkt</text>
 ${vt('SŁUCHACZ', xSluL, 10, '#E5B77A', '600')}
 ${vt('INTROWERTYK', xIntL, 10, '#F6F1E8', '700')}
-<text x="${xPktR}" y="${cy+4}" text-anchor="start" font-size="11" font-weight="700" fill="${META.strateg.color}" font-family="Helvetica,Arial,sans-serif">${mowca} pkt</text>
+<text x="${xPktR}" y="${cy+4}" text-anchor="start" font-size="11" font-weight="700" fill="${META.strateg.color}" font-family="DejaVu Sans">${mowca} pkt</text>
 ${vt('MÓWCA', xMowR, 10, '#E5B77A', '600')}
 ${vt('EKSTRAWERTYK', xEkstR, 10, '#F6F1E8', '700')}
 <line x1="${cx}" y1="${cy}" x2="${dotX}" y2="${dotY}" stroke="${dom.color}" stroke-width="1" stroke-dasharray="3 3" opacity=".55"/>
 <circle cx="${dotX}" cy="${dotY}" r="4.5" fill="#E5B77A" stroke="#0D1423" stroke-width="1.8"/>
-<text x="${dotX + (dom.dx*10)}" y="${dotY + (dom.dy*10) + 4}" text-anchor="${dom.dx>0?'start':'end'}" font-size="10" font-weight="700" fill="#E5B77A" font-family="Helvetica,Arial,sans-serif">${dotPct}%</text>
+<text x="${dotX + (dom.dx*10)}" y="${dotY + (dom.dy*10) + 4}" text-anchor="${dom.dx>0?'start':'end'}" font-size="10" font-weight="700" fill="#E5B77A" font-family="DejaVu Sans">${dotPct}%</text>
 </svg>`;
 }
 
@@ -117,7 +128,15 @@ export default async function handler(req, res) {
       ekspert:    parseInt(q.e, 10) || 0
     };
     const svg = buildSvg(counts);
-    const resvg = new Resvg(svg, { fitTo: { mode: 'width', value: 680 } });
+    const fontBuffers = [FONT_REG, FONT_BOLD].filter(Boolean);
+    const resvg = new Resvg(svg, {
+      fitTo: { mode: 'width', value: 680 },
+      font: {
+        fontBuffers,
+        loadSystemFonts: false,
+        defaultFontFamily: 'DejaVu Sans'
+      }
+    });
     const png = resvg.render().asPng();
     res.setHeader('Content-Type', 'image/png');
     res.setHeader('Cache-Control', 'public, max-age=2592000, immutable');
