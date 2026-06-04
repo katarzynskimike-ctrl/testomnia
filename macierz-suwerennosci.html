@@ -22,6 +22,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <title>Macierz Wskaźnika Suwerenności | Test diagnostyczny dla praktyki</title>
+<link rel="stylesheet" href="tokens.css">
 <style>
 :root{color-scheme:dark;--champagne:#E5B77A;--warm-gold:#C99055;--ivory:#F6F1E8;--muted:#B8BAC6;--line:#2B3445;--panel-navy:#0D1423;--deep-navy:#080E18;
   --z1:#d4596b;--z2:#e0a165;--z3:#d4a85e;--z4:#8dab7f;--z5:#5b7c5c;
@@ -155,6 +156,18 @@ button{font:inherit;cursor:pointer}
 .cookieBanner button{background:linear-gradient(180deg,#F0D5A8,#E5B77A 70%);color:#1A1109;border:0;padding:8px 18px;border-radius:999px;font-weight:600;font-size:13px;cursor:pointer;font-family:Inter,sans-serif}
 .cookieBanner button:focus-visible{outline:0;box-shadow:0 0 0 3px rgba(229,183,122,.5)}
 @media (max-width:480px){.cookieBanner{font-size:12.5px;padding:12px 14px}}
+
+.breadcrumb{padding:8px 18px;text-align:center;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--champagne);font-weight:600;border-bottom:1px solid var(--line);background:rgba(8,14,24,.45);opacity:.85;font-family:Inter,sans-serif}
+.breadcrumb .sep{opacity:.4;margin:0 8px}
+.breadcrumb .here{color:var(--ivory);opacity:.8;font-weight:500}
+
+
+.intro-preview{margin:20px 0 -6px;padding:18px 18px 16px;background:linear-gradient(180deg,rgba(229,183,122,.07),rgba(229,183,122,.02));border:1px solid rgba(229,183,122,.22);border-radius:16px;text-align:left}
+.intro-preview h4{margin:0 0 8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--champagne);font-weight:600;font-family:Inter,sans-serif}
+.intro-preview ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.intro-preview li{font-size:13px;color:var(--ivory);padding-left:18px;position:relative;line-height:1.5;opacity:.92}
+.intro-preview li::before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;background:var(--champagne);border-radius:50%;opacity:.7}
+
 </style>
 </head>
 <body>
@@ -711,6 +724,21 @@ button{font:inherit;cursor:pointer}
       b.classList.remove('show');
     });
   }catch(e){}
+})();
+</script>
+
+<script>
+// F22: ostrzeżenie przy zamknięciu karty w trakcie testu
+(function(){
+  window.addEventListener('beforeunload', function(e){
+    try{
+      if(typeof state !== 'undefined' && state.screen==='q' && state.idx > 0){
+        e.preventDefault();
+        e.returnValue = '';
+        return '';
+      }
+    }catch(err){}
+  });
 })();
 </script>
 </body>
