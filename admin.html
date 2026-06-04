@@ -314,8 +314,6 @@ function exportCsv(kind){
   a.click();
 }
 
-if(TOKEN) loadView('overview'); else showLogin();
-showApp.call(null);
-if(!TOKEN) document.getElementById('loginScreen').style.display='block';
+if(TOKEN){ showApp(); loadView('overview'); } else { showLogin(); }
 </script>
 </body></html>
