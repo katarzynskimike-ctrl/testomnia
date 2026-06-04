@@ -37,73 +37,64 @@ const DISC = {
 };
 
 
-function compassChartMail(counts, total) {
+async function compassChartMail(counts, total) {
   const opi = counts.opiekun || 0;
   const ins = counts.inspirator || 0;
   const str = counts.strateg || 0;
   const eks = counts.ekspert || 0;
-  // Mowca (Wodz+Entuzjasta) vs Sluchacz (Przyjaciel+Analityk) - os pozioma
-  const mowca = str + ins;
-  const sluchacz = opi + eks;
-  // Emocjonalny (Przyjaciel+Entuzjasta) vs Racjonalny (Wodz+Analityk) - os pionowa
-  const emoc = opi + ins;
-  const rac = str + eks;
-  // Pozycja proporcjonalna: -1..+1 (% przewagi jednej strony)
+  const mowca = str + ins, sluchacz = opi + eks;
+  const emoc = opi + ins, rac = str + eks;
   const tH = mowca + sluchacz || 1;
   const tV = emoc + rac || 1;
-  const xVal = +((mowca - sluchacz) / tH).toFixed(3);   // -1 introwertyk, +1 ekstrawertyk
-  const yVal = +((emoc - rac) / tV).toFixed(3);          // -1 racjonalny (dol), +1 emocjonalny (gora)
+  const xVal = +((mowca - sluchacz) / tH).toFixed(3);
+  const yVal = +((emoc - rac) / tV).toFixed(3);
 
-  const cfg = {
+  const chart = {
     type: 'scatter',
-    data: {
-      datasets: [{
-        data: [{x: xVal, y: yVal}],
-        backgroundColor: '#E5B77A',
-        borderColor: '#0D1423',
-        pointRadius: 11,
-        pointBorderWidth: 3,
-        pointHoverRadius: 11
-      }]
-    },
+    data: { datasets: [{ data: [{x: xVal, y: yVal}], backgroundColor:'#E5B77A', borderColor:'#0D1423', pointRadius:11, pointBorderWidth:3 }] },
     options: {
-      layout: { padding: { top: 28, bottom: 28, left: 28, right: 28 } },
+      layout: { padding: { top: 30, bottom: 30, left: 30, right: 30 } },
       plugins: {
         legend: { display: false },
-        annotation: {
-          annotations: {
-            przyjaciel:  { type: 'label', xValue: -0.65, yValue:  0.78, content: ['Przyjaciel'],  color: '#22c55e', font: {size: 14, weight: 'bold'} },
-            entuzjasta:  { type: 'label', xValue:  0.65, yValue:  0.78, content: ['Entuzjasta'],  color: '#eab308', font: {size: 14, weight: 'bold'} },
-            wodz:        { type: 'label', xValue:  0.65, yValue: -0.78, content: ['Wódz'],        color: '#ef4444', font: {size: 14, weight: 'bold'} },
-            analityk:    { type: 'label', xValue: -0.65, yValue: -0.78, content: ['Analityk'],    color: '#3b82f6', font: {size: 14, weight: 'bold'} },
-            axTop:       { type: 'label', xValue: 0,     yValue:  1.08, content: ['EMOCJONALNY'],  color: '#F6F1E8', font: {size: 11, weight: 'bold'} },
-            axBot:       { type: 'label', xValue: 0,     yValue: -1.08, content: ['RACJONALNY'],   color: '#F6F1E8', font: {size: 11, weight: 'bold'} },
-            axL:         { type: 'label', xValue: -1.05, yValue:  0,    content: ['INTROWERTYK'], color: '#F6F1E8', font: {size: 10, weight: 'bold'}, position: 'center', xAdjust: -8 },
-            axR:         { type: 'label', xValue:  1.05, yValue:  0,    content: ['EKSTRAWERTYK'],color: '#F6F1E8', font: {size: 10, weight: 'bold'}, position: 'center', xAdjust: 8 }
-          }
-        }
+        annotation: { annotations: {
+          przyjaciel:  { type:'label', xValue:-0.65, yValue: 0.78, content:['Przyjaciel'], color:'#22c55e', font:{size:14, weight:'bold'} },
+          entuzjasta:  { type:'label', xValue: 0.65, yValue: 0.78, content:['Entuzjasta'], color:'#eab308', font:{size:14, weight:'bold'} },
+          wodz:        { type:'label', xValue: 0.65, yValue:-0.78, content:['Wódz'],       color:'#ef4444', font:{size:14, weight:'bold'} },
+          analityk:    { type:'label', xValue:-0.65, yValue:-0.78, content:['Analityk'],   color:'#3b82f6', font:{size:14, weight:'bold'} },
+          axTop:       { type:'label', xValue: 0,    yValue: 1.08, content:['EMOCJONALNY'], color:'#F6F1E8', font:{size:11, weight:'bold'} },
+          axBot:       { type:'label', xValue: 0,    yValue:-1.08, content:['RACJONALNY'],  color:'#F6F1E8', font:{size:11, weight:'bold'} },
+          axL:         { type:'label', xValue:-1.08, yValue: 0,    content:['INTROWERTYK'], color:'#F6F1E8', font:{size:10, weight:'bold'} },
+          axR:         { type:'label', xValue: 1.08, yValue: 0,    content:['EKSTRAWERTYK'],color:'#F6F1E8', font:{size:10, weight:'bold'} }
+        }}
       },
       scales: {
-        x: {
-          min: -1.15, max: 1.15,
-          ticks: { display: false },
-          grid: { color: ctx => ctx.tick && ctx.tick.value === 0 ? '#E5B77A' : 'rgba(229,183,122,0.12)', drawBorder: false, lineWidth: ctx => ctx.tick && ctx.tick.value === 0 ? 1.5 : 1 }
-        },
-        y: {
-          min: -1.15, max: 1.15,
-          ticks: { display: false },
-          grid: { color: ctx => ctx.tick && ctx.tick.value === 0 ? '#E5B77A' : 'rgba(229,183,122,0.12)', drawBorder: false, lineWidth: ctx => ctx.tick && ctx.tick.value === 0 ? 1.5 : 1 }
-        }
+        x: { min:-1.20, max:1.20, ticks:{display:false}, grid:{color:'rgba(229,183,122,0.12)', drawBorder:false} },
+        y: { min:-1.20, max:1.20, ticks:{display:false}, grid:{color:'rgba(229,183,122,0.12)', drawBorder:false} }
       }
     }
   };
 
-  const url = 'https://quickchart.io/chart?bkg=%230D1423&w=520&h=520&v=4&c=' + encodeURIComponent(JSON.stringify(cfg));
+  let imgUrl;
+  try {
+    const r = await fetch('https://quickchart.io/chart/create', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ chart, width: 520, height: 520, backgroundColor: '#0D1423', version: '4' })
+    });
+    const j = await r.json();
+    imgUrl = (j && j.success && j.url) ? j.url : null;
+  } catch(e) { imgUrl = null; }
+
+  // Fallback: long inline URL if shortener fails
+  if (!imgUrl) {
+    imgUrl = 'https://quickchart.io/chart?bkg=%230D1423&w=520&h=520&v=4&c=' + encodeURIComponent(JSON.stringify(chart));
+  }
+
   const altTxt = `Kompas: Ekstrawertyk ${Math.round((xVal+1)*50)}%, Emocjonalny ${Math.round((yVal+1)*50)}%`;
-  return `<div style="text-align:center;margin:8px 0 4px"><img src="${url}" width="520" height="520" alt="${altTxt}" style="max-width:100%;height:auto;display:block;margin:0 auto;border-radius:12px"/></div>`;
+  return `<div style="text-align:center;margin:8px 0 4px"><img src="${imgUrl}" width="520" height="520" alt="${altTxt}" style="max-width:100%;height:auto;display:block;margin:0 auto;border-radius:12px"/></div>`;
 }
 
-function discReport(r) {
+async function discReport(r) {
   const d = DISC[r.dominant] || DISC.opiekun;
   const counts = r.counts || {};
   const total = Object.values(counts).reduce((a,b)=>a+(b||0),0) || 1;
@@ -118,7 +109,7 @@ function discReport(r) {
 <p style="margin:0;color:#D8D6CF;line-height:1.65;font-size:15px">${d.desc}</p></section>
 <section style="padding:24px 28px;border:1px solid rgba(255,255,255,.08);border-radius:18px;background:#0D1423;margin-bottom:18px">
 <p style="margin:0 0 10px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#E5B77A;font-weight:600">Twój kompas 4 typów</p>
-${compassChartMail(counts, total)}</section>
+${await compassChartMail(counts, total)}</section>
 <section style="padding:24px 28px;border:1px solid rgba(255,255,255,.08);border-radius:18px;background:#0D1423;margin-bottom:18px">
 <p style="margin:0 0 14px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#E5B77A;font-weight:600">Podział 4 stylów — szczegóły</p>
 <table style="width:100%;border-collapse:collapse">${bars}</table></section>
@@ -140,9 +131,9 @@ function genericReport(slug, r) {
 <pre style="background:#080E18;padding:16px;border-radius:12px;color:#9CA0B1;font-size:12px;overflow-x:auto;white-space:pre-wrap;font-family:monospace">${JSON.stringify(r,null,2)}</pre></section>`;
 }
 
-function renderEmail(slug, result) {
+async function renderEmail(slug, result) {
   const name = TEST_NAMES[slug] || 'Test Testomnia';
-  const body = slug === '4-typy-osobowosci' ? discReport(result) : genericReport(slug, result);
+  const body = slug === '4-typy-osobowosci' ? await discReport(result) : genericReport(slug, result);
   return `<!doctype html><html lang="pl"><head><meta charset="utf-8"><title>Twój raport · ${name}</title></head>
 <body style="margin:0;padding:0;background:#080E18;font-family:'Helvetica Neue',Arial,sans-serif;color:#D8D6CF">
 <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%;background:#080E18"><tr><td align="center" style="padding:32px 16px">
@@ -178,7 +169,7 @@ export default async function handler(req, res) {
     const r = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
       headers: { 'accept':'application/json', 'api-key': process.env.BREVO_API_KEY, 'content-type':'application/json' },
-      body: JSON.stringify({ sender: SENDER, to: [{ email }], subject, htmlContent: renderEmail(slug, result), tags:['raport',slug] })
+      body: JSON.stringify({ sender: SENDER, to: [{ email }], subject, htmlContent: await renderEmail(slug, result), tags:['raport',slug] })
     });
     if (!r.ok) { const errText = await r.text(); return res.status(502).json({ error: 'Brevo API', detail: errText.substring(0,500) }); }
     const data = await r.json();
