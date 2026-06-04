@@ -361,18 +361,24 @@ a{color:inherit;text-decoration:none}
 
   function compassSvg(counts){
     const opi=counts.opiekun||0, ins=counts.inspirator||0, str=counts.strateg||0, eks=counts.ekspert||0;
-    const totalQ = (opi+ins+str+eks) || 33;
     const mowca = str + ins, sluchacz = opi + eks;
     const emoc = opi + ins, rac = str + eks;
-    // Axis position: -1..+1 normalized
+    // Scale: 33 pts = full radius
+    const maxPt = 33;
+    const cx=240, cy=240, rMax=180;
+    const ptScale = rMax / maxPt;
+    // 4 axis marker positions (proportional to real pkt values)
+    const mowcaX   = cx + mowca * ptScale;     // right
+    const sluchaczX= cx - sluchacz * ptScale;  // left
+    const emocY    = cy - emoc * ptScale;      // up
+    const racY     = cy + rac * ptScale;       // down
+    // Center dot — vector resultant
     const xVal = (mowca - sluchacz) / (mowca + sluchacz || 1);
     const yVal = (emoc - rac) / (emoc + rac || 1);
-    // SVG coords
-    const cx=240, cy=240, rMax=180;
     const px = cx + xVal * rMax;
     const py = cy - yVal * rMax;
 
-    // Quadrant tints (very subtle)
+    // Quadrant tints
     const quad = `
       <rect x="${cx-rMax}" y="${cy-rMax}" width="${rMax}" height="${rMax}" fill="${META.opiekun.color}" opacity=".04"/>
       <rect x="${cx}"      y="${cy-rMax}" width="${rMax}" height="${rMax}" fill="${META.inspirator.color}" opacity=".04"/>
@@ -382,25 +388,27 @@ a{color:inherit;text-decoration:none}
     // Frame
     const frame = `<rect x="${cx-rMax}" y="${cy-rMax}" width="${rMax*2}" height="${rMax*2}" fill="none" stroke="rgba(229,183,122,.32)" stroke-width="1"/>`;
 
-    // Tickmarks on both axes (every 3 pts), with numeric labels
-    // Scale: 33 pts max → rMax
-    const ptStep = 3;
-    const maxPt = 33;
+    // Tickmarks at 3, 18, 33 on each axis (positive and negative side)
+    const tickVals = [3, 18, 33];
     let ticks = '';
-    for (let p = -maxPt; p <= maxPt; p += ptStep) {
-      if (p === 0) continue;
-      const o = (p / maxPt) * rMax;
-      // X-axis tick
+    tickVals.forEach(p => {
+      const o = p * ptScale;
+      // +X (right)
       ticks += `<line x1="${cx+o}" y1="${cy-3}" x2="${cx+o}" y2="${cy+3}" stroke="#E5B77A" stroke-width="1"/>`;
-      ticks += `<text x="${cx+o}" y="${cy+15}" text-anchor="middle" font-size="9" fill="#9CA0B1" font-family="Inter,sans-serif">${p}</text>`;
-      // Y-axis tick (note y is flipped: +p means UP in user-space → -o in SVG)
+      ticks += `<text x="${cx+o}" y="${cy+14}" text-anchor="middle" font-size="10" fill="#9CA0B1" font-family="Inter,sans-serif">${p}</text>`;
+      // -X (left)
+      ticks += `<line x1="${cx-o}" y1="${cy-3}" x2="${cx-o}" y2="${cy+3}" stroke="#E5B77A" stroke-width="1"/>`;
+      ticks += `<text x="${cx-o}" y="${cy+14}" text-anchor="middle" font-size="10" fill="#9CA0B1" font-family="Inter,sans-serif">${p}</text>`;
+      // +Y (up)
       ticks += `<line x1="${cx-3}" y1="${cy-o}" x2="${cx+3}" y2="${cy-o}" stroke="#E5B77A" stroke-width="1"/>`;
-      ticks += `<text x="${cx-7}" y="${cy-o+3}" text-anchor="end" font-size="9" fill="#9CA0B1" font-family="Inter,sans-serif">${p}</text>`;
-    }
-    // Origin label "0"
-    ticks += `<text x="${cx-6}" y="${cy+12}" text-anchor="end" font-size="9" fill="#9CA0B1" font-family="Inter,sans-serif">0</text>`;
+      ticks += `<text x="${cx-7}" y="${cy-o+3}" text-anchor="end" font-size="10" fill="#9CA0B1" font-family="Inter,sans-serif">${p}</text>`;
+      // -Y (down)
+      ticks += `<line x1="${cx-3}" y1="${cy+o}" x2="${cx+3}" y2="${cy+o}" stroke="#E5B77A" stroke-width="1"/>`;
+      ticks += `<text x="${cx-7}" y="${cy+o+3}" text-anchor="end" font-size="10" fill="#9CA0B1" font-family="Inter,sans-serif">${p}</text>`;
+    });
+    ticks += `<text x="${cx-6}" y="${cy+14}" text-anchor="end" font-size="10" fill="#9CA0B1" font-family="Inter,sans-serif">0</text>`;
 
-    // Main axes (champagne) - INSIDE the frame, arrows just at edge (small)
+    // Main axes (champagne)
     const arrSz = 6;
     const axes = `
       <line x1="${cx-rMax}" y1="${cy}" x2="${cx+rMax}" y2="${cy}" stroke="#E5B77A" stroke-width="1.5"/>
@@ -408,28 +416,29 @@ a{color:inherit;text-decoration:none}
       <polygon points="${cx+rMax-arrSz},${cy-arrSz/2} ${cx+rMax-arrSz},${cy+arrSz/2} ${cx+rMax},${cy}" fill="#E5B77A"/>
       <polygon points="${cx-rMax+arrSz},${cy-arrSz/2} ${cx-rMax+arrSz},${cy+arrSz/2} ${cx-rMax},${cy}" fill="#E5B77A"/>
       <polygon points="${cx-arrSz/2},${cy-rMax+arrSz} ${cx+arrSz/2},${cy-rMax+arrSz} ${cx},${cy-rMax}" fill="#E5B77A"/>
-      <polygon points="${cx-arrSz/2},${cy+rMax-arrSz} ${cx+arrSz/2},${cy+arrSz/2-(0)} ${cx},${cy+rMax}" fill="#E5B77A"/>`;
+      <polygon points="${cx-arrSz/2},${cy+rMax-arrSz} ${cx+arrSz/2},${cy+rMax-arrSz} ${cx},${cy+rMax}" fill="#E5B77A"/>`;
 
-    // 4 archetype points on diagonals — position proportional to % of that archetype out of total
-    // For each archetype: r_i = (count / maxPt) * rMax, on its diagonal direction
-    const archK = (cnt) => (cnt / maxPt) * rMax;
-    const diag = 1 / Math.SQRT2;
-    const pOp = { x: cx - archK(opi)*diag, y: cy - archK(opi)*diag, c: META.opiekun.color,    pct: Math.round(opi/totalQ*100), pts: opi };
-    const pIn = { x: cx + archK(ins)*diag, y: cy - archK(ins)*diag, c: META.inspirator.color, pct: Math.round(ins/totalQ*100), pts: ins };
-    const pSt = { x: cx + archK(str)*diag, y: cy + archK(str)*diag, c: META.strateg.color,    pct: Math.round(str/totalQ*100), pts: str };
-    const pEk = { x: cx - archK(eks)*diag, y: cy + archK(eks)*diag, c: META.ekspert.color,    pct: Math.round(eks/totalQ*100), pts: eks };
-    // Kite polygon connecting 4 archetype points
-    const kitePts = `${pOp.x},${pOp.y} ${pIn.x},${pIn.y} ${pSt.x},${pSt.y} ${pEk.x},${pEk.y}`;
-    const kite = `<polygon points="${kitePts}" fill="rgba(229,183,122,.10)" stroke="rgba(229,183,122,.55)" stroke-width="1.2" stroke-linejoin="round"/>`;
-    // Dots at each archetype vertex (smaller)
-    const archDots = [pOp, pIn, pSt, pEk].map(p => `<circle cx="${p.x}" cy="${p.y}" r="4.5" fill="${p.c}" stroke="#0D1423" stroke-width="1.5"/>`).join('');
+    // Kite polygon connecting the 4 axis-marker points
+    const kitePts = `${cx},${emocY} ${mowcaX},${cy} ${cx},${racY} ${sluchaczX},${cy}`;
+    const kite = `<polygon points="${kitePts}" fill="rgba(229,183,122,.12)" stroke="#E5B77A" stroke-width="1.5" stroke-linejoin="round"/>`;
+
+    // 4 markers on axes (colored by axis side) with pkt values
+    const markers = `
+      <circle cx="${cx}" cy="${emocY}" r="5" fill="${META.opiekun.color}" stroke="#0D1423" stroke-width="1.5"/>
+      <text x="${cx+10}" y="${emocY-6}" font-size="11" font-weight="700" fill="${META.opiekun.color}" font-family="Inter,sans-serif">${emoc} pkt</text>
+      <circle cx="${mowcaX}" cy="${cy}" r="5" fill="${META.strateg.color}" stroke="#0D1423" stroke-width="1.5"/>
+      <text x="${mowcaX+8}" y="${cy-8}" font-size="11" font-weight="700" fill="${META.strateg.color}" font-family="Inter,sans-serif">${mowca} pkt</text>
+      <circle cx="${cx}" cy="${racY}" r="5" fill="${META.ekspert.color}" stroke="#0D1423" stroke-width="1.5"/>
+      <text x="${cx+10}" y="${racY+14}" font-size="11" font-weight="700" fill="${META.ekspert.color}" font-family="Inter,sans-serif">${rac} pkt</text>
+      <circle cx="${sluchaczX}" cy="${cy}" r="5" fill="${META.inspirator.color}" stroke="#0D1423" stroke-width="1.5"/>
+      <text x="${sluchaczX-8}" y="${cy-8}" font-size="11" font-weight="700" fill="${META.inspirator.color}" font-family="Inter,sans-serif" text-anchor="end">${sluchacz} pkt</text>`;
 
     // Corner labels (archetypes)
     const corners = `
-      <text x="${cx-rMax+10}" y="${cy-rMax+20}" font-size="14" font-weight="700" fill="${META.opiekun.color}" font-family="Inter,sans-serif">Przyjaciel</text>
-      <text x="${cx+rMax-10}" y="${cy-rMax+20}" font-size="14" font-weight="700" fill="${META.inspirator.color}" font-family="Inter,sans-serif" text-anchor="end">Entuzjasta</text>
-      <text x="${cx-rMax+10}" y="${cy+rMax-8}"  font-size="14" font-weight="700" fill="${META.ekspert.color}"    font-family="Inter,sans-serif">Analityk</text>
-      <text x="${cx+rMax-10}" y="${cy+rMax-8}"  font-size="14" font-weight="700" fill="${META.strateg.color}"    font-family="Inter,sans-serif" text-anchor="end">Wódz</text>`;
+      <text x="${cx-rMax+10}" y="${cy-rMax+20}" font-size="13" font-weight="700" fill="${META.opiekun.color}" font-family="Inter,sans-serif">Przyjaciel</text>
+      <text x="${cx+rMax-10}" y="${cy-rMax+20}" font-size="13" font-weight="700" fill="${META.inspirator.color}" font-family="Inter,sans-serif" text-anchor="end">Entuzjasta</text>
+      <text x="${cx-rMax+10}" y="${cy+rMax-8}"  font-size="13" font-weight="700" fill="${META.ekspert.color}"    font-family="Inter,sans-serif">Analityk</text>
+      <text x="${cx+rMax-10}" y="${cy+rMax-8}"  font-size="13" font-weight="700" fill="${META.strateg.color}"    font-family="Inter,sans-serif" text-anchor="end">Wódz</text>`;
 
     // Axis labels (outside frame)
     const axLabels = `
@@ -442,10 +451,10 @@ a{color:inherit;text-decoration:none}
       <text x="${cx+rMax+22}" y="${cy}" text-anchor="middle" font-size="11" font-weight="700" fill="#F6F1E8" font-family="Inter,sans-serif" letter-spacing="2" transform="rotate(90 ${cx+rMax+22} ${cy})">EKSTRAWERTYK</text>
       <text x="${cx+rMax+10}" y="${cy}" text-anchor="middle" font-size="9"  fill="#9CA0B1" font-family="Inter,sans-serif" letter-spacing="1.5" transform="rotate(90 ${cx+rMax+10} ${cy})">mówca</text>`;
 
-    // Center dot (user resultant position, smaller now)
+    // Center vector dot (small)
     const dot = `
-      <circle cx="${px}" cy="${py}" r="8" fill="none" stroke="#E5B77A" stroke-width="1.2" opacity=".5"/>
-      <circle cx="${px}" cy="${py}" r="4.5" fill="#E5B77A" stroke="#0D1423" stroke-width="1.8"/>`;
+      <circle cx="${px}" cy="${py}" r="6.5" fill="none" stroke="#E5B77A" stroke-width="1" opacity=".45"/>
+      <circle cx="${px}" cy="${py}" r="3.5" fill="#E5B77A" stroke="#0D1423" stroke-width="1.5"/>`;
 
     return `<svg viewBox="0 0 480 480" role="img" aria-label="Kompas 4 typów osobowości" style="width:100%;max-width:480px;height:auto;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg">
       ${quad}
@@ -453,7 +462,7 @@ a{color:inherit;text-decoration:none}
       ${ticks}
       ${axes}
       ${kite}
-      ${archDots}
+      ${markers}
       ${corners}
       ${axLabels}
       ${dot}
