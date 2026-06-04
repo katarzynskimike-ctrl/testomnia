@@ -119,6 +119,14 @@ ${vt('EKSTRAWERTYK', xEkstR, 10, '#F6F1E8', '700')}
 }
 
 export default async function handler(req, res) {
+  const debug = req.query?.debug;
+  if (debug === 'fonts') {
+    return res.status(200).json({
+      FONT_REG_loaded: !!FONT_REG, FONT_REG_size: FONT_REG?.length || 0,
+      FONT_BOLD_loaded: !!FONT_BOLD, FONT_BOLD_size: FONT_BOLD?.length || 0,
+      FONTS_DIR
+    });
+  }
   try {
     const q = req.query || {};
     const counts = {
@@ -128,6 +136,10 @@ export default async function handler(req, res) {
       ekspert:    parseInt(q.e, 10) || 0
     };
     const svg = buildSvg(counts);
+    if (debug === 'svg') {
+      res.setHeader('Content-Type', 'image/svg+xml');
+      return res.status(200).send(svg);
+    }
     const fontBuffers = [FONT_REG, FONT_BOLD].filter(Boolean);
     const resvg = new Resvg(svg, {
       fitTo: { mode: 'width', value: 680 },
