@@ -37,45 +37,70 @@ const DISC = {
 };
 
 
-function radarChartMail(counts, total) {
-  const t = total || 1;
-  const po = Math.round((counts.opiekun||0)/t*100);
-  const ps = Math.round((counts.strateg||0)/t*100);
-  const pe = Math.round((counts.ekspert||0)/t*100);
-  const pi = Math.round((counts.inspirator||0)/t*100);
-  // Chart.js radar config - kolory archetypów: opiekun(zielony) strateg(czerwony) ekspert(niebieski) inspirator(zolty)
+function compassChartMail(counts, total) {
+  const opi = counts.opiekun || 0;
+  const ins = counts.inspirator || 0;
+  const str = counts.strateg || 0;
+  const eks = counts.ekspert || 0;
+  // Mowca (Wodz+Entuzjasta) vs Sluchacz (Przyjaciel+Analityk) - os pozioma
+  const mowca = str + ins;
+  const sluchacz = opi + eks;
+  // Emocjonalny (Przyjaciel+Entuzjasta) vs Racjonalny (Wodz+Analityk) - os pionowa
+  const emoc = opi + ins;
+  const rac = str + eks;
+  // Pozycja proporcjonalna: -1..+1 (% przewagi jednej strony)
+  const tH = mowca + sluchacz || 1;
+  const tV = emoc + rac || 1;
+  const xVal = +((mowca - sluchacz) / tH).toFixed(3);   // -1 introwertyk, +1 ekstrawertyk
+  const yVal = +((emoc - rac) / tV).toFixed(3);          // -1 racjonalny (dol), +1 emocjonalny (gora)
+
   const cfg = {
-    type: 'radar',
+    type: 'scatter',
     data: {
-      labels: ['Przyjaciel', 'Wódz', 'Analityk', 'Entuzjasta'],
       datasets: [{
-        data: [po, ps, pe, pi],
-        backgroundColor: 'rgba(229,183,122,0.22)',
-        borderColor: '#E5B77A',
-        borderWidth: 2,
-        pointBackgroundColor: ['#22c55e','#ef4444','#3b82f6','#eab308'],
-        pointBorderColor: '#0D1423',
-        pointBorderWidth: 2,
-        pointRadius: 6
+        data: [{x: xVal, y: yVal}],
+        backgroundColor: '#E5B77A',
+        borderColor: '#0D1423',
+        pointRadius: 11,
+        pointBorderWidth: 3,
+        pointHoverRadius: 11
       }]
     },
     options: {
-      scales: {
-        r: {
-          min: 0, max: 100, beginAtZero: true,
-          ticks: { display: false, stepSize: 25 },
-          grid: { color: 'rgba(229,183,122,0.18)', lineWidth: 1 },
-          angleLines: { color: 'rgba(229,183,122,0.18)', lineWidth: 1 },
-          pointLabels: { color: '#F6F1E8', font: { size: 15, weight: 'bold', family: 'Helvetica' } }
+      layout: { padding: { top: 28, bottom: 28, left: 28, right: 28 } },
+      plugins: {
+        legend: { display: false },
+        annotation: {
+          annotations: {
+            przyjaciel:  { type: 'label', xValue: -0.65, yValue:  0.78, content: ['Przyjaciel'],  color: '#22c55e', font: {size: 14, weight: 'bold'} },
+            entuzjasta:  { type: 'label', xValue:  0.65, yValue:  0.78, content: ['Entuzjasta'],  color: '#eab308', font: {size: 14, weight: 'bold'} },
+            wodz:        { type: 'label', xValue:  0.65, yValue: -0.78, content: ['Wódz'],        color: '#ef4444', font: {size: 14, weight: 'bold'} },
+            analityk:    { type: 'label', xValue: -0.65, yValue: -0.78, content: ['Analityk'],    color: '#3b82f6', font: {size: 14, weight: 'bold'} },
+            axTop:       { type: 'label', xValue: 0,     yValue:  1.08, content: ['EMOCJONALNY'],  color: '#F6F1E8', font: {size: 11, weight: 'bold'} },
+            axBot:       { type: 'label', xValue: 0,     yValue: -1.08, content: ['RACJONALNY'],   color: '#F6F1E8', font: {size: 11, weight: 'bold'} },
+            axL:         { type: 'label', xValue: -1.05, yValue:  0,    content: ['INTROWERTYK'], color: '#F6F1E8', font: {size: 10, weight: 'bold'}, position: 'center', xAdjust: -8 },
+            axR:         { type: 'label', xValue:  1.05, yValue:  0,    content: ['EKSTRAWERTYK'],color: '#F6F1E8', font: {size: 10, weight: 'bold'}, position: 'center', xAdjust: 8 }
+          }
         }
       },
-      plugins: { legend: { display: false }, title: { display: false } }
+      scales: {
+        x: {
+          min: -1.15, max: 1.15,
+          ticks: { display: false },
+          grid: { color: ctx => ctx.tick && ctx.tick.value === 0 ? '#E5B77A' : 'rgba(229,183,122,0.12)', drawBorder: false, lineWidth: ctx => ctx.tick && ctx.tick.value === 0 ? 1.5 : 1 }
+        },
+        y: {
+          min: -1.15, max: 1.15,
+          ticks: { display: false },
+          grid: { color: ctx => ctx.tick && ctx.tick.value === 0 ? '#E5B77A' : 'rgba(229,183,122,0.12)', drawBorder: false, lineWidth: ctx => ctx.tick && ctx.tick.value === 0 ? 1.5 : 1 }
+        }
+      }
     }
   };
-  const url = 'https://quickchart.io/chart?bkg=%230D1423&w=420&h=420&v=4&c=' + encodeURIComponent(JSON.stringify(cfg));
-  // Fallback alt text for blocked images
-  const altTxt = `Wykres: Przyjaciel ${po}%, Wódz ${ps}%, Analityk ${pe}%, Entuzjasta ${pi}%`;
-  return `<div style="text-align:center;margin:8px 0 4px"><img src="${url}" width="420" height="420" alt="${altTxt}" style="max-width:100%;height:auto;display:block;margin:0 auto;border-radius:12px"/></div>`;
+
+  const url = 'https://quickchart.io/chart?bkg=%230D1423&w=520&h=520&v=4&c=' + encodeURIComponent(JSON.stringify(cfg));
+  const altTxt = `Kompas: Ekstrawertyk ${Math.round((xVal+1)*50)}%, Emocjonalny ${Math.round((yVal+1)*50)}%`;
+  return `<div style="text-align:center;margin:8px 0 4px"><img src="${url}" width="520" height="520" alt="${altTxt}" style="max-width:100%;height:auto;display:block;margin:0 auto;border-radius:12px"/></div>`;
 }
 
 function discReport(r) {
@@ -92,8 +117,8 @@ function discReport(r) {
 <p style="margin:0 0 8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#E5B77A;font-weight:600">Co znaczy Twój wynik</p>
 <p style="margin:0;color:#D8D6CF;line-height:1.65;font-size:15px">${d.desc}</p></section>
 <section style="padding:24px 28px;border:1px solid rgba(255,255,255,.08);border-radius:18px;background:#0D1423;margin-bottom:18px">
-<p style="margin:0 0 10px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#E5B77A;font-weight:600">Twój wykres 4 stylów</p>
-${radarChartMail(counts, total)}</section>
+<p style="margin:0 0 10px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#E5B77A;font-weight:600">Twój kompas 4 typów</p>
+${compassChartMail(counts, total)}</section>
 <section style="padding:24px 28px;border:1px solid rgba(255,255,255,.08);border-radius:18px;background:#0D1423;margin-bottom:18px">
 <p style="margin:0 0 14px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#E5B77A;font-weight:600">Podział 4 stylów — szczegóły</p>
 <table style="width:100%;border-collapse:collapse">${bars}</table></section>

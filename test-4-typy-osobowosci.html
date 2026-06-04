@@ -359,58 +359,81 @@ a{color:inherit;text-decoration:none}
   }
 
 
-  function radarSvg(counts, pcts){
-    const cx=160, cy=160, rMax=110;
-    // Position: opiekun=top, strateg=right, ekspert=bottom, inspirator=left
-    const o = (pcts.opiekun||0)/100, s=(pcts.strateg||0)/100, e=(pcts.ekspert||0)/100, i=(pcts.inspirator||0)/100;
-    const minR = 6; // minimal visible radius so 0% still has a tiny point
-    const ptOp = `${cx},${cy - Math.max(minR, rMax*o)}`;
-    const ptSt = `${cx + Math.max(minR, rMax*s)},${cy}`;
-    const ptEk = `${cx},${cy + Math.max(minR, rMax*e)}`;
-    const ptIn = `${cx - Math.max(minR, rMax*i)},${cy}`;
-    const poly = `${ptOp} ${ptSt} ${ptEk} ${ptIn}`;
-    // 3 concentric grid rings (33/66/100%)
-    let rings = "";
-    [rMax*0.33, rMax*0.66, rMax].forEach((r,idx)=>{
-      rings += `<polygon points="${cx},${cy-r} ${cx+r},${cy} ${cx},${cy+r} ${cx-r},${cy}" fill="none" stroke="rgba(229,183,122,${idx===2?'.35':'.14'})" stroke-width="${idx===2?1:0.75}" stroke-dasharray="${idx===2?'':'3 4'}"/>`;
+  function compassSvg(counts){
+    const opi=counts.opiekun||0, ins=counts.inspirator||0, str=counts.strateg||0, eks=counts.ekspert||0;
+    const mowca = str + ins, sluchacz = opi + eks;
+    const emoc = opi + ins, rac = str + eks;
+    const tH = mowca + sluchacz || 1;
+    const tV = emoc + rac || 1;
+    const xVal = (mowca - sluchacz) / tH;   // -1 introwertyk .. +1 ekstrawertyk
+    const yVal = (emoc - rac) / tV;         // -1 racjonalny (dol) .. +1 emocjonalny (gora)
+    const cx=210, cy=210, rMax=160;
+    const px = cx + xVal * rMax;
+    const py = cy - yVal * rMax;   // SVG Y flip - emocjonalny=gora=-y
+    // Quadrant background tints (very subtle)
+    const quad = `
+      <rect x="${cx-rMax}" y="${cy-rMax}" width="${rMax}" height="${rMax}" fill="${META.opiekun.color}" opacity=".05"/>
+      <rect x="${cx}"      y="${cy-rMax}" width="${rMax}" height="${rMax}" fill="${META.inspirator.color}" opacity=".05"/>
+      <rect x="${cx-rMax}" y="${cy}"      width="${rMax}" height="${rMax}" fill="${META.ekspert.color}" opacity=".05"/>
+      <rect x="${cx}"      y="${cy}"      width="${rMax}" height="${rMax}" fill="${META.strateg.color}" opacity=".05"/>`;
+    // Grid lines (subtle) every 33%
+    let grid = '';
+    [0.33, 0.66].forEach(g => {
+      const o = rMax * g;
+      grid += `<line x1="${cx-rMax}" y1="${cy-o}" x2="${cx+rMax}" y2="${cy-o}" stroke="rgba(229,183,122,.10)" stroke-width="0.75" stroke-dasharray="3 4"/>`;
+      grid += `<line x1="${cx-rMax}" y1="${cy+o}" x2="${cx+rMax}" y2="${cy+o}" stroke="rgba(229,183,122,.10)" stroke-width="0.75" stroke-dasharray="3 4"/>`;
+      grid += `<line x1="${cx-o}" y1="${cy-rMax}" x2="${cx-o}" y2="${cy+rMax}" stroke="rgba(229,183,122,.10)" stroke-width="0.75" stroke-dasharray="3 4"/>`;
+      grid += `<line x1="${cx+o}" y1="${cy-rMax}" x2="${cx+o}" y2="${cy+rMax}" stroke="rgba(229,183,122,.10)" stroke-width="0.75" stroke-dasharray="3 4"/>`;
     });
-    // Cross axes (subtle)
+    // Frame
+    const frame = `<rect x="${cx-rMax}" y="${cy-rMax}" width="${rMax*2}" height="${rMax*2}" fill="none" stroke="rgba(229,183,122,.28)" stroke-width="1"/>`;
+    // Main axes (champagne)
     const axes = `
-      <line x1="${cx}" y1="${cy-rMax-4}" x2="${cx}" y2="${cy+rMax+4}" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
-      <line x1="${cx-rMax-4}" y1="${cy}" x2="${cx+rMax+4}" y2="${cy}" stroke="rgba(255,255,255,.08)" stroke-width="1"/>`;
-    // Dots at each vertex
-    const dotR = 5.5;
-    const dots = `
-      <circle cx="${cx}" cy="${cy - Math.max(minR, rMax*o)}" r="${dotR}" fill="${META.opiekun.color}"/>
-      <circle cx="${cx + Math.max(minR, rMax*s)}" cy="${cy}" r="${dotR}" fill="${META.strateg.color}"/>
-      <circle cx="${cx}" cy="${cy + Math.max(minR, rMax*e)}" r="${dotR}" fill="${META.ekspert.color}"/>
-      <circle cx="${cx - Math.max(minR, rMax*i)}" cy="${cy}" r="${dotR}" fill="${META.inspirator.color}"/>`;
-    // Labels at full radius
-    const labels = `
-      <text x="${cx}" y="${cy-rMax-14}" text-anchor="middle" font-size="13" font-weight="600" fill="${META.opiekun.color}">Przyjaciel</text>
-      <text x="${cx}" y="${cy-rMax+1}" text-anchor="middle" font-size="10" fill="#9CA0B1">${pcts.opiekun}%</text>
-      <text x="${cx+rMax+14}" y="${cy+4}" text-anchor="start" font-size="13" font-weight="600" fill="${META.strateg.color}">Wódz</text>
-      <text x="${cx+rMax-12}" y="${cy-6}" text-anchor="end" font-size="10" fill="#9CA0B1">${pcts.strateg}%</text>
-      <text x="${cx}" y="${cy+rMax+22}" text-anchor="middle" font-size="13" font-weight="600" fill="${META.ekspert.color}">Analityk</text>
-      <text x="${cx}" y="${cy+rMax-6}" text-anchor="middle" font-size="10" fill="#9CA0B1">${pcts.ekspert}%</text>
-      <text x="${cx-rMax-14}" y="${cy+4}" text-anchor="end" font-size="13" font-weight="600" fill="${META.inspirator.color}">Entuzjasta</text>
-      <text x="${cx-rMax+12}" y="${cy-6}" text-anchor="start" font-size="10" fill="#9CA0B1">${pcts.inspirator}%</text>`;
-    // Axis labels (small, between axes)
-    const axisLbls = `
-      <text x="${cx-rMax-8}" y="${cy-rMax+18}" text-anchor="end" font-size="9" fill="#6F7384" letter-spacing="1">EMOCJONALNY</text>
-      <text x="${cx+rMax+8}" y="${cy-rMax+18}" text-anchor="start" font-size="9" fill="#6F7384" letter-spacing="1">RACJONALNY</text>
-      <text x="${cx-rMax-8}" y="${cy+rMax-8}" text-anchor="end" font-size="9" fill="#6F7384" letter-spacing="1">SŁUCHACZ</text>
-      <text x="${cx+rMax+8}" y="${cy+rMax-8}" text-anchor="start" font-size="9" fill="#6F7384" letter-spacing="1">MÓWCA</text>`;
-    return `<svg viewBox="0 0 320 320" role="img" aria-label="Wykres 4 typów osobowości" style="width:100%;max-width:340px;height:auto;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg">
-      ${rings}
+      <line x1="${cx-rMax-6}" y1="${cy}" x2="${cx+rMax+6}" y2="${cy}" stroke="#E5B77A" stroke-width="1.5"/>
+      <line x1="${cx}" y1="${cy-rMax-6}" x2="${cx}" y2="${cy+rMax+6}" stroke="#E5B77A" stroke-width="1.5"/>
+      <polygon points="${cx-rMax-12},${cy} ${cx-rMax-4},${cy-4} ${cx-rMax-4},${cy+4}" fill="#E5B77A"/>
+      <polygon points="${cx+rMax+12},${cy} ${cx+rMax+4},${cy-4} ${cx+rMax+4},${cy+4}" fill="#E5B77A"/>
+      <polygon points="${cx},${cy-rMax-12} ${cx-4},${cy-rMax-4} ${cx+4},${cy-rMax-4}" fill="#E5B77A"/>
+      <polygon points="${cx},${cy+rMax+12} ${cx-4},${cy+rMax+4} ${cx+4},${cy+rMax+4}" fill="#E5B77A"/>`;
+    // Corner labels (archetypes)
+    const corners = `
+      <text x="${cx-rMax+12}" y="${cy-rMax+22}" font-size="15" font-weight="700" fill="${META.opiekun.color}" font-family="Inter,sans-serif">Przyjaciel</text>
+      <text x="${cx+rMax-12}" y="${cy-rMax+22}" font-size="15" font-weight="700" fill="${META.inspirator.color}" font-family="Inter,sans-serif" text-anchor="end">Entuzjasta</text>
+      <text x="${cx-rMax+12}" y="${cy+rMax-10}" font-size="15" font-weight="700" fill="${META.ekspert.color}" font-family="Inter,sans-serif">Analityk</text>
+      <text x="${cx+rMax-12}" y="${cy+rMax-10}" font-size="15" font-weight="700" fill="${META.strateg.color}" font-family="Inter,sans-serif" text-anchor="end">Wódz</text>`;
+    // Axis labels (outside the box)
+    const axLabels = `
+      <text x="${cx}" y="${cy-rMax-22}" text-anchor="middle" font-size="11" font-weight="700" fill="#F6F1E8" font-family="Inter,sans-serif" letter-spacing="2">EMOCJONALNY</text>
+      <text x="${cx}" y="${cy-rMax-9}" text-anchor="middle" font-size="9" fill="#9CA0B1" font-family="Inter,sans-serif" letter-spacing="1.5">emocje</text>
+      <text x="${cx}" y="${cy+rMax+30}" text-anchor="middle" font-size="11" font-weight="700" fill="#F6F1E8" font-family="Inter,sans-serif" letter-spacing="2">RACJONALNY</text>
+      <text x="${cx}" y="${cy+rMax+18}" text-anchor="middle" font-size="9" fill="#9CA0B1" font-family="Inter,sans-serif" letter-spacing="1.5">fakty</text>
+      <text x="${cx-rMax-22}" y="${cy}" text-anchor="middle" font-size="11" font-weight="700" fill="#F6F1E8" font-family="Inter,sans-serif" letter-spacing="2" transform="rotate(-90 ${cx-rMax-22} ${cy})">INTROWERTYK</text>
+      <text x="${cx-rMax-10}" y="${cy}" text-anchor="middle" font-size="9" fill="#9CA0B1" font-family="Inter,sans-serif" letter-spacing="1.5" transform="rotate(-90 ${cx-rMax-10} ${cy})">słuchacz</text>
+      <text x="${cx+rMax+22}" y="${cy}" text-anchor="middle" font-size="11" font-weight="700" fill="#F6F1E8" font-family="Inter,sans-serif" letter-spacing="2" transform="rotate(90 ${cx+rMax+22} ${cy})">EKSTRAWERTYK</text>
+      <text x="${cx+rMax+10}" y="${cy}" text-anchor="middle" font-size="9" fill="#9CA0B1" font-family="Inter,sans-serif" letter-spacing="1.5" transform="rotate(90 ${cx+rMax+10} ${cy})">mówca</text>`;
+    // Score percentages (small) near axes
+    const xPct = Math.round(Math.abs(xVal) * 100);
+    const yPct = Math.round(Math.abs(yVal) * 100);
+    const xDir = xVal >= 0 ? 'mówca' : 'słuchacz';
+    const yDir = yVal >= 0 ? 'emocje' : 'fakty';
+    // The dot showing user position
+    const dot = `
+      <line x1="${px}" y1="${cy}" x2="${px}" y2="${py}" stroke="#E5B77A" stroke-width="1" stroke-dasharray="2 3" opacity=".55"/>
+      <line x1="${cx}" y1="${py}" x2="${px}" y2="${py}" stroke="#E5B77A" stroke-width="1" stroke-dasharray="2 3" opacity=".55"/>
+      <circle cx="${px}" cy="${py}" r="11" fill="none" stroke="#E5B77A" stroke-width="1.5" opacity=".5"/>
+      <circle cx="${px}" cy="${py}" r="7" fill="#E5B77A" stroke="#0D1423" stroke-width="2.5"/>`;
+    return `<svg viewBox="0 0 420 420" role="img" aria-label="Kompas 4 typów osobowości" style="width:100%;max-width:420px;height:auto;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg">
+      ${quad}
+      ${grid}
+      ${frame}
       ${axes}
-      <polygon points="${poly}" fill="rgba(229,183,122,.12)" stroke="#E5B77A" stroke-width="1.5" stroke-linejoin="round"/>
-      ${dots}
-      ${labels}
-      ${axisLbls}
+      ${corners}
+      ${axLabels}
+      ${dot}
     </svg>`;
   }
 
+  function renderResult(){
   function renderResult(){
     clearPersist();
     // Zachowaj wynik dla modal wysyłki raportu
@@ -507,8 +530,8 @@ a{color:inherit;text-decoration:none}
         <p class="description">${m.desc}</p>
       </section>
       <section class="panel">
-        <p class="eyebrow">Twój wykres 4 stylów</p>
-        ${radarSvg(counts, pcts)}
+        <p class="eyebrow">Twój kompas 4 typów</p>
+        ${compassSvg(counts)}
       </section>
       <section class="panel">
         <p class="eyebrow">Podsumowanie 4 stylów</p>
