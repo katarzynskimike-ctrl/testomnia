@@ -36,6 +36,41 @@ const DISC = {
     advice:'Wprowadź zasadę „80% wystarczy". Gdy masz 80% danych i decyzja jest odwracalna — działaj. Ćwicz „warmup minute" — pierwsze 60 sek rozmowy poświęć na ciepło, nie na fakty.' }
 };
 
+
+function radarSvgMail(counts, total) {
+  const o = (counts.opiekun||0)/total, s=(counts.strateg||0)/total, e=(counts.ekspert||0)/total, i=(counts.inspirator||0)/total;
+  const po = Math.round(o*100), ps = Math.round(s*100), pe = Math.round(e*100), pi = Math.round(i*100);
+  const cx=160, cy=160, rMax=110, minR=6;
+  const lo = Math.max(minR, rMax*o), ls = Math.max(minR, rMax*s), le = Math.max(minR, rMax*e), li = Math.max(minR, rMax*i);
+  const poly = `${cx},${cy-lo} ${cx+ls},${cy} ${cx},${cy+le} ${cx-li},${cy}`;
+  let rings = '';
+  [rMax*0.33, rMax*0.66, rMax].forEach((r,idx)=>{
+    rings += `<polygon points="${cx},${cy-r} ${cx+r},${cy} ${cx},${cy+r} ${cx-r},${cy}" fill="none" stroke="rgba(229,183,122,${idx===2?'.35':'.14'})" stroke-width="${idx===2?1:0.75}" stroke-dasharray="${idx===2?'':'3 4'}"/>`;
+  });
+  return `<div style="text-align:center;margin:8px 0 4px"><svg viewBox="0 0 320 320" width="320" height="320" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto" role="img" aria-label="Wykres 4 stylów osobowości">
+    ${rings}
+    <line x1="${cx}" y1="${cy-rMax-4}" x2="${cx}" y2="${cy+rMax+4}" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+    <line x1="${cx-rMax-4}" y1="${cy}" x2="${cx+rMax+4}" y2="${cy}" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+    <polygon points="${poly}" fill="rgba(229,183,122,.14)" stroke="#E5B77A" stroke-width="1.5" stroke-linejoin="round"/>
+    <circle cx="${cx}" cy="${cy-lo}" r="5.5" fill="${DISC.opiekun.color}"/>
+    <circle cx="${cx+ls}" cy="${cy}" r="5.5" fill="${DISC.strateg.color}"/>
+    <circle cx="${cx}" cy="${cy+le}" r="5.5" fill="${DISC.ekspert.color}"/>
+    <circle cx="${cx-li}" cy="${cy}" r="5.5" fill="${DISC.inspirator.color}"/>
+    <text x="${cx}" y="${cy-rMax-14}" text-anchor="middle" font-size="13" font-weight="700" fill="${DISC.opiekun.color}" font-family="Helvetica,Arial">Przyjaciel</text>
+    <text x="${cx}" y="${cy-rMax+1}" text-anchor="middle" font-size="10" fill="#9CA0B1" font-family="Helvetica,Arial">${po}%</text>
+    <text x="${cx+rMax+14}" y="${cy+4}" text-anchor="start" font-size="13" font-weight="700" fill="${DISC.strateg.color}" font-family="Helvetica,Arial">Wódz</text>
+    <text x="${cx+rMax-12}" y="${cy-6}" text-anchor="end" font-size="10" fill="#9CA0B1" font-family="Helvetica,Arial">${ps}%</text>
+    <text x="${cx}" y="${cy+rMax+22}" text-anchor="middle" font-size="13" font-weight="700" fill="${DISC.ekspert.color}" font-family="Helvetica,Arial">Analityk</text>
+    <text x="${cx}" y="${cy+rMax-6}" text-anchor="middle" font-size="10" fill="#9CA0B1" font-family="Helvetica,Arial">${pe}%</text>
+    <text x="${cx-rMax-14}" y="${cy+4}" text-anchor="end" font-size="13" font-weight="700" fill="${DISC.inspirator.color}" font-family="Helvetica,Arial">Entuzjasta</text>
+    <text x="${cx-rMax+12}" y="${cy-6}" text-anchor="start" font-size="10" fill="#9CA0B1" font-family="Helvetica,Arial">${pi}%</text>
+    <text x="${cx-rMax-8}" y="${cy-rMax+18}" text-anchor="end" font-size="9" fill="#6F7384" font-family="Helvetica,Arial" letter-spacing="1">EMOCJONALNY</text>
+    <text x="${cx+rMax+8}" y="${cy-rMax+18}" text-anchor="start" font-size="9" fill="#6F7384" font-family="Helvetica,Arial" letter-spacing="1">RACJONALNY</text>
+    <text x="${cx-rMax-8}" y="${cy+rMax-8}" text-anchor="end" font-size="9" fill="#6F7384" font-family="Helvetica,Arial" letter-spacing="1">SŁUCHACZ</text>
+    <text x="${cx+rMax+8}" y="${cy+rMax-8}" text-anchor="start" font-size="9" fill="#6F7384" font-family="Helvetica,Arial" letter-spacing="1">MÓWCA</text>
+  </svg></div>`;
+}
+
 function discReport(r) {
   const d = DISC[r.dominant] || DISC.opiekun;
   const counts = r.counts || {};
@@ -50,7 +85,10 @@ function discReport(r) {
 <p style="margin:0 0 8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#E5B77A;font-weight:600">Co znaczy Twój wynik</p>
 <p style="margin:0;color:#D8D6CF;line-height:1.65;font-size:15px">${d.desc}</p></section>
 <section style="padding:24px 28px;border:1px solid rgba(255,255,255,.08);border-radius:18px;background:#0D1423;margin-bottom:18px">
-<p style="margin:0 0 14px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#E5B77A;font-weight:600">Podział 4 stylów</p>
+<p style="margin:0 0 10px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#E5B77A;font-weight:600">Twój wykres 4 stylów</p>
+${radarSvgMail(counts, total)}</section>
+<section style="padding:24px 28px;border:1px solid rgba(255,255,255,.08);border-radius:18px;background:#0D1423;margin-bottom:18px">
+<p style="margin:0 0 14px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#E5B77A;font-weight:600">Podział 4 stylów — szczegóły</p>
 <table style="width:100%;border-collapse:collapse">${bars}</table></section>
 <section style="padding:24px 28px;border:1px solid rgba(34,197,94,.3);border-radius:18px;background:#0D1423;margin-bottom:18px">
 <p style="margin:0 0 12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#6FCF97;font-weight:600">Co Ci pomaga</p>

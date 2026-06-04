@@ -358,6 +358,59 @@ a{color:inherit;text-decoration:none}
     };
   }
 
+
+  function radarSvg(counts, pcts){
+    const cx=160, cy=160, rMax=110;
+    // Position: opiekun=top, strateg=right, ekspert=bottom, inspirator=left
+    const o = (pcts.opiekun||0)/100, s=(pcts.strateg||0)/100, e=(pcts.ekspert||0)/100, i=(pcts.inspirator||0)/100;
+    const minR = 6; // minimal visible radius so 0% still has a tiny point
+    const ptOp = `${cx},${cy - Math.max(minR, rMax*o)}`;
+    const ptSt = `${cx + Math.max(minR, rMax*s)},${cy}`;
+    const ptEk = `${cx},${cy + Math.max(minR, rMax*e)}`;
+    const ptIn = `${cx - Math.max(minR, rMax*i)},${cy}`;
+    const poly = `${ptOp} ${ptSt} ${ptEk} ${ptIn}`;
+    // 3 concentric grid rings (33/66/100%)
+    let rings = "";
+    [rMax*0.33, rMax*0.66, rMax].forEach((r,idx)=>{
+      rings += `<polygon points="${cx},${cy-r} ${cx+r},${cy} ${cx},${cy+r} ${cx-r},${cy}" fill="none" stroke="rgba(229,183,122,${idx===2?'.35':'.14'})" stroke-width="${idx===2?1:0.75}" stroke-dasharray="${idx===2?'':'3 4'}"/>`;
+    });
+    // Cross axes (subtle)
+    const axes = `
+      <line x1="${cx}" y1="${cy-rMax-4}" x2="${cx}" y2="${cy+rMax+4}" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+      <line x1="${cx-rMax-4}" y1="${cy}" x2="${cx+rMax+4}" y2="${cy}" stroke="rgba(255,255,255,.08)" stroke-width="1"/>`;
+    // Dots at each vertex
+    const dotR = 5.5;
+    const dots = `
+      <circle cx="${cx}" cy="${cy - Math.max(minR, rMax*o)}" r="${dotR}" fill="${META.opiekun.color}"/>
+      <circle cx="${cx + Math.max(minR, rMax*s)}" cy="${cy}" r="${dotR}" fill="${META.strateg.color}"/>
+      <circle cx="${cx}" cy="${cy + Math.max(minR, rMax*e)}" r="${dotR}" fill="${META.ekspert.color}"/>
+      <circle cx="${cx - Math.max(minR, rMax*i)}" cy="${cy}" r="${dotR}" fill="${META.inspirator.color}"/>`;
+    // Labels at full radius
+    const labels = `
+      <text x="${cx}" y="${cy-rMax-14}" text-anchor="middle" font-size="13" font-weight="600" fill="${META.opiekun.color}">Przyjaciel</text>
+      <text x="${cx}" y="${cy-rMax+1}" text-anchor="middle" font-size="10" fill="#9CA0B1">${pcts.opiekun}%</text>
+      <text x="${cx+rMax+14}" y="${cy+4}" text-anchor="start" font-size="13" font-weight="600" fill="${META.strateg.color}">Wódz</text>
+      <text x="${cx+rMax-12}" y="${cy-6}" text-anchor="end" font-size="10" fill="#9CA0B1">${pcts.strateg}%</text>
+      <text x="${cx}" y="${cy+rMax+22}" text-anchor="middle" font-size="13" font-weight="600" fill="${META.ekspert.color}">Analityk</text>
+      <text x="${cx}" y="${cy+rMax-6}" text-anchor="middle" font-size="10" fill="#9CA0B1">${pcts.ekspert}%</text>
+      <text x="${cx-rMax-14}" y="${cy+4}" text-anchor="end" font-size="13" font-weight="600" fill="${META.inspirator.color}">Entuzjasta</text>
+      <text x="${cx-rMax+12}" y="${cy-6}" text-anchor="start" font-size="10" fill="#9CA0B1">${pcts.inspirator}%</text>`;
+    // Axis labels (small, between axes)
+    const axisLbls = `
+      <text x="${cx-rMax-8}" y="${cy-rMax+18}" text-anchor="end" font-size="9" fill="#6F7384" letter-spacing="1">EMOCJONALNY</text>
+      <text x="${cx+rMax+8}" y="${cy-rMax+18}" text-anchor="start" font-size="9" fill="#6F7384" letter-spacing="1">RACJONALNY</text>
+      <text x="${cx-rMax-8}" y="${cy+rMax-8}" text-anchor="end" font-size="9" fill="#6F7384" letter-spacing="1">SŁUCHACZ</text>
+      <text x="${cx+rMax+8}" y="${cy+rMax-8}" text-anchor="start" font-size="9" fill="#6F7384" letter-spacing="1">MÓWCA</text>`;
+    return `<svg viewBox="0 0 320 320" role="img" aria-label="Wykres 4 typów osobowości" style="width:100%;max-width:340px;height:auto;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg">
+      ${rings}
+      ${axes}
+      <polygon points="${poly}" fill="rgba(229,183,122,.12)" stroke="#E5B77A" stroke-width="1.5" stroke-linejoin="round"/>
+      ${dots}
+      ${labels}
+      ${axisLbls}
+    </svg>`;
+  }
+
   function renderResult(){
     clearPersist();
     // Zachowaj wynik dla modal wysyłki raportu
@@ -452,6 +505,10 @@ a{color:inherit;text-decoration:none}
       <section class="panel" style="border-color:${m.color};border-width:2px">
         <p class="eyebrow">Jaki masz styl</p>
         <p class="description">${m.desc}</p>
+      </section>
+      <section class="panel">
+        <p class="eyebrow">Twój wykres 4 stylów</p>
+        ${radarSvg(counts, pcts)}
       </section>
       <section class="panel">
         <p class="eyebrow">Podsumowanie 4 stylów</p>
