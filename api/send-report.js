@@ -38,81 +38,14 @@ const DISC = {
 
 
 async function compassChartMail(counts, total) {
-  const opi = counts.opiekun || 0;
-  const ins = counts.inspirator || 0;
-  const str = counts.strateg || 0;
-  const eks = counts.ekspert || 0;
-  const mowca = str + ins, sluchacz = opi + eks;
-  const emoc = opi + ins, rac = str + eks;
-  const tH = mowca + sluchacz || 1;
-  const tV = emoc + rac || 1;
-  const xVal = +((mowca - sluchacz) / tH).toFixed(3);
-  const yVal = +((emoc - rac) / tV).toFixed(3);
-
-  // Simple Chart.js scatter — 2 line datasets for cross axes + 1 point for user
-  const chart = {
-    type: 'scatter',
-    data: {
-      datasets: [
-        { type:'line', data:[{x:0,y:-1.1},{x:0,y:1.1}], borderColor:'#E5B77A', borderWidth:1.8, pointRadius:0, fill:false, showLine:true, tension:0 },
-        { type:'line', data:[{x:-1.1,y:0},{x:1.1,y:0}], borderColor:'#E5B77A', borderWidth:1.8, pointRadius:0, fill:false, showLine:true, tension:0 },
-        { data:[{x:xVal,y:yVal}], backgroundColor:'#E5B77A', borderColor:'#0D1423', pointRadius:14, pointBorderWidth:4 }
-      ]
-    },
-    options: {
-      layout: { padding: 20 },
-      plugins: { legend: { display: false }, tooltip: { enabled: false } },
-      scales: {
-        x: { min:-1.2, max:1.2, display:false, grid:{ display:false } },
-        y: { min:-1.2, max:1.2, display:false, grid:{ display:false } }
-      }
-    }
-  };
-
-  let imgUrl;
-  try {
-    const r = await fetch('https://quickchart.io/chart/create', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ chart, width: 380, height: 380, backgroundColor: '#0D1423', version: '4' })
-    });
-    const j = await r.json();
-    imgUrl = (j && j.success && j.url) ? j.url : null;
-  } catch(e) { imgUrl = null; }
-  if (!imgUrl) {
-    imgUrl = 'https://quickchart.io/chart?bkg=%230D1423&w=380&h=380&v=4&c=' + encodeURIComponent(JSON.stringify(chart));
-  }
-
-  const altTxt = `Kompas: Ekstrawertyk ${Math.round((xVal+1)*50)}%, Emocjonalny ${Math.round((yVal+1)*50)}%`;
-
-  // HTML 3x3 grid: corners with archetype labels, edges with axis labels, center with chart
-  return `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:8px auto 4px;border-collapse:collapse;width:100%;max-width:520px">
-    <tr>
-      <td style="width:33%;padding:4px"></td>
-      <td style="width:34%;padding:4px;text-align:center"><div style="font-size:11px;font-weight:700;color:#F6F1E8;letter-spacing:.18em">EMOCJONALNY</div><div style="font-size:9px;color:#E5B77A;letter-spacing:.14em;margin-top:2px">emocje</div></td>
-      <td style="width:33%;padding:4px"></td>
-    </tr>
-    <tr>
-      <td style="padding:4px;text-align:center;vertical-align:top"><div style="font-size:14px;font-weight:700;color:#22c55e">Przyjaciel</div></td>
-      <td style="padding:4px"></td>
-      <td style="padding:4px;text-align:center;vertical-align:top"><div style="font-size:14px;font-weight:700;color:#eab308">Entuzjasta</div></td>
-    </tr>
-    <tr>
-      <td style="padding:4px;text-align:right;vertical-align:middle"><div style="font-size:11px;font-weight:700;color:#F6F1E8;letter-spacing:.16em">INTRO-<br/>WERTYK</div><div style="font-size:9px;color:#E5B77A;letter-spacing:.14em;margin-top:2px">słuchacz</div></td>
-      <td style="padding:0"><img src="${imgUrl}" width="380" height="380" alt="${altTxt}" style="display:block;width:100%;height:auto;max-width:380px;margin:0 auto;border-radius:10px"/></td>
-      <td style="padding:4px;text-align:left;vertical-align:middle"><div style="font-size:11px;font-weight:700;color:#F6F1E8;letter-spacing:.16em">EKSTRA-<br/>WERTYK</div><div style="font-size:9px;color:#E5B77A;letter-spacing:.14em;margin-top:2px">mówca</div></td>
-    </tr>
-    <tr>
-      <td style="padding:4px;text-align:center;vertical-align:bottom"><div style="font-size:14px;font-weight:700;color:#3b82f6">Analityk</div></td>
-      <td style="padding:4px"></td>
-      <td style="padding:4px;text-align:center;vertical-align:bottom"><div style="font-size:14px;font-weight:700;color:#ef4444">Wódz</div></td>
-    </tr>
-    <tr>
-      <td style="padding:4px"></td>
-      <td style="padding:4px;text-align:center"><div style="font-size:9px;color:#E5B77A;letter-spacing:.14em">fakty</div><div style="font-size:11px;font-weight:700;color:#F6F1E8;letter-spacing:.18em;margin-top:2px">RACJONALNY</div></td>
-      <td style="padding:4px"></td>
-    </tr>
-  </table>`;
+  const o = counts.opiekun || 0;
+  const i = counts.inspirator || 0;
+  const s = counts.strateg || 0;
+  const e = counts.ekspert || 0;
+  // Uzyj wlasnego endpointu /api/compass (resvg renderuje pelny SVG kompasu na PNG)
+  const url = `https://www.testomnia.pl/api/compass.png?o=${o}&i=${i}&s=${s}&e=${e}`;
+  const alt = `Kompas: Przyjaciel ${o}, Entuzjasta ${i}, Wodz ${s}, Analityk ${e}`;
+  return `<div style="text-align:center;margin:8px 0 4px"><img src="${url}" width="680" height="520" alt="${alt}" style="display:block;width:100%;max-width:680px;height:auto;margin:0 auto;border-radius:12px"/></div>`;
 }
 
 async function discReport(r) {

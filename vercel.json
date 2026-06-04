@@ -7,6 +7,9 @@
   "functions": {
     "api/send-report.js": {
       "maxDuration": 10
+    },
+    "api/compass.js": {
+      "maxDuration": 10
     }
   },
   "headers": [
@@ -18,6 +21,25 @@
           "value": "noindex, nofollow, noarchive, nosnippet"
         }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "testomnia.vercel.app"
+        }
+      ],
+      "destination": "https://www.testomnia.pl/:path*",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/compass.png",
+      "destination": "/api/compass"
     }
   ]
 }
