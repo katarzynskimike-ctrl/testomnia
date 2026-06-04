@@ -1,7 +1,7 @@
 // Vercel Serverless Function: /api/send-report
 // Wysyła HTML raport z wynikiem testu przez Brevo
 
-const SENDER = { name: 'Testomnia', email: 'kontakt@testomnia.pl' };
+const SENDER = { name: 'Testomnia (DOP)', email: 'katarzynski.mike@gmail.com' };
 
 const TEST_NAMES = {
   '4-typy-osobowosci': 'Test 1 · 4 typy osobowości (DISC)',
