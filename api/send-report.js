@@ -43,7 +43,7 @@ async function compassChartMail(counts, total) {
   const s = counts.strateg || 0;
   const e = counts.ekspert || 0;
   // Uzyj wlasnego endpointu /api/compass (resvg renderuje pelny SVG kompasu na PNG)
-  const url = `https://www.testomnia.pl/api/compass.png?o=${o}&i=${i}&s=${s}&e=${e}`;
+  const url = `https://www.testomnia.pl/api/compass.png?o=${o}&i=${i}&s=${s}&e=${e}&v=${Date.now()}`;
   const alt = `Kompas: Przyjaciel ${o}, Entuzjasta ${i}, Wodz ${s}, Analityk ${e}`;
   return `<div style="text-align:center;margin:8px 0 4px"><img src="${url}" width="680" height="520" alt="${alt}" style="display:block;width:100%;max-width:680px;height:auto;margin:0 auto;border-radius:12px"/></div>`;
 }
