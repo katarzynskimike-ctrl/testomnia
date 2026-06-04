@@ -236,6 +236,14 @@ button{font:inherit;cursor:pointer}a{color:inherit;text-decoration:none}
       <p>W jednym zespole pracują dziś <strong>cztery pokolenia</strong> — od Powojennych po Z. Każde mówi innym językiem motywacji i ma inny sposób uczenia się. Sprawdź, czy umiesz rozpoznać i wykorzystać te różnice.</p>
       <p style="margin-top:14px;font-size:14px;color:#B8BAC6">21 pytań · ok. 8 minut · z wyjaśnieniami po każdej odpowiedzi. Szczególny nacisk na Pokolenie Z i Millennialsów — trzon dzisiejszych zespołów.</p>
       <div class="genPills">${pills}</div>
+      <div class="intro-preview">
+        <h4>Co dostaniesz po teście</h4>
+        <ul>
+          <li>Score komunikacji per pokolenie</li>
+          <li>Konkretne sytuacje z gabinetu</li>
+          <li>Wyjaśnienia po każdym pytaniu</li>
+        </ul>
+      </div>
       <button class="primaryBtn" id="start-btn">Rozpocznij test →</button>
     </section>`;
     document.getElementById("start-btn").onclick = ()=>{state.idx=0;state.answers={};go("q");};
