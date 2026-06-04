@@ -140,18 +140,18 @@ export default async function handler(req, res) {
       res.setHeader('Content-Type', 'image/svg+xml');
       return res.status(200).send(svg);
     }
-    const fontBuffers = [FONT_REG, FONT_BOLD].filter(Boolean);
+    const fontFiles = [
+      join(FONTS_DIR, 'DejaVuSans.ttf'),
+      join(FONTS_DIR, 'DejaVuSans-Bold.ttf')
+    ];
     const resvg = new Resvg(svg, {
       fitTo: { mode: 'width', value: 680 },
       font: {
-        fontBuffers,
+        fontFiles,
         loadSystemFonts: false,
         defaultFontFamily: 'DejaVu Sans',
         serifFamily: 'DejaVu Sans',
-        sansSerifFamily: 'DejaVu Sans',
-        cursiveFamily: 'DejaVu Sans',
-        fantasyFamily: 'DejaVu Sans',
-        monospaceFamily: 'DejaVu Sans'
+        sansSerifFamily: 'DejaVu Sans'
       }
     });
     const png = resvg.render().asPng();
