@@ -309,6 +309,34 @@ button{font:inherit;cursor:pointer}
       ]}
   ];
 
+  // F3: SAVE PROGRESS (localStorage)
+  var SAVE_KEY = 'testomnia-' + location.pathname.replace(/[^a-z0-9-]/gi,'') + '-state';
+  function savePersist(){
+    try{
+      if(state && state.screen==='q' && (Array.isArray(state.answers) ? state.answers.length : Object.keys(state.answers||{}).length)){
+        localStorage.setItem(SAVE_KEY, JSON.stringify({i:state.idx,a:state.answers,t:Date.now()}));
+      }
+    }catch(e){}
+  }
+  function clearPersist(){try{localStorage.removeItem(SAVE_KEY)}catch(e){}}
+  function hasPersist(){
+    try{
+      var r = localStorage.getItem(SAVE_KEY);
+      if(!r) return null;
+      var d = JSON.parse(r);
+      if(!d || !d.a) return null;
+      var n = Array.isArray(d.a) ? d.a.length : Object.keys(d.a).length;
+      if(!n) return null;
+      if(Date.now() - d.t > 1000*60*60*24*30) return null;
+      return d;
+    }catch(e){return null}
+  }
+  function showResumeModal(d){
+    var n = Array.isArray(d.a) ? d.a.length : Object.keys(d.a).length;
+    var total = (state && state.qs ? state.qs.length : (typeof Q!=='undefined' ? Q.length : (typeof QUESTIONS!=='undefined' ? QUESTIONS.length : '?')));
+    return confirm('Mamy zapisany niedokonczony test (pytanie ' + (d.i+1) + ' z ' + total + ', ' + n + ' odpowiedzi).\n\nKliknij OK zeby wznowic, Anuluj zeby zaczac od nowa.');
+  }
+
   const state = {
     screen:"intro",
     idx:0,
@@ -395,14 +423,14 @@ button{font:inherit;cursor:pointer}
     document.querySelectorAll(".sOpt").forEach(b=>{
       b.onclick = ()=>{
         const v = parseInt(b.dataset.v, 10);
-        state.answers[state.idx] = v;
+        state.answers[state.idx] = v; savePersist();
         b.classList.add("picked");
         setTimeout(advance, 200);
       };
     });
 
     document.getElementById("dont-know-btn").onclick = ()=>{
-      state.answers[state.idx] = 0;
+      state.answers[state.idx] = 0; savePersist();
       advance();
     };
 
@@ -544,6 +572,7 @@ button{font:inherit;cursor:pointer}
   }
 
   function renderResult(){
+    clearPersist();
     clearPersist();
     setTimeout(function(){var h=document.querySelector(".resultHero h1");if(h)h.focus()},120);
     const {Z, K, S, WS} = computeScores();

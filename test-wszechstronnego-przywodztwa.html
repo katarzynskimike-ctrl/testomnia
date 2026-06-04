@@ -148,7 +148,35 @@ const STYLES = {
 const SUBDIM_LABELS = {"kierunek": "Kierunek", "innowacje": "Innowacje", "rozwoj": "Rozwój", "wspiera": "Wspiera", "slucha": "Słucha", "dajesile": "Daje siłę", "organizacja": "Dobra organizacja", "wydajnosc": "Wydajność", "wdrozenie": "Wdrożenie", "wymagajacy": "Wymagający", "jasnestan": "Jasne stanowisko", "odpowiedzialny": "Odpowiedzialny"};
 const STYLE_ORDER = ["S","A","O","F"];
 
-let state = {screen:"intro", idx:0, answers:[]};
+// F3: SAVE PROGRESS (localStorage)
+  var SAVE_KEY = 'testomnia-' + location.pathname.replace(/[^a-z0-9-]/gi,'') + '-state';
+  function savePersist(){
+    try{
+      if(state && state.screen==='q' && (Array.isArray(state.answers) ? state.answers.length : Object.keys(state.answers||{}).length)){
+        localStorage.setItem(SAVE_KEY, JSON.stringify({i:state.idx,a:state.answers,t:Date.now()}));
+      }
+    }catch(e){}
+  }
+  function clearPersist(){try{localStorage.removeItem(SAVE_KEY)}catch(e){}}
+  function hasPersist(){
+    try{
+      var r = localStorage.getItem(SAVE_KEY);
+      if(!r) return null;
+      var d = JSON.parse(r);
+      if(!d || !d.a) return null;
+      var n = Array.isArray(d.a) ? d.a.length : Object.keys(d.a).length;
+      if(!n) return null;
+      if(Date.now() - d.t > 1000*60*60*24*30) return null;
+      return d;
+    }catch(e){return null}
+  }
+  function showResumeModal(d){
+    var n = Array.isArray(d.a) ? d.a.length : Object.keys(d.a).length;
+    var total = (state && state.qs ? state.qs.length : (typeof Q!=='undefined' ? Q.length : (typeof QUESTIONS!=='undefined' ? QUESTIONS.length : '?')));
+    return confirm('Mamy zapisany niedokonczony test (pytanie ' + (d.i+1) + ' z ' + total + ', ' + n + ' odpowiedzi).\n\nKliknij OK zeby wznowic, Anuluj zeby zaczac od nowa.');
+  }
+
+let var prev=hasPersist();if(prev&&showResumeModal(prev)){clearPersist();state={screen:\"intro\",idx:prev.i,answers:prev.a};}else{clearPersist();state={screen:\"intro\", idx:0, answers:[]};}
 const root = document.getElementById("root");
 
 function shuffle(a){const c=[...a];for(let i=c.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[c[i],c[j]]=[c[j],c[i]];}return c;}
@@ -214,7 +242,7 @@ function renderQuestion(){
   document.querySelectorAll(".opt").forEach(b=>{
     b.onclick = ()=>{
       const i = parseInt(b.dataset.i,10);
-      state.answers[state.idx] = i;
+      state.answers[state.idx] = i; savePersist();
       b.classList.add("picked");
       setTimeout(()=>{
         if(state.idx===state.qs.length-1) go("r");
@@ -247,6 +275,7 @@ function computeScores(){
 }
 
 function renderResult(){
+    clearPersist();
     clearPersist();
     setTimeout(function(){var h=document.querySelector(".resultHero h1");if(h)h.focus()},120);
   const {styleScore, subScore} = computeScores();
@@ -348,7 +377,7 @@ function renderResult(){
   `;
 
   document.getElementById("restart-btn").onclick = ()=>{
-    state = {screen:"intro",idx:0,answers:[]};
+    clearPersist();state={screen:\"intro\",idx:0,answers:[]};
     go("intro");
   };
 }
