@@ -48,7 +48,7 @@ function buildSvg(counts) {
   const dotPct = Math.round(dom.pkt / totalQ * 100);
 
   function vt(text, x, fs, color, w) {
-    const SP = 14;
+    const SP = 16;
     const chars = Array.from(text);
     const n = chars.length;
     const half = ((n - 1) * SP) / 2;
@@ -76,8 +76,8 @@ function buildSvg(counts) {
   ticks += `<text x="${cx-6}" y="${cy+13}" text-anchor="end" font-size="12" fill="#9CA0B1">0</text>`;
 
   const arrSz = 6;
-  const xPktL = cx - rMax - 10, xSluL = cx - rMax - 50, xIntL = cx - rMax - 70;
-  const xPktR = cx + rMax + 10, xMowR = cx + rMax + 50, xEkstR = cx + rMax + 70;
+  const xPktL = cx - rMax - 12, xSluL = cx - rMax - 75, xIntL = cx - rMax - 100;
+  const xPktR = cx + rMax + 12, xMowR = cx + rMax + 75, xEkstR = cx + rMax + 100;
 
   return `<svg viewBox="0 0 820 640" xmlns="http://www.w3.org/2000/svg" width="820" height="640">
 <rect width="820" height="640" fill="#0D1423"/>
