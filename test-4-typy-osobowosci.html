@@ -568,6 +568,16 @@ a{color:inherit;text-decoration:none}
     }
   });
 
+  // Auto-start if URL has ?start=1 (QR-flow for training sessions)
+  try {
+    var __params = new URLSearchParams(location.search);
+    if (__params.get('start') === '1') {
+      state.qs = Q.map(function(q){ return Object.assign({}, q, { options: shuffle(q.options) }); });
+      clearPersist(); // ignore old saved progress on QR scan
+      state.idx = 0; state.answers = {};
+      state.screen = 'q';
+    }
+  } catch(e) {}
   render();
 })();
 </script>
