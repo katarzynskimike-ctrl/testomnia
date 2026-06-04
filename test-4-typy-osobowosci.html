@@ -361,54 +361,72 @@ a{color:inherit;text-decoration:none}
 
   function compassSvg(counts){
     const opi=counts.opiekun||0, ins=counts.inspirator||0, str=counts.strateg||0, eks=counts.ekspert||0;
+    const totalQ = (opi+ins+str+eks) || 33;
     const mowca = str + ins, sluchacz = opi + eks;
     const emoc = opi + ins, rac = str + eks;
-    // Scale: 33 pts = full radius
-    const maxPt = 33;
-    const cx=240, cy=240, rMax=180;
-    const ptScale = rMax / maxPt;
-    // 4 axis marker positions (proportional to real pkt values)
-    const mowcaX   = cx + mowca * ptScale;     // right
-    const sluchaczX= cx - sluchacz * ptScale;  // left
-    const emocY    = cy - emoc * ptScale;      // up
-    const racY     = cy + rac * ptScale;       // down
-    // Center dot — vector resultant
-    const xVal = (mowca - sluchacz) / (mowca + sluchacz || 1);
-    const yVal = (emoc - rac) / (emoc + rac || 1);
-    const px = cx + xVal * rMax;
-    const py = cy - yVal * rMax;
 
-    // Quadrant tints
+    const maxPt = 33;
+    const cx=260, cy=240, rMax=158;
+    const ptScale = rMax / maxPt;
+
+    const mowcaX   = cx + mowca * ptScale;
+    const sluchaczX= cx - sluchacz * ptScale;
+    const emocY    = cy - emoc * ptScale;
+    const racY     = cy + rac * ptScale;
+
+    // Kropka uzytkownika = dominujacy archetyp na diagonali, dystans = jego pkt/33
+    const archs = [
+      {k:'opiekun',    pkt:opi, dx:-1, dy:-1, color:META.opiekun.color, name:META.opiekun.name},
+      {k:'inspirator', pkt:ins, dx:+1, dy:-1, color:META.inspirator.color, name:META.inspirator.name},
+      {k:'strateg',    pkt:str, dx:+1, dy:+1, color:META.strateg.color, name:META.strateg.name},
+      {k:'ekspert',    pkt:eks, dx:-1, dy:+1, color:META.ekspert.color, name:META.ekspert.name}
+    ];
+    const dom = archs.reduce((a,b)=>b.pkt>a.pkt?b:a);
+    const domFrac = dom.pkt / maxPt;
+    const diag = 1 / Math.SQRT2;
+    const dotX = cx + dom.dx * domFrac * rMax * diag;
+    const dotY = cy + dom.dy * domFrac * rMax * diag;
+    const dotPct = Math.round(dom.pkt / totalQ * 100);
+
+    // Helper: pionowy napis (litera pod litera) po lewej/prawej osi
+    function verticalText(text, x, yStart, yEnd, fontSize, color, weight){
+      const chars = Array.from(text);
+      const n = chars.length;
+      const spacing = n > 1 ? (yEnd - yStart) / (n - 1) : 0;
+      return chars.map((ch, i) =>
+        `<text x="${x}" y="${yStart + i*spacing}" text-anchor="middle" font-size="${fontSize}" font-weight="${weight}" fill="${color}" font-family="Inter,sans-serif" letter-spacing="1">${ch}</text>`
+      ).join('');
+    }
+
     const quad = `
       <rect x="${cx-rMax}" y="${cy-rMax}" width="${rMax}" height="${rMax}" fill="${META.opiekun.color}" opacity=".04"/>
       <rect x="${cx}"      y="${cy-rMax}" width="${rMax}" height="${rMax}" fill="${META.inspirator.color}" opacity=".04"/>
       <rect x="${cx-rMax}" y="${cy}"      width="${rMax}" height="${rMax}" fill="${META.ekspert.color}" opacity=".04"/>
       <rect x="${cx}"      y="${cy}"      width="${rMax}" height="${rMax}" fill="${META.strateg.color}" opacity=".04"/>`;
 
-    // Frame
     const frame = `<rect x="${cx-rMax}" y="${cy-rMax}" width="${rMax*2}" height="${rMax*2}" fill="none" stroke="rgba(229,183,122,.32)" stroke-width="1"/>`;
 
-    // Tickmarks at 3, 18, 33 on each axis (positive and negative side)
+    // Ticki tylko 3, 18, 33; "33" nie wystaje poza ramke
     const tickVals = [3, 18, 33];
     let ticks = '';
     tickVals.forEach(p => {
       const o = p * ptScale;
-      // +X (right)
+      const atEdge = (p === maxPt);
+      // +X
       ticks += `<line x1="${cx+o}" y1="${cy-3}" x2="${cx+o}" y2="${cy+3}" stroke="#E5B77A" stroke-width="1"/>`;
-      ticks += `<text x="${cx+o}" y="${cy+14}" text-anchor="middle" font-size="10" fill="#9CA0B1" font-family="Inter,sans-serif">${p}</text>`;
-      // -X (left)
+      ticks += `<text x="${cx+o - (atEdge?5:0)}" y="${cy+13}" text-anchor="${atEdge?'end':'middle'}" font-size="10" fill="#9CA0B1" font-family="Inter,sans-serif">${p}</text>`;
+      // -X
       ticks += `<line x1="${cx-o}" y1="${cy-3}" x2="${cx-o}" y2="${cy+3}" stroke="#E5B77A" stroke-width="1"/>`;
-      ticks += `<text x="${cx-o}" y="${cy+14}" text-anchor="middle" font-size="10" fill="#9CA0B1" font-family="Inter,sans-serif">${p}</text>`;
-      // +Y (up)
+      ticks += `<text x="${cx-o + (atEdge?5:0)}" y="${cy+13}" text-anchor="${atEdge?'start':'middle'}" font-size="10" fill="#9CA0B1" font-family="Inter,sans-serif">${p}</text>`;
+      // +Y
       ticks += `<line x1="${cx-3}" y1="${cy-o}" x2="${cx+3}" y2="${cy-o}" stroke="#E5B77A" stroke-width="1"/>`;
-      ticks += `<text x="${cx-7}" y="${cy-o+3}" text-anchor="end" font-size="10" fill="#9CA0B1" font-family="Inter,sans-serif">${p}</text>`;
-      // -Y (down)
+      ticks += `<text x="${cx-7}" y="${cy-o + (atEdge?10:3)}" text-anchor="end" font-size="10" fill="#9CA0B1" font-family="Inter,sans-serif">${p}</text>`;
+      // -Y
       ticks += `<line x1="${cx-3}" y1="${cy+o}" x2="${cx+3}" y2="${cy+o}" stroke="#E5B77A" stroke-width="1"/>`;
-      ticks += `<text x="${cx-7}" y="${cy+o+3}" text-anchor="end" font-size="10" fill="#9CA0B1" font-family="Inter,sans-serif">${p}</text>`;
+      ticks += `<text x="${cx-7}" y="${cy+o - (atEdge?5:-3)}" text-anchor="end" font-size="10" fill="#9CA0B1" font-family="Inter,sans-serif">${p}</text>`;
     });
-    ticks += `<text x="${cx-6}" y="${cy+14}" text-anchor="end" font-size="10" fill="#9CA0B1" font-family="Inter,sans-serif">0</text>`;
+    ticks += `<text x="${cx-6}" y="${cy+13}" text-anchor="end" font-size="10" fill="#9CA0B1" font-family="Inter,sans-serif">0</text>`;
 
-    // Main axes (champagne)
     const arrSz = 6;
     const axes = `
       <line x1="${cx-rMax}" y1="${cy}" x2="${cx+rMax}" y2="${cy}" stroke="#E5B77A" stroke-width="1.5"/>
@@ -418,45 +436,52 @@ a{color:inherit;text-decoration:none}
       <polygon points="${cx-arrSz/2},${cy-rMax+arrSz} ${cx+arrSz/2},${cy-rMax+arrSz} ${cx},${cy-rMax}" fill="#E5B77A"/>
       <polygon points="${cx-arrSz/2},${cy+rMax-arrSz} ${cx+arrSz/2},${cy+rMax-arrSz} ${cx},${cy+rMax}" fill="#E5B77A"/>`;
 
-    // Kite polygon connecting the 4 axis-marker points
     const kitePts = `${cx},${emocY} ${mowcaX},${cy} ${cx},${racY} ${sluchaczX},${cy}`;
     const kite = `<polygon points="${kitePts}" fill="rgba(229,183,122,.12)" stroke="#E5B77A" stroke-width="1.5" stroke-linejoin="round"/>`;
 
-    // 4 markers on axes (colored by axis side) with pkt values
     const markers = `
       <circle cx="${cx}" cy="${emocY}" r="5" fill="${META.opiekun.color}" stroke="#0D1423" stroke-width="1.5"/>
       <text x="${cx+10}" y="${emocY-6}" font-size="11" font-weight="700" fill="${META.opiekun.color}" font-family="Inter,sans-serif">${emoc} pkt</text>
       <circle cx="${mowcaX}" cy="${cy}" r="5" fill="${META.strateg.color}" stroke="#0D1423" stroke-width="1.5"/>
-      <text x="${mowcaX+8}" y="${cy-8}" font-size="11" font-weight="700" fill="${META.strateg.color}" font-family="Inter,sans-serif">${mowca} pkt</text>
+      <text x="${mowcaX-8}" y="${cy-8}" font-size="11" font-weight="700" fill="${META.strateg.color}" font-family="Inter,sans-serif" text-anchor="end">${mowca} pkt</text>
       <circle cx="${cx}" cy="${racY}" r="5" fill="${META.ekspert.color}" stroke="#0D1423" stroke-width="1.5"/>
       <text x="${cx+10}" y="${racY+14}" font-size="11" font-weight="700" fill="${META.ekspert.color}" font-family="Inter,sans-serif">${rac} pkt</text>
       <circle cx="${sluchaczX}" cy="${cy}" r="5" fill="${META.inspirator.color}" stroke="#0D1423" stroke-width="1.5"/>
-      <text x="${sluchaczX-8}" y="${cy-8}" font-size="11" font-weight="700" fill="${META.inspirator.color}" font-family="Inter,sans-serif" text-anchor="end">${sluchacz} pkt</text>`;
+      <text x="${sluchaczX+8}" y="${cy-8}" font-size="11" font-weight="700" fill="${META.inspirator.color}" font-family="Inter,sans-serif">${sluchacz} pkt</text>`;
 
-    // Corner labels (archetypes)
     const corners = `
-      <text x="${cx-rMax+10}" y="${cy-rMax+20}" font-size="13" font-weight="700" fill="${META.opiekun.color}" font-family="Inter,sans-serif">Przyjaciel</text>
-      <text x="${cx+rMax-10}" y="${cy-rMax+20}" font-size="13" font-weight="700" fill="${META.inspirator.color}" font-family="Inter,sans-serif" text-anchor="end">Entuzjasta</text>
-      <text x="${cx-rMax+10}" y="${cy+rMax-8}"  font-size="13" font-weight="700" fill="${META.ekspert.color}"    font-family="Inter,sans-serif">Analityk</text>
-      <text x="${cx+rMax-10}" y="${cy+rMax-8}"  font-size="13" font-weight="700" fill="${META.strateg.color}"    font-family="Inter,sans-serif" text-anchor="end">Wódz</text>`;
+      <text x="${cx-rMax+10}" y="${cy-rMax+18}" font-size="13" font-weight="700" fill="${META.opiekun.color}"    font-family="Inter,sans-serif">Przyjaciel</text>
+      <text x="${cx+rMax-10}" y="${cy-rMax+18}" font-size="13" font-weight="700" fill="${META.inspirator.color}" font-family="Inter,sans-serif" text-anchor="end">Entuzjasta</text>
+      <text x="${cx-rMax+10}" y="${cy+rMax-7}"  font-size="13" font-weight="700" fill="${META.ekspert.color}"    font-family="Inter,sans-serif">Analityk</text>
+      <text x="${cx+rMax-10}" y="${cy+rMax-7}"  font-size="13" font-weight="700" fill="${META.strateg.color}"    font-family="Inter,sans-serif" text-anchor="end">Wódz</text>`;
 
-    // Axis labels (outside frame)
-    const axLabels = `
-      <text x="${cx}" y="${cy-rMax-22}" text-anchor="middle" font-size="11" font-weight="700" fill="#F6F1E8" font-family="Inter,sans-serif" letter-spacing="2">EMOCJONALNY</text>
-      <text x="${cx}" y="${cy-rMax-9}"  text-anchor="middle" font-size="9"  fill="#9CA0B1" font-family="Inter,sans-serif" letter-spacing="1.5">emocje</text>
-      <text x="${cx}" y="${cy+rMax+30}" text-anchor="middle" font-size="11" font-weight="700" fill="#F6F1E8" font-family="Inter,sans-serif" letter-spacing="2">RACJONALNY</text>
-      <text x="${cx}" y="${cy+rMax+18}" text-anchor="middle" font-size="9"  fill="#9CA0B1" font-family="Inter,sans-serif" letter-spacing="1.5">fakty</text>
-      <text x="${cx-rMax-22}" y="${cy}" text-anchor="middle" font-size="11" font-weight="700" fill="#F6F1E8" font-family="Inter,sans-serif" letter-spacing="2" transform="rotate(-90 ${cx-rMax-22} ${cy})">INTROWERTYK</text>
-      <text x="${cx-rMax-10}" y="${cy}" text-anchor="middle" font-size="9"  fill="#9CA0B1" font-family="Inter,sans-serif" letter-spacing="1.5" transform="rotate(-90 ${cx-rMax-10} ${cy})">słuchacz</text>
-      <text x="${cx+rMax+22}" y="${cy}" text-anchor="middle" font-size="11" font-weight="700" fill="#F6F1E8" font-family="Inter,sans-serif" letter-spacing="2" transform="rotate(90 ${cx+rMax+22} ${cy})">EKSTRAWERTYK</text>
-      <text x="${cx+rMax+10}" y="${cy}" text-anchor="middle" font-size="9"  fill="#9CA0B1" font-family="Inter,sans-serif" letter-spacing="1.5" transform="rotate(90 ${cx+rMax+10} ${cy})">mówca</text>`;
+    // Etykiety osi: gora/dol poziomo, lewo/prawo PIONOWO (litera pod litera)
+    // Lewa strona: INTROWERTYK (gora) + SŁUCHACZ (dol), w kolumnie x = cx - rMax - 18
+    // Prawa strona: EKSTRAWERTYK (gora) + MÓWCA (dol), w kolumnie x = cx + rMax + 18
+    const xL = cx - rMax - 22;
+    const xR = cx + rMax + 22;
+    const axLabels =
+      // Gora
+      `<text x="${cx}" y="${cy-rMax-22}" text-anchor="middle" font-size="11" font-weight="700" fill="#F6F1E8" font-family="Inter,sans-serif" letter-spacing="2">EMOCJONALNY</text>` +
+      `<text x="${cx}" y="${cy-rMax-9}"  text-anchor="middle" font-size="10" font-weight="600" fill="#E5B77A" font-family="Inter,sans-serif" letter-spacing="1.5">EMOCJE</text>` +
+      // Dol
+      `<text x="${cx}" y="${cy+rMax+30}" text-anchor="middle" font-size="11" font-weight="700" fill="#F6F1E8" font-family="Inter,sans-serif" letter-spacing="2">RACJONALNY</text>` +
+      `<text x="${cx}" y="${cy+rMax+18}" text-anchor="middle" font-size="10" font-weight="600" fill="#E5B77A" font-family="Inter,sans-serif" letter-spacing="1.5">FAKTY</text>` +
+      // Lewo - pionowo: INTROWERTYK w gornej polowie + SLUCHACZ w dolnej polowie
+      verticalText('INTROWERTYK', xL, cy-rMax+8, cy-12, 10, '#F6F1E8', '700') +
+      verticalText('SŁUCHACZ',    xL, cy+18,    cy+rMax-8, 10, '#E5B77A', '600') +
+      // Prawo
+      verticalText('EKSTRAWERTYK', xR, cy-rMax+8, cy-12, 10, '#F6F1E8', '700') +
+      verticalText('MÓWCA',        xR, cy+18,    cy+rMax-8, 10, '#E5B77A', '600');
 
-    // Center vector dot (small)
+    // Centralna kropka uzytkownika - na diagonali dominujacego, dystans = pkt/33
     const dot = `
-      <circle cx="${px}" cy="${py}" r="6.5" fill="none" stroke="#E5B77A" stroke-width="1" opacity=".45"/>
-      <circle cx="${px}" cy="${py}" r="3.5" fill="#E5B77A" stroke="#0D1423" stroke-width="1.5"/>`;
+      <line x1="${cx}" y1="${cy}" x2="${dotX}" y2="${dotY}" stroke="${dom.color}" stroke-width="1" stroke-dasharray="3 3" opacity=".55"/>
+      <circle cx="${dotX}" cy="${dotY}" r="8" fill="none" stroke="${dom.color}" stroke-width="1.2" opacity=".5"/>
+      <circle cx="${dotX}" cy="${dotY}" r="4" fill="#E5B77A" stroke="#0D1423" stroke-width="1.8"/>
+      <text x="${dotX + (dom.dx*12)}" y="${dotY + (dom.dy*12) + 4}" text-anchor="${dom.dx>0?'start':'end'}" font-size="10" font-weight="700" fill="#E5B77A" font-family="Inter,sans-serif">${dotPct}%</text>`;
 
-    return `<svg viewBox="0 0 480 480" role="img" aria-label="Kompas 4 typów osobowości" style="width:100%;max-width:480px;height:auto;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg">
+    return `<svg viewBox="0 0 520 480" role="img" aria-label="Kompas 4 typów osobowości" style="width:100%;max-width:520px;height:auto;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg">
       ${quad}
       ${frame}
       ${ticks}
