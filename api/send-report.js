@@ -1,4 +1,5 @@
 // Vercel Serverless Function: /api/send-report
+import { saveResult, markEmailSent, logEvent } from './_db.js';
 // Wysyła HTML raport z wynikiem testu przez Brevo
 
 const SENDER = { name: 'Testomnia (DOP)', email: 'katarzynski.mike@gmail.com' };
@@ -126,6 +127,24 @@ export default async function handler(req, res) {
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: 'Niepoprawny email' });
     if (!slug || !result) return res.status(400).json({ error: 'Brak danych testu' });
     if (!process.env.BREVO_API_KEY) return res.status(500).json({ error: 'BREVO_API_KEY missing' });
+
+    // Zapis do bazy PRZED wysylka maila (jesli baza jest skonfigurowana)
+    let resultId = null;
+    try {
+      const saved = await saveResult({
+        email, testSlug: slug,
+        dominant: result?.dominant,
+        counts: result?.counts || {},
+        total: result?.total || 0,
+        ip: (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || null,
+        userAgent: req.headers['user-agent'] || null,
+        referrer: req.headers['referer'] || null
+      });
+      resultId = saved.resultId;
+      await logEvent({ type: 'report_requested', email, testSlug: slug, meta: { dominant: result?.dominant } });
+    } catch(e) {
+      console.log('DB save failed (non-blocking):', e.message);
+    }
     const subject = `Twój raport · ${TEST_NAMES[slug] || 'Test Testomnia'}`;
     const r = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
@@ -134,6 +153,9 @@ export default async function handler(req, res) {
     });
     if (!r.ok) { const errText = await r.text(); return res.status(502).json({ error: 'Brevo API', detail: errText.substring(0,500) }); }
     const data = await r.json();
-    return res.status(200).json({ success: true, messageId: data.messageId });
+    if (resultId && data.messageId) {
+      try { await markEmailSent(resultId, data.messageId); } catch(e) { console.log('markEmailSent failed:', e.message); }
+    }
+    return res.status(200).json({ success: true, messageId: data.messageId, resultId });
   } catch (e) { return res.status(500).json({ error: e.message || 'Internal' }); }
 }

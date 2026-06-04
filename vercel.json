@@ -11,6 +11,9 @@
     "api/compass.js": {
       "maxDuration": 10,
       "includeFiles": "api/_fonts/**"
+    },
+    "api/admin/data.js": {
+      "maxDuration": 10
     }
   },
   "headers": [

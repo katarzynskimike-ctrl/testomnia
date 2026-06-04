@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>Testomnia — Admin</title>
+<style>
+:root{
+  --bg:#080E18; --surface:#0D1423; --line:#1f2638;
+  --ink:#F6F1E8; --ink-soft:#D8D6CF; --ink-muted:#9CA0B1;
+  --champagne:#E5B77A; --champagne-soft:#F0D5A8;
+  --green:#22c55e; --yellow:#eab308; --red:#ef4444; --blue:#3b82f6;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink-soft);font-family:'Inter',-apple-system,sans-serif;font-size:14px;line-height:1.5;min-height:100vh}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--line);background:var(--surface)}
+.brand{display:flex;align-items:center;gap:12px;font-family:Cormorant Garamond,Georgia,serif;font-size:22px;color:var(--ink);font-weight:500}
+.brand span.dot{width:10px;height:10px;background:var(--champagne);border-radius:50%}
+.brand small{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--champagne);font-family:Inter,sans-serif;margin-left:8px}
+.tabs{display:flex;gap:4px;padding:0 24px;border-bottom:1px solid var(--line)}
+.tab{padding:14px 18px;color:var(--ink-muted);cursor:pointer;border-bottom:2px solid transparent;font-weight:500}
+.tab.active{color:var(--champagne);border-color:var(--champagne)}
+.tab:hover{color:var(--ink)}
+.wrap{padding:24px;max-width:1400px;margin:0 auto}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:20px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:24px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+.stat .lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-muted);font-weight:600}
+.stat .val{font-family:Cormorant Garamond,Georgia,serif;font-size:36px;font-weight:600;color:var(--champagne);margin-top:6px;line-height:1}
+.stat .sub{font-size:11px;color:var(--ink-muted);margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);color:var(--ink-muted);font-weight:600;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--ink-soft)}
+tr:hover td{background:rgba(229,183,122,.04)}
+.tag{display:inline-block;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:.04em}
+.tag.opiekun{background:rgba(34,197,94,.15);color:var(--green)}
+.tag.inspirator{background:rgba(234,179,8,.15);color:var(--yellow)}
+.tag.strateg{background:rgba(239,68,68,.15);color:var(--red)}
+.tag.ekspert{background:rgba(59,130,246,.15);color:var(--blue)}
+.tag.paid{background:rgba(34,197,94,.15);color:var(--green)}
+.tag.pending{background:rgba(234,179,8,.15);color:var(--yellow)}
+.tag.failed{background:rgba(239,68,68,.15);color:var(--red)}
+input,select{background:var(--bg);border:1px solid var(--line);color:var(--ink);padding:9px 12px;border-radius:8px;font-size:13px;font-family:inherit}
+input:focus,select:focus{outline:none;border-color:var(--champagne)}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.toolbar .right{margin-left:auto;display:flex;gap:10px}
+.btn{background:rgba(229,183,122,.1);border:1px solid rgba(229,183,122,.3);color:var(--champagne);padding:9px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{background:rgba(229,183,122,.18)}
+.btn.primary{background:var(--champagne);color:#1a1109}
+.btn.primary:hover{background:var(--champagne-soft)}
+.empty{text-align:center;color:var(--ink-muted);padding:40px;font-size:14px}
+.bars{display:flex;flex-direction:column;gap:8px}
+.bar{display:flex;align-items:center;gap:10px}
+.bar .lbl{min-width:120px;font-size:13px}
+.bar .track{flex:1;height:8px;background:var(--bg);border-radius:999px;overflow:hidden}
+.bar .fill{height:8px;border-radius:999px}
+.bar .val{min-width:48px;text-align:right;font-weight:600;color:var(--ink)}
+.muted{color:var(--ink-muted)}
+.login{max-width:380px;margin:80px auto;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:36px;text-align:center}
+.login h2{margin:0 0 8px;font-family:Cormorant Garamond,Georgia,serif;font-weight:500;font-size:28px;color:var(--ink)}
+.login p{margin:0 0 20px;font-size:13px;color:var(--ink-muted)}
+.login input{width:100%;margin-bottom:12px}
+.login button{width:100%;background:var(--champagne);color:#1a1109;border:0;padding:12px;border-radius:8px;font-weight:600;cursor:pointer;font-size:14px}
+.err{color:var(--red);font-size:12px;margin-top:8px}
+canvas{max-width:100%}
+.json{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-muted);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+</style>
+</head>
+<body>
+<div id="loginScreen" class="login" style="display:none">
+  <h2>Testomnia Admin</h2>
+  <p>Wprowadź token dostępu (env ADMIN_TOKEN)</p>
+  <input type="password" id="tokenInput" placeholder="Token" autofocus>
+  <button onclick="login()">Zaloguj</button>
+  <div class="err" id="loginErr"></div>
+</div>
+
+<div id="app" style="display:none">
+<div class="topbar">
+  <div class="brand"><span class="dot"></span>Testomnia<small>Admin</small></div>
+  <div>
+    <button class="btn" onclick="loadView(currentView)">↻ Odśwież</button>
+    <button class="btn" onclick="logout()">Wyloguj</button>
+  </div>
+</div>
+<div class="tabs">
+  <div class="tab active" data-v="overview" onclick="loadView('overview')">Statystyki</div>
+  <div class="tab" data-v="customers" onclick="loadView('customers')">Klienci</div>
+  <div class="tab" data-v="results" onclick="loadView('results')">Wyniki testów</div>
+  <div class="tab" data-v="payments" onclick="loadView('payments')">Płatności</div>
+</div>
+<div class="wrap" id="content"><div class="empty">Ładowanie…</div></div>
+</div>
+
+<script>
+const ARCHETYPE_NAMES = { opiekun:'Przyjaciel', inspirator:'Entuzjasta', strateg:'Wódz', ekspert:'Analityk' };
+const ARCHETYPE_COLORS = { opiekun:'#22c55e', inspirator:'#eab308', strateg:'#ef4444', ekspert:'#3b82f6' };
+
+let TOKEN = localStorage.getItem('admin_token') || '';
+let currentView = 'overview';
+
+function showLogin(){ document.getElementById('loginScreen').style.display='block'; document.getElementById('app').style.display='none'; }
+function showApp(){ document.getElementById('loginScreen').style.display='none'; document.getElementById('app').style.display='block'; }
+function login(){
+  const t = document.getElementById('tokenInput').value.trim();
+  if(!t) return;
+  TOKEN = t; localStorage.setItem('admin_token', t);
+  loadView('overview');
+}
+function logout(){ TOKEN=''; localStorage.removeItem('admin_token'); showLogin(); }
+
+async function api(view, params={}){
+  const qs = new URLSearchParams({ token: TOKEN, view, ...params });
+  const r = await fetch('/api/admin/data?'+qs.toString());
+  if(r.status===401){ document.getElementById('loginErr').textContent='Niepoprawny token'; showLogin(); throw new Error('unauth'); }
+  return r.json();
+}
+
+document.getElementById('tokenInput')?.addEventListener('keydown', e=>{if(e.key==='Enter')login();});
+
+function fmt(n){ return new Intl.NumberFormat('pl-PL').format(n||0); }
+function fmtZl(c){ return (c/100).toLocaleString('pl-PL',{style:'currency',currency:'PLN'}); }
+function fmtDate(s){ if(!s)return''; const d=new Date(s); return d.toLocaleString('pl-PL',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
+function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+async function loadView(view){
+  currentView = view;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.v===view));
+  const c = document.getElementById('content');
+  c.innerHTML = '<div class="empty">Ładowanie…</div>';
+  try {
+    if(view==='overview') return renderOverview(await api('overview'));
+    if(view==='customers') return renderCustomers(await api('customers'));
+    if(view==='results') return renderResults(await api('results'));
+    if(view==='payments') return renderPayments(await api('payments'));
+  } catch(e) { /* unauth already handled */ }
+}
+
+function renderOverview(d){
+  const s = d.stats || {};
+  const top = d.topArchetypes || [];
+  const recent = d.recent || [];
+  const byTest = d.byTest || [];
+  const today = d.today || [];
+
+  const totalArch = top.reduce((a,b)=>a+Number(b.cnt),0) || 1;
+  const archBars = top.map(t => {
+    const pct = Math.round(Number(t.cnt)/totalArch*100);
+    const c = ARCHETYPE_COLORS[t.dominant] || '#888';
+    const n = ARCHETYPE_NAMES[t.dominant] || t.dominant;
+    return `<div class="bar"><div class="lbl">${escapeHtml(n)}</div><div class="track"><div class="fill" style="width:${pct}%;background:${c}"></div></div><div class="val">${pct}% <span class="muted">(${t.cnt})</span></div></div>`;
+  }).join('');
+
+  const recentRows = recent.map(r=>`<tr>
+    <td>${fmtDate(r.created_at)}</td>
+    <td>${escapeHtml(r.email)}</td>
+    <td>${escapeHtml(r.test_slug)}</td>
+    <td><span class="tag ${r.dominant||''}">${ARCHETYPE_NAMES[r.dominant]||r.dominant||'—'}</span></td>
+  </tr>`).join('') || '<tr><td colspan="4" class="empty">Brak wyników</td></tr>';
+
+  const testRows = byTest.map(t=>`<tr><td>${escapeHtml(t.test_slug)}</td><td>${fmt(t.cnt)}</td></tr>`).join('');
+
+  document.getElementById('content').innerHTML = `
+    <div class="stats">
+      <div class="stat"><div class="lbl">Klienci</div><div class="val">${fmt(s.customers)}</div><div class="sub">unikalnych emaili</div></div>
+      <div class="stat"><div class="lbl">Wyniki testów</div><div class="val">${fmt(s.results)}</div><div class="sub">wszystkie ukończone</div></div>
+      <div class="stat"><div class="lbl">Płatności</div><div class="val">${fmt(s.paid)}</div><div class="sub">zakończone</div></div>
+      <div class="stat"><div class="lbl">Przychód</div><div class="val">${fmtZl(s.revenue_cents)}</div><div class="sub">netto</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
+      <div class="card">
+        <h3 style="margin:0 0 14px;font-family:Cormorant Garamond,Georgia,serif;font-weight:500;color:var(--ink)">Rozkład archetypów</h3>
+        ${archBars || '<div class="empty">Brak danych</div>'}
+      </div>
+      <div class="card">
+        <h3 style="margin:0 0 14px;font-family:Cormorant Garamond,Georgia,serif;font-weight:500;color:var(--ink)">Testy</h3>
+        <table>${testRows || '<tr><td class="empty">Brak danych</td></tr>'}</table>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="margin:0 0 14px;font-family:Cormorant Garamond,Georgia,serif;font-weight:500;color:var(--ink)">Ostatnie 20 wyników</h3>
+      <table>
+        <thead><tr><th>Data</th><th>Email</th><th>Test</th><th>Archetyp</th></tr></thead>
+        <tbody>${recentRows}</tbody>
+      </table>
+    </div>`;
+}
+
+function renderCustomers(d){
+  const list = d.customers || [];
+  const rows = list.map(c=>`<tr>
+    <td>${escapeHtml(c.email)}</td>
+    <td>${c.test_count||0}</td>
+    <td>${fmtDate(c.first_seen)}</td>
+    <td>${fmtDate(c.last_seen)}</td>
+  </tr>`).join('') || '<tr><td colspan="4" class="empty">Brak klientów</td></tr>';
+  document.getElementById('content').innerHTML = `
+    <div class="toolbar">
+      <input id="searchInput" placeholder="Szukaj email…" style="min-width:280px">
+      <button class="btn" onclick="searchCustomers()">Szukaj</button>
+      <div class="right">
+        <button class="btn" onclick="exportCsv('customers')">↓ CSV</button>
+      </div>
+    </div>
+    <div class="card">
+      <table>
+        <thead><tr><th>Email</th><th>Liczba testów</th><th>Pierwsza wizyta</th><th>Ostatnia wizyta</th></tr></thead>
+        <tbody id="customersBody">${rows}</tbody>
+      </table>
+    </div>`;
+  document.getElementById('searchInput').addEventListener('keydown', e=>{if(e.key==='Enter')searchCustomers();});
+}
+async function searchCustomers(){
+  const q = document.getElementById('searchInput').value.trim();
+  const d = await api('customers', q?{q}:{});
+  const list = d.customers || [];
+  document.getElementById('customersBody').innerHTML = list.map(c=>`<tr>
+    <td>${escapeHtml(c.email)}</td><td>${c.test_count||0}</td>
+    <td>${fmtDate(c.first_seen)}</td><td>${fmtDate(c.last_seen)}</td>
+  </tr>`).join('') || '<tr><td colspan="4" class="empty">Brak</td></tr>';
+}
+
+function renderResults(d){
+  const list = d.results || [];
+  const rows = list.map(r=>`<tr>
+    <td>${fmtDate(r.created_at)}</td>
+    <td>${escapeHtml(r.email)}</td>
+    <td>${escapeHtml(r.test_slug)}</td>
+    <td><span class="tag ${r.dominant||''}">${ARCHETYPE_NAMES[r.dominant]||r.dominant||'—'}</span></td>
+    <td class="json">${escapeHtml(JSON.stringify(r.counts||{}))}</td>
+    <td>${r.total||0}</td>
+  </tr>`).join('') || '<tr><td colspan="6" class="empty">Brak wyników</td></tr>';
+  document.getElementById('content').innerHTML = `
+    <div class="toolbar">
+      <select id="filterTest">
+        <option value="">Wszystkie testy</option>
+        <option value="4-typy-osobowosci">4 typy osobowości</option>
+        <option value="wiedzy-lekarza">Wiedza lekarza</option>
+        <option value="stylu-menadzera">Styl menedżera</option>
+        <option value="wszechstronnego-przywodztwa">Wszechstronne przywództwo</option>
+        <option value="komunikacja-pokolenia">Komunikacja pokoleń</option>
+        <option value="dop-wiedza">DOP wiedza</option>
+        <option value="macierz-suwerennosci">Macierz suwerenności</option>
+      </select>
+      <select id="filterArch">
+        <option value="">Wszystkie archetypy</option>
+        <option value="opiekun">Przyjaciel</option>
+        <option value="inspirator">Entuzjasta</option>
+        <option value="strateg">Wódz</option>
+        <option value="ekspert">Analityk</option>
+      </select>
+      <button class="btn" onclick="filterResults()">Filtruj</button>
+      <div class="right">
+        <button class="btn" onclick="exportCsv('results')">↓ CSV</button>
+      </div>
+    </div>
+    <div class="card">
+      <table>
+        <thead><tr><th>Data</th><th>Email</th><th>Test</th><th>Dominujący</th><th>Counts</th><th>Total</th></tr></thead>
+        <tbody id="resultsBody">${rows}</tbody>
+      </table>
+    </div>`;
+}
+async function filterResults(){
+  const test = document.getElementById('filterTest').value;
+  const archetype = document.getElementById('filterArch').value;
+  const params = {}; if(test) params.test=test; if(archetype) params.archetype=archetype;
+  const d = await api('results', params);
+  const list = d.results || [];
+  document.getElementById('resultsBody').innerHTML = list.map(r=>`<tr>
+    <td>${fmtDate(r.created_at)}</td><td>${escapeHtml(r.email)}</td><td>${escapeHtml(r.test_slug)}</td>
+    <td><span class="tag ${r.dominant||''}">${ARCHETYPE_NAMES[r.dominant]||r.dominant||'—'}</span></td>
+    <td class="json">${escapeHtml(JSON.stringify(r.counts||{}))}</td><td>${r.total||0}</td>
+  </tr>`).join('') || '<tr><td colspan="6" class="empty">Brak</td></tr>';
+}
+
+function renderPayments(d){
+  const list = d.payments || [];
+  const total = list.filter(p=>p.status==='paid').reduce((a,p)=>a+(p.amount_cents||0),0);
+  const rows = list.map(p=>`<tr>
+    <td>${fmtDate(p.created_at)}</td>
+    <td>${escapeHtml(p.email||'—')}</td>
+    <td>${escapeHtml(p.product_type||'—')}</td>
+    <td>${fmtZl(p.amount_cents)}</td>
+    <td><span class="tag ${p.status||''}">${p.status||'—'}</span></td>
+    <td class="json">${escapeHtml(p.stripe_session_id||'—')}</td>
+  </tr>`).join('') || '<tr><td colspan="6" class="empty">Brak płatności. Stripe nie skonfigurowany jeszcze — Faza 3.</td></tr>';
+  document.getElementById('content').innerHTML = `
+    <div class="stats">
+      <div class="stat"><div class="lbl">Suma przychodu</div><div class="val">${fmtZl(total)}</div><div class="sub">tylko paid</div></div>
+      <div class="stat"><div class="lbl">Wszystkie płatności</div><div class="val">${fmt(list.length)}</div></div>
+    </div>
+    <div class="card">
+      <table>
+        <thead><tr><th>Data</th><th>Email</th><th>Produkt</th><th>Kwota</th><th>Status</th><th>Stripe Session</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+function exportCsv(kind){
+  const rows = document.querySelectorAll('table tbody tr');
+  const headers = [...document.querySelectorAll('table thead th')].map(th=>th.innerText);
+  let csv = headers.join(',')+'\n';
+  rows.forEach(tr=>{
+    const cells = [...tr.querySelectorAll('td')].map(td=>'"'+td.innerText.replace(/"/g,'""')+'"');
+    csv += cells.join(',')+'\n';
+  });
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `testomnia-${kind}-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+}
+
+if(TOKEN) loadView('overview'); else showLogin();
+showApp.call(null);
+if(!TOKEN) document.getElementById('loginScreen').style.display='block';
+</script>
+</body></html>
