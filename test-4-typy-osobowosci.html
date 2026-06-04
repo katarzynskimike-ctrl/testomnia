@@ -366,7 +366,7 @@ a{color:inherit;text-decoration:none}
     const emoc = opi + ins, rac = str + eks;
 
     const maxPt = 33;
-    const cx=290, cy=260, rMax=158;
+    const cx=300, cy=260, rMax=158;
     const ptScale = rMax / maxPt;
 
     const mowcaX   = cx + mowca * ptScale;
@@ -446,12 +446,14 @@ a{color:inherit;text-decoration:none}
       <text x="${cx-rMax+10}" y="${cy+rMax-7}"  font-size="13" font-weight="700" fill="${META.ekspert.color}"    font-family="Inter,sans-serif">Analityk</text>
       <text x="${cx+rMax-10}" y="${cy+rMax-7}"  font-size="13" font-weight="700" fill="${META.strateg.color}"    font-family="Inter,sans-serif" text-anchor="end">Wódz</text>`;
 
-    const xL = cx - rMax - 22;
-    const xR = cx + rMax + 22;
+    // Pozycje X dla kolumn poza ramka (od ramy na zewnatrz)
+    const xPktL = cx - rMax - 8;     // "16 pkt" tuz przy ramie (anchor end)
+    const xSluL = cx - rMax - 30;    // SLUCHACZ pionowo
+    const xIntL = cx - rMax - 50;    // INTROWERTYK pionowo (najdalej)
+    const xPktR = cx + rMax + 8;     // "17 pkt" przy ramie (anchor start)
+    const xMowR = cx + rMax + 30;    // MOWCA pionowo
+    const xEkstR = cx + rMax + 50;   // EKSTRAWERTYK pionowo (najdalej)
 
-    // Etykiety osi + WYNIKI W PKT POZA ramka
-    // - Gora/Dol: w linii poziomej z EMOCJE/FAKTY, liczba w kolorze archetypu
-    // - Lewo/Prawo: pionowy napis + pod ostatnia litera SLUCHACZ/MOWCA dodatkowo "X pkt" poziomo
     const axLabels =
       // Gora
       `<text x="${cx}" y="${cy-rMax-22}" text-anchor="middle" font-size="11" font-weight="700" fill="#F6F1E8" font-family="Inter,sans-serif" letter-spacing="2">EMOCJONALNY</text>` +
@@ -459,14 +461,14 @@ a{color:inherit;text-decoration:none}
       // Dol
       `<text x="${cx}" y="${cy+rMax+30}" text-anchor="middle" font-size="11" font-weight="700" fill="#F6F1E8" font-family="Inter,sans-serif" letter-spacing="2">RACJONALNY</text>` +
       `<text x="${cx}" y="${cy+rMax+18}" text-anchor="middle" font-size="10" font-weight="600" fill="#E5B77A" font-family="Inter,sans-serif" letter-spacing="1.5">FAKTY · <tspan fill="${META.ekspert.color}" font-weight="700">${rac} pkt</tspan></text>` +
-      // Lewo - pionowo INTROWERTYK + SLUCHACZ, pod nimi poziomo "X pkt"
-      verticalText('INTROWERTYK', xL, cy-rMax+8, cy-12, 10, '#F6F1E8', '700') +
-      verticalText('SŁUCHACZ',    xL, cy+18,    cy+rMax-14, 10, '#E5B77A', '600') +
-      `<text x="${xL}" y="${cy+rMax+2}" text-anchor="middle" font-size="11" font-weight="700" fill="${META.inspirator.color}" font-family="Inter,sans-serif">${sluchacz} pkt</text>` +
-      // Prawo
-      verticalText('EKSTRAWERTYK', xR, cy-rMax+8, cy-12, 10, '#F6F1E8', '700') +
-      verticalText('MÓWCA',        xR, cy+18,    cy+rMax-14, 10, '#E5B77A', '600') +
-      `<text x="${xR}" y="${cy+rMax+2}" text-anchor="middle" font-size="11" font-weight="700" fill="${META.strateg.color}" font-family="Inter,sans-serif">${mowca} pkt</text>`;
+      // Lewo: pkt tuz przy ramie -> SLUCHACZ -> INTROWERTYK
+      `<text x="${xPktL}" y="${cy+4}" text-anchor="end" font-size="11" font-weight="700" fill="${META.inspirator.color}" font-family="Inter,sans-serif">${sluchacz} pkt</text>` +
+      verticalText('SŁUCHACZ',    xSluL, cy-rMax+8, cy+rMax-8, 10, '#E5B77A', '600') +
+      verticalText('INTROWERTYK', xIntL, cy-rMax+8, cy+rMax-8, 10, '#F6F1E8', '700') +
+      // Prawo: pkt -> MOWCA -> EKSTRAWERTYK
+      `<text x="${xPktR}" y="${cy+4}" text-anchor="start" font-size="11" font-weight="700" fill="${META.strateg.color}" font-family="Inter,sans-serif">${mowca} pkt</text>` +
+      verticalText('MÓWCA',        xMowR,  cy-rMax+8, cy+rMax-8, 10, '#E5B77A', '600') +
+      verticalText('EKSTRAWERTYK', xEkstR, cy-rMax+8, cy+rMax-8, 10, '#F6F1E8', '700');
 
     // Centralna kropka - BEZ aureoli, tylko sam dot + linia dashed + procent
     const dot = `
@@ -474,7 +476,7 @@ a{color:inherit;text-decoration:none}
       <circle cx="${dotX}" cy="${dotY}" r="4.5" fill="#E5B77A" stroke="#0D1423" stroke-width="1.8"/>
       <text x="${dotX + (dom.dx*10)}" y="${dotY + (dom.dy*10) + 4}" text-anchor="${dom.dx>0?'start':'end'}" font-size="10" font-weight="700" fill="#E5B77A" font-family="Inter,sans-serif">${dotPct}%</text>`;
 
-    return `<svg viewBox="0 0 580 520" role="img" aria-label="Kompas 4 typów osobowości" style="width:100%;max-width:580px;height:auto;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg">
+    return `<svg viewBox="0 0 620 520" role="img" aria-label="Kompas 4 typów osobowości" style="width:100%;max-width:620px;height:auto;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg">
       ${quad}
       ${frame}
       ${ticks}
