@@ -49,27 +49,22 @@ async function compassChartMail(counts, total) {
   const xVal = +((mowca - sluchacz) / tH).toFixed(3);
   const yVal = +((emoc - rac) / tV).toFixed(3);
 
+  // Simple Chart.js scatter — 2 line datasets for cross axes + 1 point for user
   const chart = {
     type: 'scatter',
-    data: { datasets: [{ data: [{x: xVal, y: yVal}], backgroundColor:'#E5B77A', borderColor:'#0D1423', pointRadius:11, pointBorderWidth:3 }] },
+    data: {
+      datasets: [
+        { type:'line', data:[{x:0,y:-1.1},{x:0,y:1.1}], borderColor:'#E5B77A', borderWidth:1.8, pointRadius:0, fill:false, showLine:true, tension:0 },
+        { type:'line', data:[{x:-1.1,y:0},{x:1.1,y:0}], borderColor:'#E5B77A', borderWidth:1.8, pointRadius:0, fill:false, showLine:true, tension:0 },
+        { data:[{x:xVal,y:yVal}], backgroundColor:'#E5B77A', borderColor:'#0D1423', pointRadius:14, pointBorderWidth:4 }
+      ]
+    },
     options: {
-      layout: { padding: { top: 30, bottom: 30, left: 30, right: 30 } },
-      plugins: {
-        legend: { display: false },
-        annotation: { annotations: {
-          przyjaciel:  { type:'label', xValue:-0.65, yValue: 0.78, content:['Przyjaciel'], color:'#22c55e', font:{size:14, weight:'bold'} },
-          entuzjasta:  { type:'label', xValue: 0.65, yValue: 0.78, content:['Entuzjasta'], color:'#eab308', font:{size:14, weight:'bold'} },
-          wodz:        { type:'label', xValue: 0.65, yValue:-0.78, content:['Wódz'],       color:'#ef4444', font:{size:14, weight:'bold'} },
-          analityk:    { type:'label', xValue:-0.65, yValue:-0.78, content:['Analityk'],   color:'#3b82f6', font:{size:14, weight:'bold'} },
-          axTop:       { type:'label', xValue: 0,    yValue: 1.08, content:['EMOCJONALNY'], color:'#F6F1E8', font:{size:11, weight:'bold'} },
-          axBot:       { type:'label', xValue: 0,    yValue:-1.08, content:['RACJONALNY'],  color:'#F6F1E8', font:{size:11, weight:'bold'} },
-          axL:         { type:'label', xValue:-1.08, yValue: 0,    content:['INTROWERTYK'], color:'#F6F1E8', font:{size:10, weight:'bold'} },
-          axR:         { type:'label', xValue: 1.08, yValue: 0,    content:['EKSTRAWERTYK'],color:'#F6F1E8', font:{size:10, weight:'bold'} }
-        }}
-      },
+      layout: { padding: 20 },
+      plugins: { legend: { display: false }, tooltip: { enabled: false } },
       scales: {
-        x: { min:-1.20, max:1.20, ticks:{display:false}, grid:{color:'rgba(229,183,122,0.12)', drawBorder:false} },
-        y: { min:-1.20, max:1.20, ticks:{display:false}, grid:{color:'rgba(229,183,122,0.12)', drawBorder:false} }
+        x: { min:-1.2, max:1.2, display:false, grid:{ display:false } },
+        y: { min:-1.2, max:1.2, display:false, grid:{ display:false } }
       }
     }
   };
@@ -79,19 +74,45 @@ async function compassChartMail(counts, total) {
     const r = await fetch('https://quickchart.io/chart/create', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ chart, width: 520, height: 520, backgroundColor: '#0D1423', version: '4' })
+      body: JSON.stringify({ chart, width: 380, height: 380, backgroundColor: '#0D1423', version: '4' })
     });
     const j = await r.json();
     imgUrl = (j && j.success && j.url) ? j.url : null;
   } catch(e) { imgUrl = null; }
-
-  // Fallback: long inline URL if shortener fails
   if (!imgUrl) {
-    imgUrl = 'https://quickchart.io/chart?bkg=%230D1423&w=520&h=520&v=4&c=' + encodeURIComponent(JSON.stringify(chart));
+    imgUrl = 'https://quickchart.io/chart?bkg=%230D1423&w=380&h=380&v=4&c=' + encodeURIComponent(JSON.stringify(chart));
   }
 
   const altTxt = `Kompas: Ekstrawertyk ${Math.round((xVal+1)*50)}%, Emocjonalny ${Math.round((yVal+1)*50)}%`;
-  return `<div style="text-align:center;margin:8px 0 4px"><img src="${imgUrl}" width="520" height="520" alt="${altTxt}" style="max-width:100%;height:auto;display:block;margin:0 auto;border-radius:12px"/></div>`;
+
+  // HTML 3x3 grid: corners with archetype labels, edges with axis labels, center with chart
+  return `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:8px auto 4px;border-collapse:collapse;width:100%;max-width:520px">
+    <tr>
+      <td style="width:33%;padding:4px"></td>
+      <td style="width:34%;padding:4px;text-align:center"><div style="font-size:11px;font-weight:700;color:#F6F1E8;letter-spacing:.18em">EMOCJONALNY</div><div style="font-size:9px;color:#E5B77A;letter-spacing:.14em;margin-top:2px">emocje</div></td>
+      <td style="width:33%;padding:4px"></td>
+    </tr>
+    <tr>
+      <td style="padding:4px;text-align:center;vertical-align:top"><div style="font-size:14px;font-weight:700;color:#22c55e">Przyjaciel</div></td>
+      <td style="padding:4px"></td>
+      <td style="padding:4px;text-align:center;vertical-align:top"><div style="font-size:14px;font-weight:700;color:#eab308">Entuzjasta</div></td>
+    </tr>
+    <tr>
+      <td style="padding:4px;text-align:right;vertical-align:middle"><div style="font-size:11px;font-weight:700;color:#F6F1E8;letter-spacing:.16em">INTRO-<br/>WERTYK</div><div style="font-size:9px;color:#E5B77A;letter-spacing:.14em;margin-top:2px">słuchacz</div></td>
+      <td style="padding:0"><img src="${imgUrl}" width="380" height="380" alt="${altTxt}" style="display:block;width:100%;height:auto;max-width:380px;margin:0 auto;border-radius:10px"/></td>
+      <td style="padding:4px;text-align:left;vertical-align:middle"><div style="font-size:11px;font-weight:700;color:#F6F1E8;letter-spacing:.16em">EKSTRA-<br/>WERTYK</div><div style="font-size:9px;color:#E5B77A;letter-spacing:.14em;margin-top:2px">mówca</div></td>
+    </tr>
+    <tr>
+      <td style="padding:4px;text-align:center;vertical-align:bottom"><div style="font-size:14px;font-weight:700;color:#3b82f6">Analityk</div></td>
+      <td style="padding:4px"></td>
+      <td style="padding:4px;text-align:center;vertical-align:bottom"><div style="font-size:14px;font-weight:700;color:#ef4444">Wódz</div></td>
+    </tr>
+    <tr>
+      <td style="padding:4px"></td>
+      <td style="padding:4px;text-align:center"><div style="font-size:9px;color:#E5B77A;letter-spacing:.14em">fakty</div><div style="font-size:11px;font-weight:700;color:#F6F1E8;letter-spacing:.18em;margin-top:2px">RACJONALNY</div></td>
+      <td style="padding:4px"></td>
+    </tr>
+  </table>`;
 }
 
 async function discReport(r) {
