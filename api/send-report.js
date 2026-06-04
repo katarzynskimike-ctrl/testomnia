@@ -4,7 +4,7 @@
 const SENDER = { name: 'Testomnia (DOP)', email: 'katarzynski.mike@gmail.com' };
 
 const TEST_NAMES = {
-  '4-typy-osobowosci': 'Test 1 · 4 typy osobowości (DISC)',
+  '4-typy-osobowosci': 'Test 1 · 4 typy osobowości',
   'wiedzy-lekarza': 'Test 2 · Wiedza lekarza',
   'stylu-menadzera': 'Test 3 · Styl menedżera praktyki',
   'wszechstronnego-przywodztwa': 'Test 4 · Wszechstronne przywództwo',
