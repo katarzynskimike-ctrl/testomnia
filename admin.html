@@ -97,7 +97,9 @@ canvas{max-width:100%}
 const ARCHETYPE_NAMES = { opiekun:'Przyjaciel', inspirator:'Entuzjasta', strateg:'Wódz', ekspert:'Analityk' };
 const ARCHETYPE_COLORS = { opiekun:'#22c55e', inspirator:'#eab308', strateg:'#ef4444', ekspert:'#3b82f6' };
 
-let TOKEN = localStorage.getItem('admin_token') || '';
+const _urlToken = new URLSearchParams(location.search).get('token');
+let TOKEN = _urlToken || localStorage.getItem('admin_token') || '';
+if(_urlToken) localStorage.setItem('admin_token', _urlToken);
 let currentView = 'overview';
 
 function showLogin(){ document.getElementById('loginScreen').style.display='block'; document.getElementById('app').style.display='none'; }
@@ -106,6 +108,7 @@ function login(){
   const t = document.getElementById('tokenInput').value.trim();
   if(!t) return;
   TOKEN = t; localStorage.setItem('admin_token', t);
+  showApp();
   loadView('overview');
 }
 function logout(){ TOKEN=''; localStorage.removeItem('admin_token'); showLogin(); }
