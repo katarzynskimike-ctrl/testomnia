@@ -18,8 +18,8 @@
     "api/checkout.js": {
       "maxDuration": 10
     },
-    "api/stripe-webhook.js": {
-      "maxDuration": 10
+    "api/imoje-webhook.js": {
+      "maxDuration": 15
     }
   },
   "headers": [

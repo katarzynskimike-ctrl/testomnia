@@ -810,10 +810,24 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeCompass
       <li>Sugerowane książki i szkolenia (10+ pozycji)</li>
       <li>Wykres kompasu + porównanie z innymi archetypami</li>
     </ul>
+    <input type="text" class="checkoutModalEmail" id="checkoutName" placeholder="Imię i nazwisko" required style="margin-bottom:10px">
     <input type="email" class="checkoutModalEmail" id="checkoutEmail" placeholder="twoj@email.pl" required>
+    <label style="display:block;margin:8px 0 4px;font-size:12px;color:#9CA0B1;cursor:pointer">
+      <input type="checkbox" id="checkoutCompany" onchange="toggleCompanyFields()" style="margin-right:6px;width:auto"> Chcę fakturę na firmę (z NIP)
+    </label>
+    <div id="companyFields" style="display:none">
+      <input type="text" class="checkoutModalEmail" id="checkoutNip" placeholder="NIP firmy (10 cyfr)" style="margin-bottom:8px">
+      <input type="text" class="checkoutModalEmail" id="checkoutCompanyName" placeholder="Nazwa firmy" style="margin-bottom:8px">
+      <input type="text" class="checkoutModalEmail" id="checkoutStreet" placeholder="Ulica i numer" style="margin-bottom:8px">
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <input type="text" class="checkoutModalEmail" id="checkoutPostCode" placeholder="Kod" style="flex:0 0 90px;margin-bottom:0">
+        <input type="text" class="checkoutModalEmail" id="checkoutCity" placeholder="Miasto" style="flex:1;margin-bottom:0">
+      </div>
+    </div>
     <button class="checkoutSubmit" onclick="startCheckout()">Zapłać 19 zł →</button>
+    <p style="margin:10px 0 0;font-size:11px;color:#9CA0B1">Faktura VAT zostanie wystawiona automatycznie po opłacie.</p>
     <div class="checkoutStatus" id="checkoutStatus"></div>
-    <p style="margin:14px 0 0;font-size:11px;color:#7A8294">BLIK · Karta · Przelewy24 · Bezpieczne płatności Stripe</p>
+    <p style="margin:14px 0 0;font-size:11px;color:#7A8294">BLIK · Karta · Przelew · Bezpieczne płatności imoje (ING)</p>
   </div>
 </div>
 <script>
@@ -825,27 +839,36 @@ function closeCheckoutModal(){
   document.getElementById('checkoutModal').classList.remove('open');
   document.body.style.overflow='';
 }
+function toggleCompanyFields(){
+  const v = document.getElementById('checkoutCompany').checked;
+  document.getElementById('companyFields').style.display = v ? 'block' : 'none';
+}
 async function startCheckout(){
   const email = document.getElementById('checkoutEmail').value.trim();
+  const name = document.getElementById('checkoutName').value.trim();
+  const isCompany = document.getElementById('checkoutCompany').checked;
   const status = document.getElementById('checkoutStatus');
-  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-    status.textContent='Podaj poprawny email';
-    return;
+  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ status.textContent='Podaj poprawny email'; return; }
+  if(!name){ status.textContent='Podaj imię i nazwisko'; return; }
+  const parts = name.split(/\s+/);
+  const firstName = parts[0] || ''; const lastName = parts.slice(1).join(' ') || '';
+  const payload = { email, firstName, lastName, productType:'full_report_4typy', resultId: (window._lastResult||{}).id };
+  if(isCompany){
+    const nip = document.getElementById('checkoutNip').value.trim();
+    if(!nip || !/^\d{10}$/.test(nip)){ status.textContent='Podaj poprawny NIP (10 cyfr)'; return; }
+    payload.taxNo = nip;
+    payload.companyName = document.getElementById('checkoutCompanyName').value.trim();
+    payload.street = document.getElementById('checkoutStreet').value.trim();
+    payload.city = document.getElementById('checkoutCity').value.trim();
+    payload.postCode = document.getElementById('checkoutPostCode').value.trim();
   }
-  status.textContent='Łączymy z bezpieczną płatnością Stripe…';
-  status.style.color='#9CA0B1';
+  status.textContent='Łączymy z bezpieczną płatnością imoje (ING)…'; status.style.color='#9CA0B1';
   try{
-    const r = await fetch('/api/checkout', {
-      method:'POST', headers:{'content-type':'application/json'},
-      body: JSON.stringify({email, productType:'full_report_4typy'})
-    });
+    const r = await fetch('/api/checkout', { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(payload) });
     const j = await r.json();
     if(j.url){ location.href = j.url; }
     else { status.style.color='#E26A6A'; status.textContent = j.error || 'Błąd. Spróbuj później.'; }
-  } catch(e){
-    status.style.color='#E26A6A';
-    status.textContent = 'Nie udało się połączyć z Stripe. Spróbuj za chwilę.';
-  }
+  } catch(e){ status.style.color='#E26A6A'; status.textContent = 'Nie udało się połączyć z imoje.'; }
 }
 </script>
 
