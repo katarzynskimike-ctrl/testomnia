@@ -79,8 +79,8 @@ export async function saveResult({ email, testSlug, dominant, counts, total, ip,
   `;
   const customerId = customers[0].id;
   const results = await sql`
-    INSERT INTO test_results (customer_id, email, test_slug, dominant, counts, total, ip, user_agent, referrer)
-    VALUES (${customerId}, ${email}, ${testSlug}, ${dominant}, ${JSON.stringify(counts)}, ${total}, ${ip}, ${userAgent}, ${referrer})
+    INSERT INTO test_results (customer_id, email, test_slug, dominant, counts, total, ip, user_agent, referrer, calibration)
+    VALUES (${customerId}, ${email}, ${testSlug}, ${dominant}, ${JSON.stringify(counts)}, ${total}, ${ip}, ${userAgent}, ${referrer}, ${calibration ? JSON.stringify(calibration) : null})
     RETURNING id
   `;
   return { customerId, resultId: results[0].id };

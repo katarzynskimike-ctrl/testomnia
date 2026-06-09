@@ -44,9 +44,16 @@ export default async function handler(req, res) {
         const testResultId = pay[0]?.test_result_id;
         const buyerEmailForReport = pay[0]?.email;
         if (testResultId && buyerEmailForReport) {
-          const tr = await sql`SELECT counts FROM test_results WHERE id=${testResultId} LIMIT 1`;
+          const tr = await sql`SELECT counts, calibration FROM test_results WHERE id=${testResultId} LIMIT 1`;
           const counts = tr[0]?.counts || {};
-          const pewa = classifyPewaLegacy(counts);
+          const calibration = tr[0]?.calibration || null;
+          const inputForPewa = { ...counts };
+          if (calibration) {
+            if (typeof calibration.axisEmotional === 'number') inputForPewa.axisEmotional = calibration.axisEmotional;
+            if (typeof calibration.axisSocial    === 'number') inputForPewa.axisSocial    = calibration.axisSocial;
+            if (typeof calibration.flexibility   === 'number') inputForPewa.flexibility   = calibration.flexibility;
+          }
+          const pewa = classifyPewaLegacy(inputForPewa);
           const reportUrl = getReportUrl(pewa.code);
           await logEvent({ type: 'pewa_classified', email: buyerEmailForReport, meta: { code: pewa.code, label: pewa.label, intensity: pewa.intensity } });
 

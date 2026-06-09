@@ -81,16 +81,21 @@ const SUPERPOWERS = {
  *   reportFile: string,  // nazwa PDF do wysłania
  * }}
  */
-function classifyPewa(counts) {
-  // Walidacja
-  if (!counts || typeof counts !== 'object') {
-    throw new TypeError('classifyPewa: counts musi być obiektem {P,E,W,A}');
+function classifyPewa(input) {
+  // Walidacja — przyjmuje {P,E,W,A} lub {P,E,W,A,axisEmotional,axisSocial,flexibility}
+  if (!input || typeof input !== 'object') {
+    throw new TypeError('classifyPewa: input musi być obiektem {P,E,W,A,...}');
   }
+  const counts = { P: input.P, E: input.E, W: input.W, A: input.A };
   for (const k of ARCHETYPES) {
     if (typeof counts[k] !== 'number' || counts[k] < 0 || !Number.isInteger(counts[k])) {
       throw new TypeError(`classifyPewa: counts.${k} musi być nieujemną liczbą całkowitą (otrzymano ${counts[k]})`);
     }
   }
+  // Opcjonalne osie kalibracyjne (v1.3+) — Likert 1-5
+  const axisEmotional = typeof input.axisEmotional === 'number' ? input.axisEmotional : null;
+  const axisSocial    = typeof input.axisSocial    === 'number' ? input.axisSocial    : null;
+  const flexibility   = typeof input.flexibility   === 'number' ? input.flexibility   : null;
 
   // Sortuj od najwyższej
   const sorted = ARCHETYPES
@@ -106,7 +111,9 @@ function classifyPewa(counts) {
 
   // Reguła 1: DIAMENT
   // Wszystkie 4 archetypy zrównoważone (różnica max-min mała, każdy znaczący)
-  if (range <= 3 && min >= 6) {
+  // v1.3+: jeśli mamy flexibility, wymagamy flexibility >= 4
+  const flexOk = flexibility === null || flexibility >= 4;
+  if (range <= 3 && min >= 6 && flexOk) {
     return makeResult({
       code: 'D',
       kind: 'diamond',
@@ -114,6 +121,7 @@ function classifyPewa(counts) {
       dominant: top1[0],
       support: null,
       sorted,
+      calibration: { axisEmotional, axisSocial, flexibility },
     });
   }
 
@@ -127,20 +135,34 @@ function classifyPewa(counts) {
       dominant: top1[0],
       support: null,
       sorted,
+      calibration: { axisEmotional, axisSocial, flexibility },
     });
   }
 
   // Reguła 3: MIESZANY
   // Top1 i top2 blisko siebie (gap ≤ 3) AND para sąsiednia (nie diagonalna)
-  const pair = top1[0] + top2[0];
+  let pair = top1[0] + top2[0];
+  let dominant = top1[0];
+  let support = top2[0];
+
   if (gap12 <= 3 && !DIAGONAL_PAIRS.has(pair)) {
+    // v1.3+: gdy gap top1-top2 ≤ 2 i mamy osie kalibracyjne, użyj ich do disambiguacji dominacji
+    if (gap12 <= 2 && axisEmotional !== null && axisSocial !== null) {
+      const swapped = axisDisambiguate(top1[0], top2[0], axisEmotional, axisSocial);
+      if (swapped) {
+        dominant = top2[0];
+        support = top1[0];
+        pair = dominant + support;
+      }
+    }
     return makeResult({
-      code: pair,             // np. 'PE' (dominuje top1)
+      code: pair,
       kind: 'mixed',
       intensity: gap12 === 0 ? 'balanced' : (gap12 <= 1 ? 'moderate' : 'strong'),
-      dominant: top1[0],
-      support: top2[0],
+      dominant,
+      support,
       sorted,
+      calibration: { axisEmotional, axisSocial, flexibility },
     });
   }
 
@@ -153,10 +175,39 @@ function classifyPewa(counts) {
     dominant: top1[0],
     support: null,
     sorted,
+    calibration: { axisEmotional, axisSocial, flexibility },
   });
 }
 
-function makeResult({ code, kind, intensity, dominant, support, sorted }) {
+/**
+ * Disambiguacja: gdy gap top1-top2 jest mały (≤2), użyj osi kalibracyjnych
+ * żeby zdecydować który archetyp NAPRAWDĘ dominuje. Zwraca true jeśli należy zamienić.
+ *
+ * Każdy archetyp ma swoją sygnaturę osi (przybliżoną):
+ *   P: emocjonalny (4-5) + introwertyk (1-2)
+ *   E: emocjonalny (4-5) + ekstrawertyk (4-5)
+ *   W: racjonalny (1-2) + ekstrawertyk (4-5)
+ *   A: racjonalny (1-2) + introwertyk (1-2)
+ *
+ * Sprawdzamy który z top1/top2 BLIŻSZY signature osi z kalibracji.
+ */
+function axisDisambiguate(top1, top2, axisEmotional, axisSocial) {
+  const signatures = {
+    P: { e: 4.5, s: 1.5 },
+    E: { e: 4.5, s: 4.5 },
+    W: { e: 1.5, s: 4.5 },
+    A: { e: 1.5, s: 1.5 },
+  };
+  const dist = (sig) => Math.sqrt(
+    Math.pow(sig.e - axisEmotional, 2) + Math.pow(sig.s - axisSocial, 2)
+  );
+  const d1 = dist(signatures[top1]);
+  const d2 = dist(signatures[top2]);
+  // Jeśli top2 wyraźnie bliżej osiom kalibracyjnym → zamień
+  return (d2 + 0.5) < d1;
+}
+
+function makeResult({ code, kind, intensity, dominant, support, sorted, calibration }) {
   return {
     code,
     label: LABELS[code],
@@ -167,6 +218,7 @@ function makeResult({ code, kind, intensity, dominant, support, sorted }) {
     support,
     sorted,
     reportFile: getReportFile(code),
+    calibration: calibration || null,
   };
 }
 
@@ -196,13 +248,17 @@ function getReportFile(code) {
  * a następnie woła classifyPewa().
  */
 function classifyPewaLegacy(legacyCounts) {
-  const counts = {
+  const input = {
     P: legacyCounts.opiekun || 0,
     E: legacyCounts.inspirator || 0,
     W: legacyCounts.strateg || 0,
     A: legacyCounts.ekspert || 0,
   };
-  return classifyPewa(counts);
+  // Przepuść kalibrację jeśli jest (v1.3+)
+  if (typeof legacyCounts.axisEmotional === 'number') input.axisEmotional = legacyCounts.axisEmotional;
+  if (typeof legacyCounts.axisSocial    === 'number') input.axisSocial    = legacyCounts.axisSocial;
+  if (typeof legacyCounts.flexibility   === 'number') input.flexibility   = legacyCounts.flexibility;
+  return classifyPewa(input);
 }
 
 /**

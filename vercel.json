@@ -29,6 +29,9 @@
     },
     "api/cron/sequence.js": {
       "maxDuration": 30
+    },
+    "api/features.js": {
+      "maxDuration": 5
     }
   },
   "crons": [
