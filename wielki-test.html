@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>Wielki Test 4 typów osobowości DOP™ · Bezpłatnie · Testomnia</title>
+<meta name="description" content="Bezpłatny test 4 typów osobowości w obsłudze pacjenta. 4 minuty, 33 pytania, rzetelna diagnostyka oparta na modelu PEWA™ i 800 testach stomatologicznych. Otrzymaj wynik na email.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Wielki Test 4 typów osobowości DOP™ — bezpłatny">
+<meta property="og:description" content="4 minuty · 33 pytania · diagnoza Twojego stylu komunikacji z pacjentem · PEWA™ model · 14 lat doświadczenia / 6 000 testów">
+<meta property="og:image" content="https://www.testomnia.pl/test-4-typy-osobowosci-og.png">
+<meta property="og:url" content="https://www.testomnia.pl/wielki-test.html">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="/favicon-32.png">
+<style>
+:root {
+  --navy: #080E18;
+  --navy-2: #0D1423;
+  --champagne: #E5B77A;
+  --ink: #F6F1E8;
+  --muted: #9CA0B1;
+  --p: #e87a78;
+  --e: #f0b34a;
+  --w: #c14a4a;
+  --a: #3d6e8c;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; background: var(--navy); color: var(--ink); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+
+header { padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,.06); }
+header .wrap { display: flex; justify-content: space-between; align-items: center; }
+header .logo { font-family: Georgia, serif; font-weight: 600; color: var(--champagne); font-size: 18px; letter-spacing: .04em; text-decoration: none; }
+header .tagline { font-size: 11px; color: var(--muted); letter-spacing: .14em; text-transform: uppercase; }
+
+.hero { padding: 56px 0 32px; text-align: center; }
+.hero .eyebrow { display: inline-block; padding: 6px 14px; border: 1px solid rgba(229,183,122,.4); border-radius: 999px; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--champagne); font-weight: 600; margin-bottom: 24px; }
+.hero h1 { margin: 0 0 16px; font-family: Georgia, serif; font-size: 44px; line-height: 1.1; font-weight: 600; }
+.hero h1 em { font-style: italic; color: var(--champagne); }
+.hero p.lead { margin: 0 0 32px; font-size: 17px; color: var(--muted); max-width: 540px; margin-left: auto; margin-right: auto; }
+
+.meta-bar { display: flex; justify-content: center; gap: 32px; padding: 16px 0; margin-bottom: 32px; }
+.meta-bar > div { text-align: center; }
+.meta-bar .big { font-family: Georgia, serif; font-size: 22px; color: var(--champagne); font-weight: 600; }
+.meta-bar .small { font-size: 11px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin-top: 2px; }
+
+.cta { display: inline-block; padding: 18px 36px; background: var(--champagne); color: #1a1109; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 17px; transition: transform .15s, background .15s; }
+.cta:hover { background: #f0c890; transform: translateY(-1px); }
+.cta-note { margin: 14px 0 0; font-size: 13px; color: var(--muted); }
+
+section { padding: 48px 0; border-top: 1px solid rgba(255,255,255,.06); }
+section h2 { margin: 0 0 24px; font-family: Georgia, serif; font-size: 28px; font-weight: 500; text-align: center; }
+section h2 em { font-style: italic; color: var(--champagne); }
+
+.types-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 32px 0; }
+@media (max-width: 600px) { .types-grid { grid-template-columns: repeat(2, 1fr); } }
+.type-card { padding: 20px 16px; border-radius: 12px; text-align: center; background: var(--navy-2); border-top: 3px solid var(--champagne); }
+.type-card.p { border-top-color: var(--p); }
+.type-card.e { border-top-color: var(--e); }
+.type-card.w { border-top-color: var(--w); }
+.type-card.a { border-top-color: var(--a); }
+.type-card .letter { font-family: Georgia, serif; font-size: 36px; font-weight: 600; line-height: 1; margin: 0 0 6px; }
+.type-card.p .letter { color: var(--p); }
+.type-card.e .letter { color: var(--e); }
+.type-card.w .letter { color: var(--w); }
+.type-card.a .letter { color: var(--a); }
+.type-card .name { margin: 0 0 4px; font-size: 14px; color: var(--ink); font-weight: 600; }
+.type-card .sub { margin: 0; font-size: 11px; color: var(--muted); }
+
+.testimonial { background: var(--navy-2); padding: 32px; border-radius: 18px; margin: 32px 0; }
+.testimonial p { margin: 0 0 12px; font-style: italic; font-size: 16px; color: var(--ink); }
+.testimonial .who { font-size: 13px; color: var(--muted); }
+
+.faq-item { padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,.06); }
+.faq-item h3 { margin: 0 0 8px; font-size: 15px; color: var(--champagne); }
+.faq-item p { margin: 0; font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+footer { padding: 32px 0; text-align: center; color: var(--muted); font-size: 12px; border-top: 1px solid rgba(255,255,255,.06); }
+footer a { color: var(--muted); }
+footer .legal { margin-top: 16px; font-size: 11px; opacity: .7; }
+
+.disclaimer { background: rgba(229,183,122,.06); border-left: 3px solid var(--champagne); padding: 14px 16px; border-radius: 4px; margin: 24px 0; font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="/" class="logo">Testomnia</a>
+    <span class="tagline">Doskonała Obsługa Pacjenta</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero" style="border:none;padding-top:48px">
+    <span class="eyebrow">Wielki Test · Bezpłatnie · 4 minuty</span>
+    <h1>Jakim typem jesteś w&nbsp;<em>kontakcie z&nbsp;pacjentem?</em></h1>
+    <p class="lead">33 pytania. Diagnoza Twojego dominującego stylu komunikacji według modelu PEWA™ — autorska metoda Michała Katarzyńskiego oparta na 800 testach stomatologicznych.</p>
+
+    <div class="meta-bar">
+      <div><div class="big">4 min</div><div class="small">Czas testu</div></div>
+      <div><div class="big">33</div><div class="small">Pytania</div></div>
+      <div><div class="big">13</div><div class="small">Typów PEWA</div></div>
+    </div>
+
+    <a href="/test-4-typy-osobowosci.html?utm_source=wielki&utm_medium=organic&utm_campaign=lead-magnet" class="cta" id="cta-start">Zacznij Wielki Test →</a>
+    <p class="cta-note">Twój wynik trafia na email. Bez spamu. Możliwość rozszerzenia za 19 zł.</p>
+  </section>
+
+  <section>
+    <h2>Co rozpoznasz w&nbsp;sobie</h2>
+    <div class="types-grid">
+      <div class="type-card p">
+        <p class="letter">P</p>
+        <p class="name">Przyjaciel</p>
+        <p class="sub">Relacyjny, ciepły</p>
+      </div>
+      <div class="type-card e">
+        <p class="letter">E</p>
+        <p class="name">Entuzjasta</p>
+        <p class="sub">Energia, otwartość</p>
+      </div>
+      <div class="type-card w">
+        <p class="letter">W</p>
+        <p class="name">Wódz</p>
+        <p class="sub">Decyzja, kontrola</p>
+      </div>
+      <div class="type-card a">
+        <p class="letter">A</p>
+        <p class="name">Analityk</p>
+        <p class="sub">Precyzja, dane</p>
+      </div>
+    </div>
+    <p style="text-align:center;color:var(--muted);font-size:14px;margin-top:16px">+ 8 mieszanych typów z dominacją + Diament (zrównoważony). <strong style="color:var(--ink)">Łącznie 13 typów PEWA™.</strong></p>
+  </section>
+
+  <section>
+    <h2>Co dostajesz</h2>
+    <ul style="list-style:none;padding:0;max-width:520px;margin:0 auto">
+      <li style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:15px">✓ <strong>Twój kod PEWA</strong> (np. PE · Przyjaciel-Entuzjasta) z opisem supermocy</li>
+      <li style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:15px">✓ <strong>Kompas wizualny</strong> — 2 osie, 4 archetypy, Twoja pozycja</li>
+      <li style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:15px">✓ <strong>3 mocne strony</strong> Twojego stylu w kontakcie z pacjentem</li>
+      <li style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:15px">✓ <strong>3 naturalne wyzwania</strong> i konkretne pierwsze pomoce</li>
+      <li style="padding:12px 0;font-size:15px">✓ <strong>Wynik na email</strong> — w 2 minuty po teście, PDF do druku</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Dlaczego to <em>działa</em></h2>
+    <div class="testimonial">
+      <p>„Model PEWA™ powstał na bazie 14 lat pracy z zespołami medycznymi i 800 testów przeprowadzonych w polskich praktykach stomatologicznych. To nie jest kopia DISC — to autorska metoda dla pracowników ochrony zdrowia."</p>
+      <p class="who">— Michał Katarzyński, autor metody Doskonałej Obsługi Pacjenta</p>
+    </div>
+    <div class="meta-bar" style="margin-top:32px">
+      <div><div class="big">14</div><div class="small">lat doświadczenia</div></div>
+      <div><div class="big">6 000</div><div class="small">wykonanych testów</div></div>
+      <div><div class="big">800</div><div class="small">testów stomatologicznych</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Najczęściej pytane</h2>
+
+    <div class="faq-item">
+      <h3>Czy test jest naprawdę bezpłatny?</h3>
+      <p>Tak. Bezpłatny test daje kod PEWA, kompas i krótki opis. Jeśli chcesz pełny 10-sekcjowy raport rozwojowy (plan 30/90 dni, typologia pacjentów, materiały dla zespołu) — kosztuje 19 zł brutto (z fakturą VAT).</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Ile to trwa?</h3>
+      <p>Średnio 4 minuty. Większość kończy w 3-5 minut. Test ma 33 pytania, każde z 4 opcjami wyboru.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Czy to test psychologiczny?</h3>
+      <p>Nie. To test rozwojowy i edukacyjny — nie stanowi diagnozy psychologicznej, medycznej ani orzeczniczej. Pomaga zrozumieć swój styl komunikacji w kontekście zawodowym.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Co się stanie z moim emailem?</h3>
+      <p>Email służy do wysłania wyniku i ewentualnej oferty pełnego raportu. Nie sprzedajemy ani nie udostępniamy danych. Możesz w każdej chwili poprosić o usunięcie (kontakt@testomnia.pl).</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Dla kogo to jest?</h3>
+      <p>Dla lekarzy, dentystów, higienistek, asystentek, recepcjonistek, managerów praktyk — każdego kto pracuje z pacjentem. Test odpowiada się ogólnie, nie tylko stomatologicznie.</p>
+    </div>
+  </section>
+
+  <section style="text-align:center;padding:48px 0">
+    <h2 style="margin-bottom:24px">Gotowy/a? <em>4 minuty.</em></h2>
+    <a href="/test-4-typy-osobowosci.html?utm_source=wielki&utm_medium=organic&utm_campaign=lead-magnet" class="cta">Zacznij Wielki Test →</a>
+    <p class="cta-note">Bez rejestracji · email tylko po wypełnieniu</p>
+  </section>
+
+  <div class="disclaimer">
+    <strong>Test rozwojowy i edukacyjny.</strong> Nie stanowi diagnozy psychologicznej, medycznej ani orzeczniczej. Wyniki służą celom rozwojowym i samopoznawczym.
+  </div>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>© 2026 Excellent Patient Service Sp. z o.o. · NIP 5170359961 · KRS 0000429303</p>
+    <p style="margin:8px 0 0">ul. Teodora Lubomirskiego 39/E, 36-040 Boguchwała</p>
+    <p class="legal">
+      <a href="/regulamin.html">Regulamin</a> ·
+      <a href="/polityka-prywatnosci.html">Polityka prywatności</a> ·
+      <a href="https://testomnia.pl">testomnia.pl</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+// Track Meta Pixel / GA event when CTA klikany (placeholder dla future)
+document.getElementById('cta-start').addEventListener('click', function() {
+  try {
+    if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout', { content_name: 'Wielki Test PEWA' });
+    if (typeof gtag !== 'undefined') gtag('event', 'start_test', { source: 'wielki' });
+  } catch(e) {}
+});
+</script>
+
+</body>
+</html>

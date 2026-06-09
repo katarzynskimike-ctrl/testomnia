@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>PEWA Stats · Testomnia Admin</title>
+<style>
+:root {
+  --navy: #080E18;
+  --navy-2: #0D1423;
+  --champagne: #E5B77A;
+  --ink: #F6F1E8;
+  --muted: #9CA0B1;
+  --p: #e87a78;
+  --e: #f0b34a;
+  --w: #c14a4a;
+  --a: #3d6e8c;
+  --d: #E5B77A;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; background: var(--navy); color: var(--ink); line-height: 1.55; }
+header { background: var(--navy-2); padding: 18px 28px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(229,183,122,.18); }
+header h1 { margin: 0; font-size: 16px; font-weight: 600; letter-spacing: .4px; color: var(--champagne); }
+header a { color: var(--muted); text-decoration: none; font-size: 13px; margin-left: 16px; }
+header a:hover { color: var(--ink); }
+.container { max-width: 1280px; margin: 0 auto; padding: 28px; }
+
+.cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+@media (max-width: 800px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+
+.card { background: var(--navy-2); padding: 20px; border-radius: 14px; border: 1px solid rgba(255,255,255,.06); }
+.card h3 { margin: 0 0 8px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--champagne); font-weight: 600; }
+.card .big { font-family: Georgia, serif; font-size: 34px; color: var(--ink); margin: 0; font-weight: 600; }
+.card .sub { margin: 4px 0 0; font-size: 12px; color: var(--muted); }
+
+.section { background: var(--navy-2); padding: 24px 28px; border-radius: 14px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,.06); }
+.section h2 { margin: 0 0 18px; font-family: Georgia, serif; font-size: 20px; color: var(--ink); font-weight: 500; }
+
+.bar-grid { display: grid; gap: 10px; }
+.bar-row { display: grid; grid-template-columns: 100px 1fr 80px; gap: 14px; align-items: center; font-size: 13px; }
+.bar-row .label { color: var(--muted); display: flex; gap: 8px; align-items: center; }
+.bar-row .pill { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 24px; border-radius: 6px; font-weight: 700; font-size: 11px; }
+.bar-row .pill.p { background: var(--p); color: #1a0808; }
+.bar-row .pill.e { background: var(--e); color: #1a0808; }
+.bar-row .pill.w { background: var(--w); color: var(--ink); }
+.bar-row .pill.a { background: var(--a); color: var(--ink); }
+.bar-row .pill.d { background: var(--d); color: #1a0808; }
+.bar-row .pill.m { background: #1a2238; color: var(--ink); }
+.bar-row .name { color: var(--ink); }
+.bar-row .bar { height: 8px; background: #1a2238; border-radius: 999px; overflow: hidden; }
+.bar-row .bar-fill { height: 100%; background: var(--champagne); border-radius: 999px; transition: width .3s; }
+.bar-row .cnt { text-align: right; color: var(--ink); font-weight: 600; }
+
+.split { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.split-card { padding: 18px; border-radius: 12px; text-align: center; }
+.split-card.pure { background: rgba(228,122,120,.12); border: 1px solid rgba(228,122,120,.3); }
+.split-card.mixed { background: rgba(229,183,122,.12); border: 1px solid rgba(229,183,122,.3); }
+.split-card.diamond { background: rgba(229,183,122,.2); border: 1px solid rgba(229,183,122,.5); }
+.split-card .big { font-family: Georgia, serif; font-size: 28px; color: var(--ink); margin: 0; }
+.split-card .small { margin: 4px 0 0; font-size: 11px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+
+.role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 800px) { .role-grid { grid-template-columns: 1fr; } }
+.role-row { padding: 14px; background: #14213a; border-radius: 10px; }
+.role-row .name { font-weight: 600; color: var(--champagne); margin: 0 0 8px; font-size: 13px; text-transform: capitalize; }
+.role-row .mini-bars { display: flex; gap: 2px; height: 8px; border-radius: 4px; overflow: hidden; }
+.role-row .mini-bar { height: 100%; }
+
+.empty { padding: 60px 20px; text-align: center; color: var(--muted); }
+
+.top3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.top3-card { padding: 24px; border-radius: 14px; background: linear-gradient(135deg, rgba(229,183,122,.12), rgba(229,183,122,.02)); border: 1px solid rgba(229,183,122,.3); text-align: center; }
+.top3-card.gold { background: linear-gradient(135deg, rgba(255,215,0,.18), rgba(229,183,122,.05)); border-color: rgba(255,215,0,.4); }
+.top3-card .rank { font-size: 11px; color: var(--champagne); letter-spacing: .2em; margin: 0 0 8px; font-weight: 600; }
+.top3-card .code { font-family: Georgia, serif; font-size: 36px; color: var(--ink); margin: 0; font-weight: 600; }
+.top3-card .name { font-size: 12px; color: var(--muted); margin: 4px 0 8px; font-style: italic; }
+.top3-card .pct { font-size: 20px; color: var(--champagne); font-weight: 600; margin: 0; }
+
+#login { padding: 40px 20px; text-align: center; }
+#login input { padding: 12px 16px; background: var(--navy-2); border: 1px solid rgba(229,183,122,.3); border-radius: 8px; color: var(--ink); font-size: 14px; width: 280px; max-width: 100%; }
+#login button { padding: 12px 24px; background: var(--champagne); color: #1a1109; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-left: 8px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>PEWA Stats · Rozkład 13 typów</h1>
+  <div>
+    <a href="/admin/">← Panel admina</a>
+    <a href="/admin/slownik-pacjentow.html">Słownik pacjentów</a>
+  </div>
+</header>
+
+<div class="container">
+
+  <div id="login">
+    <p style="color:var(--muted);font-size:14px">Wklej ADMIN_TOKEN:</p>
+    <input id="token" type="password" placeholder="Token..." />
+    <button onclick="login()">Zaloguj</button>
+  </div>
+
+  <div id="app" style="display:none">
+    <!-- Top cards -->
+    <div class="cards" id="topcards"></div>
+
+    <!-- Top 3 typy -->
+    <div class="section">
+      <h2>Najczęstsze typy w bazie</h2>
+      <div class="top3" id="top3"></div>
+    </div>
+
+    <!-- Split pure/mixed/diamond -->
+    <div class="section">
+      <h2>Czyste vs Mieszane vs Diament</h2>
+      <div class="split" id="split"></div>
+    </div>
+
+    <!-- Rozkład 13 typów -->
+    <div class="section">
+      <h2>Wszystkie 13 typów PEWA</h2>
+      <div class="bar-grid" id="distribution"></div>
+    </div>
+
+    <!-- Per rola -->
+    <div class="section">
+      <h2>Rozkład per rola zawodowa</h2>
+      <div class="role-grid" id="roles"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const TYPE_COLORS = { P:'#e87a78', E:'#f0b34a', W:'#c14a4a', A:'#3d6e8c', D:'#E5B77A' };
+const PILL_CLASS = { P:'p', E:'e', W:'w', A:'a', D:'d' };
+
+async function login() {
+  const token = document.getElementById('token').value.trim();
+  if (!token) return;
+  localStorage.setItem('admin_token', token);
+  await loadStats(token);
+}
+
+async function loadStats(token) {
+  try {
+    const r = await fetch('/api/admin/pewa-stats?token=' + encodeURIComponent(token));
+    if (!r.ok) {
+      alert('Nieprawidłowy token albo brak danych');
+      return;
+    }
+    const data = await r.json();
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    render(data);
+  } catch (e) {
+    alert('Błąd: ' + e.message);
+  }
+}
+
+function render(d) {
+  // Top cards
+  const cards = [
+    { title: 'Łącznie testów', value: d.total, sub: 'Test 1 — wyniki z PEWA' },
+    { title: 'Czyste typy', value: d.kindSplit.pure, sub: pct(d.kindSplit.pure, d.total) + '%' },
+    { title: 'Mieszane typy', value: d.kindSplit.mixed, sub: pct(d.kindSplit.mixed, d.total) + '%' },
+    { title: 'Diament', value: d.kindSplit.diamond, sub: pct(d.kindSplit.diamond, d.total) + '%' },
+  ];
+  document.getElementById('topcards').innerHTML = cards.map(c => `
+    <div class="card">
+      <h3>${c.title}</h3>
+      <p class="big">${c.value}</p>
+      <p class="sub">${c.sub}</p>
+    </div>
+  `).join('');
+
+  // Top 3
+  document.getElementById('top3').innerHTML = d.top3.map((t, i) => `
+    <div class="top3-card ${i===0?'gold':''}">
+      <p class="rank">#${i+1}</p>
+      <p class="code">${t.code}</p>
+      <p class="name">${t.label}</p>
+      <p class="pct">${t.pct}% · ${t.count} osób</p>
+    </div>
+  `).join('');
+
+  // Split
+  document.getElementById('split').innerHTML = `
+    <div class="split-card pure">
+      <p class="big">${d.kindSplit.pure}</p>
+      <p class="small">CZYSTE (4 typy: P, E, W, A)</p>
+    </div>
+    <div class="split-card mixed">
+      <p class="big">${d.kindSplit.mixed}</p>
+      <p class="small">MIESZANE (8 typów: PE, EP, …)</p>
+    </div>
+    <div class="split-card diamond">
+      <p class="big">${d.kindSplit.diamond}</p>
+      <p class="small">DIAMENT (zrównoważony)</p>
+    </div>
+  `;
+
+  // Distribution 13 typów
+  const allCodes = ['P','E','W','A','PE','EP','PA','AP','EW','WE','WA','AW','D'];
+  const max = Math.max(...allCodes.map(c => d.codeDistribution[c]));
+  document.getElementById('distribution').innerHTML = allCodes.map(code => {
+    const cnt = d.codeDistribution[code] || 0;
+    const pctVal = max > 0 ? (cnt / max) * 100 : 0;
+    const pillClass = PILL_CLASS[code] || 'm';
+    return `
+      <div class="bar-row">
+        <span class="label"><span class="pill ${pillClass}">${code}</span><span class="name">${d.labels[code]}</span></span>
+        <div class="bar"><div class="bar-fill" style="width:${pctVal}%"></div></div>
+        <span class="cnt">${cnt}</span>
+      </div>
+    `;
+  }).join('');
+
+  // Per rola
+  const roles = Object.entries(d.roleDistribution || {});
+  if (roles.length === 0) {
+    document.getElementById('roles').innerHTML = '<div class="empty">Brak danych o rolach zawodowych w bazie</div>';
+  } else {
+    document.getElementById('roles').innerHTML = roles.map(([role, info]) => {
+      const types = Object.entries(info.byType).sort((a,b) => b[1] - a[1]);
+      const totalRole = info.total;
+      const bars = types.map(([code, cnt]) => {
+        const w = (cnt / totalRole) * 100;
+        const color = TYPE_COLORS[code[0]] || '#1a2238';
+        return `<div class="mini-bar" style="width:${w}%;background:${color}" title="${code}: ${cnt}"></div>`;
+      }).join('');
+      const topTypes = types.slice(0, 3).map(([c, n]) => `${c}: ${n}`).join(' · ');
+      return `
+        <div class="role-row">
+          <p class="name">${role} (${totalRole})</p>
+          <div class="mini-bars">${bars}</div>
+          <p style="margin:6px 0 0;font-size:11px;color:var(--muted)">Top: ${topTypes}</p>
+        </div>
+      `;
+    }).join('');
+  }
+}
+
+function pct(part, total) {
+  return total > 0 ? Math.round((part / total) * 100) : 0;
+}
+
+// Auto-login z localStorage / URL ?token=
+(function init() {
+  const urlToken = new URLSearchParams(location.search).get('token');
+  const saved = localStorage.getItem('admin_token');
+  const token = urlToken || saved;
+  if (token) {
+    document.getElementById('token').value = token;
+    loadStats(token);
+  }
+})();
+</script>
+
+</body>
+</html>

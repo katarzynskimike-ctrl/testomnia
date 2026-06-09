@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>Słownik pacjentów PEWA™ — Testomnia Admin</title>
+<style>
+  :root {
+    --navy: #0b1f3a;
+    --navy-2: #14315a;
+    --champagne: #c9a96a;
+    --bg: #f7f6f1;
+    --card: #ffffff;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --p: #e87a78;  /* Przyjaciel — koral ciepły */
+    --e: #f0b34a;  /* Entuzjasta — żółć słoneczna */
+    --w: #c14a4a;  /* Wódz — czerwień power */
+    --a: #3d6e8c;  /* Analityk — błękit chłodny */
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  header {
+    background: var(--navy);
+    color: #fff;
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  header h1 { margin: 0; font-size: 18px; font-weight: 600; letter-spacing: .3px; }
+  header .meta { font-size: 12px; color: var(--champagne); }
+  .container { max-width: 1180px; margin: 0 auto; padding: 24px 32px 80px; }
+
+  .intro {
+    background: var(--card);
+    padding: 20px 24px;
+    border-radius: 8px;
+    border-left: 3px solid var(--champagne);
+    margin-bottom: 24px;
+    font-size: 14px;
+  }
+  .intro strong { color: var(--navy); }
+
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #e5e3da;
+  }
+  .tab {
+    padding: 12px 20px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 500;
+    font-family: inherit;
+  }
+  .tab.active {
+    color: var(--navy);
+    border-bottom-color: var(--champagne);
+  }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .type-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 800px) { .type-grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 22px 24px;
+    box-shadow: 0 1px 3px rgba(11,31,58,.05);
+    border-top: 4px solid var(--champagne);
+  }
+  .card.p { border-top-color: var(--p); }
+  .card.e { border-top-color: var(--e); }
+  .card.w { border-top-color: var(--w); }
+  .card.a { border-top-color: var(--a); }
+
+  .card h2 {
+    margin: 0 0 4px;
+    font-size: 18px;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card h2 .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .card.p h2 .badge { background: var(--p); }
+  .card.e h2 .badge { background: var(--e); }
+  .card.w h2 .badge { background: var(--w); }
+  .card.a h2 .badge { background: var(--a); }
+
+  .card .subtitle {
+    color: var(--muted);
+    font-size: 12px;
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+
+  .block { margin-top: 16px; }
+  .block h3 {
+    margin: 0 0 6px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--champagne);
+    font-weight: 600;
+  }
+  .block p, .block ul { margin: 0; font-size: 14px; color: var(--ink); }
+  .block ul { padding-left: 18px; }
+  .block li { margin: 4px 0; }
+
+  .quote {
+    font-style: italic;
+    background: var(--bg);
+    border-left: 2px solid var(--champagne);
+    padding: 8px 12px;
+    margin: 4px 0;
+    font-size: 13px;
+  }
+  .quote.bad { border-left-color: var(--w); color: #aa3434; }
+  .quote.good { border-left-color: #2a8c44; color: #1f6b34; }
+
+  .matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(11,31,58,.05);
+  }
+  .matrix-table th, .matrix-table td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid #eeece4;
+    font-size: 13px;
+  }
+  .matrix-table th { background: var(--navy); color: #fff; font-weight: 600; }
+  .matrix-table tr:last-child td { border-bottom: none; }
+  .matrix-table td:first-child { font-weight: 600; color: var(--navy); }
+  .stars { color: var(--champagne); font-weight: bold; }
+
+  .checklist {
+    background: var(--card);
+    padding: 24px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    border-left: 4px solid var(--navy);
+  }
+  .checklist h3 { color: var(--navy); margin-top: 0; }
+  .checklist .row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px dashed #eeece4;
+    align-items: start;
+  }
+  .checklist .row:last-child { border-bottom: none; }
+  .checklist .row .label {
+    font-weight: 600;
+    color: var(--navy);
+    font-size: 13px;
+  }
+  .checklist .row .label.p { color: var(--p); }
+  .checklist .row .label.e { color: var(--e); }
+  .checklist .row .label.w { color: var(--w); }
+  .checklist .row .label.a { color: var(--a); }
+
+  .footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e3da;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Słownik pacjentów PEWA™</h1>
+  <div class="meta">Baza wiedzy zespołu · 800 testów · ebook 2017</div>
+</header>
+
+<div class="container">
+
+  <div class="intro">
+    <strong>Zespół czyta to przed wizytą.</strong>
+    Rozpoznanie typu pacjenta w pierwsze 30 sekund to różnica między „dobrą wizytą" a „pacjent wraca i poleca".
+    Materiał uniwersalny dla każdej specjalizacji, plus rozszerzenie stomatologiczne z autorskiego ebooka Michała Katarzyńskiego (2017, 800 testów).
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="types">4 typy pacjentów</button>
+    <button class="tab" data-tab="matrix">Matryca chemii</button>
+    <button class="tab" data-tab="recepcja">Recepcja — 30 sek</button>
+    <button class="tab" data-tab="asystentka">Asystentka — 60 sek</button>
+  </div>
+
+  <!-- PANEL 1: 4 TYPY -->
+  <div class="panel active" data-panel="types">
+    <div class="type-grid">
+
+      <!-- PRZYJACIEL -->
+      <div class="card p">
+        <h2><span class="badge">P</span> Przyjaciel</h2>
+        <div class="subtitle">Relacyjny ciepły · emocjonalny introwertyk</div>
+
+        <div class="block">
+          <h3>Jak go rozpoznać</h3>
+          <ul>
+            <li>Wyrazny dystans, niepewność</li>
+            <li>Czeka aż recepcja zacznie rozmowę</li>
+            <li>Mówi cicho, krótkimi zdaniami</li>
+            <li>Z trudem prosi o dodatkową informację</li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Słowa których używa</h3>
+          <p>bliskość, ciepło, opieka, bezpiecznie, czuje, delikatnie, pomoc, wsparcie, spokojnie, intymnie</p>
+        </div>
+
+        <div class="block">
+          <h3>Co go motywuje</h3>
+          <ul>
+            <li>Poczucie bezpieczeństwa (priorytet #1)</li>
+            <li>Empatia, troska, komfort</li>
+            <li>Dozowanie wrażeń (procedury rozłożone)</li>
+            <li>Stabilność (ten sam lekarz, ten sam zespół)</li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Czego unika</h3>
+          <p>nagłych zmian, twardości, pośpiechu, inwazyjnych procedur na pierwszej wizycie</p>
+        </div>
+
+        <div class="block">
+          <h3>NIE mów (jak Wódz)</h3>
+          <div class="quote bad">„Proszę się niczego nie obawiać. Wszystko będzie dobrze."</div>
+          <h3 style="margin-top:10px;">MÓW (z troską)</h3>
+          <div class="quote good">„Może Pani być spokojna — zajmiemy się Panią odpowiednio. Mamy bezpieczne, komfortowe znieczulenia."</div>
+        </div>
+
+        <div class="block">
+          <h3>Fakt z 800 testów</h3>
+          <p><strong>Najbardziej lojalny typ pacjenta</strong> — najrzadziej zmienia lekarza. Wolno buduje zaufanie, ale jeśli zaufa = pacjent na lata.</p>
+        </div>
+      </div>
+
+      <!-- ENTUZJASTA -->
+      <div class="card e">
+        <h2><span class="badge">E</span> Entuzjasta</h2>
+        <div class="subtitle">Emocjonalny ekstrawertyk · zaraźliwa energia</div>
+
+        <div class="block">
+          <h3>Jak go rozpoznać</h3>
+          <ul>
+            <li>Uśmiecha się szeroko, otwarcie</li>
+            <li>Szybko skraca dystans (uścisk dłoni, poklepywanie)</li>
+            <li>Mówi szybko, wpada w słowotok</li>
+            <li>Przeskakuje z tematu na temat</li>
+            <li>Szybko podejmuje decyzję, niecierpliwy</li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Słowa których używa</h3>
+          <p>fantastycznie, super, rewelacja, emocjonujący, efektowny, świetnie, ekstra</p>
+        </div>
+
+        <div class="block">
+          <h3>Co go motywuje</h3>
+          <ul>
+            <li>Dobra atmosfera, uśmiechnięty lekarz</li>
+            <li>Komplementy i pochwały</li>
+            <li>Wizualizacja efektu (wzrokowiec — pokaż zdjęcie!)</li>
+            <li>Szybki, widoczny efekt</li>
+            <li>Nieformalne rozmowy (hobby, urlop)</li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Czego unika</h3>
+          <p>odrzucenia, negacji, ignorowania, długiego leczenia bez szybkich efektów</p>
+        </div>
+
+        <div class="block">
+          <h3>MÓW do niego</h3>
+          <div class="quote good">„Bardzo dobrze że Pani przyszła. Świetnie że zdecydowała się Pani kontynuować leczenie. Proszę zobaczyć — taki efekt został osiągnięty u podobnej pacjentki."</div>
+        </div>
+
+        <div class="block">
+          <h3>Ryzyko</h3>
+          <p>Mówi sam — może nie dosłyszeć ważnych informacji. <strong>ZAWSZE spisz harmonogram na piśmie/SMS-em.</strong> Spóźni się na wizytę, zagada następnego pacjenta.</p>
+        </div>
+      </div>
+
+      <!-- WÓDZ -->
+      <div class="card w">
+        <h2><span class="badge">W</span> Wódz</h2>
+        <div class="subtitle">Racjonalny ekstrawertyk · szybka decyzja</div>
+
+        <div class="block">
+          <h3>Jak go rozpoznać</h3>
+          <ul>
+            <li>Pyta o konkrety („o której?", „ile czasu?")</li>
+            <li>Patrzy na zegar, nie wchodzi w small-talk</li>
+            <li>Utrzymuje długi kontakt wzrokowy</li>
+            <li>Rzadziej się uśmiecha</li>
+            <li>Szybko wygłasza opinie, mocno argumentuje</li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Słowa których używa</h3>
+          <p>zdecydowanie, natychmiast, najlepiej, najlepszy, strategia, cel, sukces, korzyści, zysk, ambitnie</p>
+        </div>
+
+        <div class="block">
+          <h3>Co go motywuje</h3>
+          <ul>
+            <li>Najwyższa jakość (priorytet #1)</li>
+            <li>„Naj…" — najlepszy lekarz, najnowsza metoda</li>
+            <li>Możliwość podejmowania decyzji (kontrola)</li>
+            <li>Dane, racjonalne argumenty</li>
+            <li>Krótka, konkretna komunikacja</li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Czego unika</h3>
+          <p>utraty kontroli, spóźnień (Twoich!), lekceważenia, krytyki, „miękkich" argumentów bez podstaw</p>
+        </div>
+
+        <div class="block">
+          <h3>MÓW do niego</h3>
+          <div class="quote good">„Proponuję najnowszą metodę X — standard u liderów. Plan: krok 1 dziś, krok 2 za tydzień, krok 3 za miesiąc. Decyzja należy do Pana."</div>
+        </div>
+
+        <div class="block">
+          <h3>Fakt z badań — UWAGA!</h3>
+          <p><strong>80% szefów Fortune 500 to Wodzowie</strong>. <strong>Najmniej lojalny typ pacjenta.</strong> Łatwo zostawia negatywne opinie. Spóźnienia z Twojej strony = ostentacyjnie wyjdzie z poczekalni. Może próbować wymuszać rabaty (rywalizacja). ALE jeśli dobrze prowadzony — doprowadzi leczenie do końca.</p>
+        </div>
+      </div>
+
+      <!-- ANALITYK -->
+      <div class="card a">
+        <h2><span class="badge">A</span> Analityk</h2>
+        <div class="subtitle">Racjonalny introwertyk · głęboka precyzja</div>
+
+        <div class="block">
+          <h3>Jak go rozpoznać</h3>
+          <ul>
+            <li><strong>Sprawdził Twoją stronę PRZED wizytą</strong></li>
+            <li>Przeczytał referencje konkretnego lekarza</li>
+            <li>Przyszedł z pre-diagnozą („wydaje mi się że…")</li>
+            <li>Ma listę pytań na kartce/w telefonie</li>
+            <li>Utrzymuje wyraźny dystans fizyczny</li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Słowa których używa</h3>
+          <p>dokładnie, krok po kroku, dane, informacje, struktura, badania, procedury, jakość, wiarygodne, miarodajne</p>
+        </div>
+
+        <div class="block">
+          <h3>Co go motywuje</h3>
+          <ul>
+            <li>Jakość i dokładność leczenia</li>
+            <li>Decyzja BEZ presji (potrzebuje 24-48h)</li>
+            <li>Dużo informacji (im więcej tym lepiej)</li>
+            <li>Specjalistyczne procedury i technologie (mikroskop!)</li>
+            <li>Czystość, sterylność, porządek w gabinecie</li>
+            <li>Przestrzeń na pytania</li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Czego unika</h3>
+          <p>pośpiechu, chaosu, wielozadaniowości lekarza w trakcie wizyty, braku informacji</p>
+        </div>
+
+        <div class="block">
+          <h3>Kluczowe: gdy mówi „muszę się zastanowić"</h3>
+          <p>To jest <strong>NORMALNE, nie odmowa</strong>. Jego proces decyzyjny jest po prostu dłuższy. Daj mu 48h, daj numer do siebie, sprawdź czy nie ma pytań.</p>
+        </div>
+
+        <div class="block">
+          <h3>MÓW do niego</h3>
+          <div class="quote good">„Zastosuję mikroskop, który zapewni większą dokładność. Według metaanalizy z 2023 — w 78% przypadków podobnych do Pana, leczenie X daje efekt Y. Jakie ma Pan pytania?"</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PANEL 2: MATRYCA -->
+  <div class="panel" data-panel="matrix">
+    <div class="intro">
+      <strong>Matryca chemii lekarz × pacjent.</strong>
+      Pokazuje gdzie kontakt jest naturalny, a gdzie trzeba pracować nad „mostami". 3 gwiazdki = idealna chemia. 1 gwiazdka = wymaga świadomego wysiłku z Twojej strony.
+    </div>
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th>Lekarz \\ Pacjent</th>
+          <th>Przyjaciel</th>
+          <th>Entuzjasta</th>
+          <th>Wódz</th>
+          <th>Analityk</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Przyjaciel</td>
+          <td><span class="stars">⭐⭐⭐</span> idealna chemia<br><small>pacjent czuje „dobre ręce"</small></td>
+          <td><span class="stars">⭐⭐</span> dobrze, uważaj na chaos</td>
+          <td><span class="stars">⭐</span> Wódz Cię zdominuje</td>
+          <td><span class="stars">⭐</span> dystans, ale możliwe</td>
+        </tr>
+        <tr>
+          <td>Entuzjasta</td>
+          <td><span class="stars">⭐⭐</span> ciepło + energia</td>
+          <td><span class="stars">⭐⭐⭐</span> chemia, ale chaos x2</td>
+          <td><span class="stars">⭐⭐</span> napęd</td>
+          <td><span class="stars">⭐</span> Twoja energia go przerazi</td>
+        </tr>
+        <tr>
+          <td>Wódz</td>
+          <td><span class="stars">⭐</span> pacjent się zdominuje</td>
+          <td><span class="stars">⭐⭐</span> tempo OK</td>
+          <td><span class="stars">⭐⭐⭐</span> rozumieją się w pełni</td>
+          <td><span class="stars">⭐⭐</span> wspólna racjonalność</td>
+        </tr>
+        <tr>
+          <td>Analityk</td>
+          <td><span class="stars">⭐⭐</span> ciepło z faktami</td>
+          <td><span class="stars">⭐</span> Twój dystans go zdezorientuje</td>
+          <td><span class="stars">⭐⭐</span> wspólne dane</td>
+          <td><span class="stars">⭐⭐⭐</span> idealna chemia</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PANEL 3: RECEPCJA -->
+  <div class="panel" data-panel="recepcja">
+    <div class="checklist">
+      <h3>Recepcjonistka — rozpoznanie typu w 30 sekund</h3>
+      <p>Sygnały z momentu wejścia pacjenta do recepcji. Każda obserwacja = sygnał typu.</p>
+
+      <div class="row">
+        <span class="label e">ENTUZJASTA</span>
+        <div>
+          Szybko mówi, dotyka pulpitu, pyta o samopoczucie recepcjonistki, dłonie w ruchu. Pierwsze zdanie często zaczyna od „dzień dobry!" z wykrzyknieniem.
+        </div>
+      </div>
+      <div class="row">
+        <span class="label w">WÓDZ</span>
+        <div>
+          Pyta o konkrety („o której?", „ile będzie trwało?", „kto mnie przyjmie?"). Patrzy na zegar. Nie wchodzi w small-talk. Czasem nawet nie zdejmuje płaszcza.
+        </div>
+      </div>
+      <div class="row">
+        <span class="label a">ANALITYK</span>
+        <div>
+          Pyta o procedury, materiały, kwalifikacje lekarza. Ma listę pytań (na kartce/w telefonie). Sprawdził stronę przed wizytą. Może spytać o certyfikaty.
+        </div>
+      </div>
+      <div class="row">
+        <span class="label p">PRZYJACIEL</span>
+        <div>
+          Stoi z dystansem, niepewnie. Czeka aż recepcjonistka zacznie. Mówi cicho. Czasem przyszedł z osobą towarzyszącą. Może być wyraźnie zestresowany.
+        </div>
+      </div>
+    </div>
+
+    <div class="checklist">
+      <h3>Konkretne zdania recepcji</h3>
+      <div class="row">
+        <span class="label e">ENTUZJASTA</span>
+        <div class="quote good">„O, bardzo się cieszę że Pani już jest! Dr Kowalski Panią zaraz przyjmie. Może herbatkę?"</div>
+      </div>
+      <div class="row">
+        <span class="label w">WÓDZ</span>
+        <div class="quote good">„Dzień dobry. Pana wizyta o 10:30. Dr Kowalski zaraz Pana zaprasza. Wizyta potrwa 30 min."</div>
+      </div>
+      <div class="row">
+        <span class="label a">ANALITYK</span>
+        <div class="quote good">„Dzień dobry. Tutaj jest informacja o planowanej procedurze. Czy ma Pan pytania zanim zostanie wezwany?"</div>
+      </div>
+      <div class="row">
+        <span class="label p">PRZYJACIEL</span>
+        <div class="quote good">„Dzień dobry. Proszę usiąść, dr Kowalski Panią przyjmie za chwilę. Wszystko jest pod kontrolą — gdyby Pani czegoś potrzebowała, jestem tutaj."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 4: ASYSTENTKA -->
+  <div class="panel" data-panel="asystentka">
+    <div class="checklist">
+      <h3>Asystentka — pierwsze 60 sekund w gabinecie</h3>
+      <p>Po wejściu pacjenta do gabinetu, Twoje pierwsze 60 sek ustawia ton wizyty.</p>
+
+      <div class="row">
+        <span class="label e">ENTUZJASTA</span>
+        <div>
+          Uśmiech + komplement + small-talk. „Pani świetnie dziś wygląda. Jak Panin urlop?" — buduje atmosferę, pacjent się rozluźnia.
+        </div>
+      </div>
+      <div class="row">
+        <span class="label w">WÓDZ</span>
+        <div>
+          Konkret + plan. „Dzień dobry. Dr Kowalski zaraz przyjdzie. Wizyta potrwa 30 min, plan: 1) badanie, 2) decyzja, 3) procedura." — Wódz czuje że jest sprawnie.
+        </div>
+      </div>
+      <div class="row">
+        <span class="label a">ANALITYK</span>
+        <div>
+          Informacja + zachęta do pytań. „Tu jest planowany przebieg dzisiejszej wizyty. Proszę spojrzeć — jakie ma Pan pytania zanim wejdzie dr Kowalski?" — Analityk czuje że jest u eksperta.
+        </div>
+      </div>
+      <div class="row">
+        <span class="label p">PRZYJACIEL</span>
+        <div>
+          Ciepło + zapewnienie + bliskość emocjonalna. „Dzień dobry Pani. Proszę usiąść, mamy wszystko przygotowane. Jeśli coś będzie Panią niepokoić — proszę powiedzieć od razu. Jestem tutaj." — Przyjaciel się otwiera.
+        </div>
+      </div>
+    </div>
+
+    <div class="checklist">
+      <h3>Krytyczne błędy — czego NIE robić</h3>
+
+      <div class="row">
+        <span class="label p">do P</span>
+        <div class="quote bad">NIE: „Proszę się nie obawiać, wszystko będzie OK" (wódz-style, zdominuje)</div>
+      </div>
+      <div class="row">
+        <span class="label e">do E</span>
+        <div class="quote bad">NIE: „Proszę usiąść w ciszy, dr przyjdzie" (analityk-style, zniechęci)</div>
+      </div>
+      <div class="row">
+        <span class="label w">do W</span>
+        <div class="quote bad">NIE: „Może herbatka?" (entuzjasta-style, zlekceważy)</div>
+      </div>
+      <div class="row">
+        <span class="label a">do A</span>
+        <div class="quote bad">NIE: „Już zaraz, niech się Pan/Pani nie martwi" (przyjaciel-style, zniechęci brakiem informacji)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Model PEWA™ · Materiał na podstawie 800 testów (M. Katarzyński, 2017) · testomnia.pl<br>
+    © 2026 Excellent Patient Service Sp. z o.o.
+  </div>
+
+</div>
+
+<script>
+  document.querySelectorAll('.tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.tab;
+      document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t === btn));
+      document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.dataset.panel === target));
+    });
+  });
+</script>
+
+</body>
+</html>

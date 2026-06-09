@@ -1,5 +1,6 @@
 // Vercel Serverless Function: /api/send-report
 import { saveResult, markEmailSent, logEvent } from './_db.js';
+import { classifyPewaLegacy } from './_lib/classifyPewa.js';
 // Wysyła HTML raport z wynikiem testu przez Brevo
 
 const SENDER = { name: 'Testomnia (DOP)', email: 'katarzynski.mike@gmail.com' };
@@ -59,6 +60,9 @@ async function compassChartMail(counts, total) {
 async function discReport(r) {
   const d = DISC[r.dominant] || DISC.opiekun;
   const counts = r.counts || {};
+  // PEWA classification (13 typów)
+  let pewa = null;
+  try { pewa = classifyPewaLegacy(counts); } catch(e) { console.log('classifyPewa failed:', e.message); }
   const total = Object.values(counts).reduce((a,b)=>a+(b||0),0) || 1;
   const order = ['opiekun','inspirator','strateg','ekspert'].sort((a,b)=>(counts[b]||0)-(counts[a]||0));
   const bars = order.map(k=>{const m=DISC[k];const c=counts[k]||0;const p=Math.round((c/total)*100);return `<tr><td style="padding:8px 12px 8px 0;width:140px;vertical-align:middle"><span style="display:inline-block;width:10px;height:10px;background:${m.color};border-radius:2px;margin-right:8px;vertical-align:middle"></span><strong style="color:#F6F1E8">${m.name}</strong><br><span style="font-size:12px;color:#9CA0B1">${m.sub}</span></td><td style="padding:8px 0;width:100%;vertical-align:middle"><div style="background:#080E18;height:10px;border-radius:999px;overflow:hidden"><div style="height:10px;width:${Math.max(2,p)}%;background:${m.color};border-radius:999px"></div></div></td><td style="padding:8px 0 8px 16px;text-align:right;vertical-align:middle;color:#F6F1E8;font-weight:700;white-space:nowrap">${p}% <span style="color:#9CA0B1;font-weight:400;font-size:12px">(${c} pkt)</span></td></tr>`;}).join('');
@@ -70,6 +74,9 @@ async function discReport(r) {
 <p style="margin:0 0 8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#E5B77A;font-weight:600">Co znaczy Twój wynik</p>
 <p style="margin:0;color:#D8D6CF;line-height:1.65;font-size:15px">${d.desc}</p></section>
 <section style="padding:24px 28px;border:1px solid rgba(255,255,255,.08);border-radius:18px;background:#0D1423;margin-bottom:18px">
+${pewa ? `<p style="margin:0 0 8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#E5B77A;font-weight:600">Twój kod PEWA™</p>
+<h3 style="margin:0 0 6px;font-family:Georgia,serif;color:#F6F1E8;font-size:24px">${pewa.code} · ${pewa.label}</h3>
+<p style="margin:0 0 20px;font-style:italic;color:#9CA0B1;font-size:14px">Supermoc: ${pewa.superpower}</p>` : ''}
 <p style="margin:0 0 10px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#E5B77A;font-weight:600">Twój kompas 4 typów</p>
 ${await compassChartMail(counts, total)}</section>
 <section style="padding:24px 28px;border:1px solid rgba(255,255,255,.08);border-radius:18px;background:#0D1423;margin-bottom:18px">
@@ -83,7 +90,14 @@ ${await compassChartMail(counts, total)}</section>
 <ul style="margin:0;padding-left:20px;color:#D8D6CF;font-size:15px;line-height:1.7">${d.risks.map(r=>`<li>${r}</li>`).join('')}</ul></section>
 <section style="padding:28px;border:1px solid rgba(229,183,122,.4);border-radius:18px;background:linear-gradient(180deg,rgba(229,183,122,.1),rgba(229,183,122,.03));margin-bottom:18px">
 <p style="margin:0 0 12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#E5B77A;font-weight:600">Pierwszy krok — plan 30 dni</p>
-<p style="margin:0;color:#F6F1E8;line-height:1.7;font-size:16px;font-style:italic;font-family:Georgia,serif">${d.advice}</p></section>`;
+<p style="margin:0;color:#F6F1E8;line-height:1.7;font-size:16px;font-style:italic;font-family:Georgia,serif">${d.advice}</p></section>
+<section style="padding:32px 28px;border:2px solid rgba(229,183,122,.6);border-radius:18px;background:linear-gradient(135deg,rgba(229,183,122,.15),rgba(229,183,122,.05));text-align:center;margin-bottom:18px">
+<p style="margin:0 0 12px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#E5B77A;font-weight:600">Pełny raport PEWA™ · 19 zł</p>
+<h3 style="margin:0 0 16px;font-family:Georgia,serif;font-size:24px;color:#F6F1E8">${pewa ? pewa.code + ' · ' + pewa.label : 'Twój pełny raport'}</h3>
+<p style="margin:0 0 20px;color:#D8D6CF;line-height:1.6;font-size:14px">12 stron · 10 sekcji · supermoce, naturalne wyzwania, plan 30/90 dni, typologia pacjentów, materiały dla zespołu</p>
+<p><a href="https://www.testomnia.pl/?upgrade=pewa&type=${pewa?pewa.code:''}" style="display:inline-block;background:#E5B77A;color:#1a1109;padding:14px 28px;border-radius:999px;text-decoration:none;font-weight:600;font-size:15px">Zamów pełny raport →</a></p>
+<p style="margin:14px 0 0;font-size:12px;color:#9CA0B1">Płatność BLIK / karta / przelew · faktura VAT · PDF w mailu w 2 minuty</p>
+</section>`;
 }
 
 function genericReport(slug, r) {

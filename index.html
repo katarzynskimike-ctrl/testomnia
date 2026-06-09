@@ -416,6 +416,122 @@ h2{font-size:clamp(28px,3.4vw,40px)}
 </section>
 
 
+<section class="section" id="pelny-raport-pewa">
+  <div class="wrap">
+    <div class="section__head">
+      <span class="eyebrow">Pełny raport PEWA™</span>
+      <h2>Wykonaj test <em class="italic-accent">bezpłatnie</em>. Pełen raport za <em class="italic-accent">19 zł</em>.</h2>
+      <p class="lead">Bezpłatny wynik pokazuje typ. Pełny raport — to plan na 30 i 90 dni, język dla każdego typu pacjenta, materiały dla zespołu.</p>
+    </div>
+
+    <div class="pewa-grid">
+      <!-- LEWA: free vs paid -->
+      <div class="pewa-compare">
+        <div class="pewa-card pewa-card--free">
+          <p class="pewa-card__tag">Po teście — automatycznie</p>
+          <h3 class="pewa-card__title">Bezpłatny wynik</h3>
+          <p class="pewa-card__price">0 zł</p>
+          <ul class="pewa-card__list">
+            <li>✓ Twój kod PEWA (np. <strong>PE</strong>)</li>
+            <li>✓ Nazwa archetypu (np. Przyjaciel-Entuzjasta)</li>
+            <li>✓ Kompas wizualny 4 osi</li>
+            <li>✓ Krótki opis dominującego typu</li>
+            <li>✓ 3 mocne strony i 3 wyzwania</li>
+          </ul>
+        </div>
+
+        <div class="pewa-card pewa-card--paid">
+          <p class="pewa-card__tag">Po opłacie · PDF w mailu w 2 minuty</p>
+          <h3 class="pewa-card__title">Pełny raport PEWA™</h3>
+          <p class="pewa-card__price">19 zł <span>brutto · faktura VAT</span></p>
+          <ul class="pewa-card__list">
+            <li><strong>Sekcja 1.</strong> Kim jesteś — pełny profil rozszerzony (1 strona)</li>
+            <li><strong>Sekcja 2.</strong> Sygnatura komunikacyjna — 5 zdań które wypowiadasz częściej i rzadziej</li>
+            <li><strong>Sekcja 3.</strong> 10 mocnych stron rozszerzonych — z konkretem „Użyj tego"</li>
+            <li><strong>Sekcja 4.</strong> 9 naturalnych wyzwań — sygnał wczesny + pierwsza pomoc 60 sek + plan długofalowy</li>
+            <li><strong>Sekcja 5.</strong> Pacjenci których rozumiesz — typologia 4 typów z 800 testów stomatologicznych</li>
+            <li><strong>Sekcja 6.</strong> Plan 30 dni — tydzień po tygodniu</li>
+            <li><strong>Sekcja 7.</strong> Plan 90 dni — świadomość → zespół → pacjenci</li>
+            <li><strong>Sekcja 8.</strong> Twoje duety w zespole — z kim współpracujesz najlepiej</li>
+            <li><strong>Sekcja 9.</strong> Statystyki — vs populacja, rozkład w grupach zawodowych</li>
+            <li><strong>Sekcja 10.</strong> Materiały dodatkowe + cross-link do raportów partnerów</li>
+          </ul>
+          <p class="pewa-card__bonus"><strong>Bonus:</strong> Słownik pacjentów PEWA™ — drukuj i powieś w gabinecie (50+ konkretnych zdań DO mówić / NIE mówić do każdego typu).</p>
+        </div>
+      </div>
+
+      <!-- PRAWA: typy + social proof -->
+      <aside class="pewa-side">
+        <div class="pewa-types">
+          <p class="pewa-types__head">13 typów raportów — każdy ~10 stron</p>
+          <div class="pewa-types__grid">
+            <span class="pewa-pill pewa-pill--p">P</span>
+            <span class="pewa-pill pewa-pill--e">E</span>
+            <span class="pewa-pill pewa-pill--w">W</span>
+            <span class="pewa-pill pewa-pill--a">A</span>
+            <span class="pewa-pill">PE</span>
+            <span class="pewa-pill">EP</span>
+            <span class="pewa-pill">PA</span>
+            <span class="pewa-pill">AP</span>
+            <span class="pewa-pill">EW</span>
+            <span class="pewa-pill">WE</span>
+            <span class="pewa-pill">WA</span>
+            <span class="pewa-pill">AW</span>
+            <span class="pewa-pill pewa-pill--diamond">◆</span>
+          </div>
+          <p class="pewa-types__hint">4 czyste · 8 mieszanych · 1 Diament (zrównoważony)</p>
+        </div>
+
+        <div class="pewa-proof">
+          <p class="pewa-proof__num">800<span>testów stomatologicznych</span></p>
+          <p class="pewa-proof__num">14<span>lat doświadczenia</span></p>
+          <p class="pewa-proof__num">6 000<span>wykonanych testów</span></p>
+        </div>
+
+        <a href="#testy" class="pewa-cta">Zacznij od bezpłatnego testu →</a>
+        <p class="pewa-cta__note">BLIK · karta · przelew · faktura VAT</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+#pelny-raport-pewa { background: linear-gradient(180deg, #080E18 0%, #0D1423 100%); }
+.pewa-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 32px; align-items: start; }
+@media (max-width: 900px) { .pewa-grid { grid-template-columns: 1fr; } }
+.pewa-compare { display: grid; gap: 18px; }
+.pewa-card { padding: 28px; border-radius: 18px; background: #0D1423; border: 1px solid rgba(229,183,122,.18); }
+.pewa-card--paid { border-color: rgba(229,183,122,.55); background: linear-gradient(135deg, rgba(229,183,122,.08), rgba(229,183,122,.02)); }
+.pewa-card__tag { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: #E5B77A; font-weight: 600; margin: 0 0 8px; }
+.pewa-card__title { font-family: Georgia, serif; font-size: 26px; color: #F6F1E8; margin: 0 0 4px; }
+.pewa-card__price { font-family: Georgia, serif; font-size: 36px; color: #E5B77A; margin: 0 0 16px; font-weight: 600; }
+.pewa-card__price span { font-size: 13px; color: #9CA0B1; font-weight: 400; font-family: -apple-system, sans-serif; }
+.pewa-card__list { margin: 0; padding-left: 0; list-style: none; color: #D8D6CF; font-size: 14px; line-height: 1.7; }
+.pewa-card__list li { padding: 4px 0; }
+.pewa-card__list strong { color: #F6F1E8; }
+.pewa-card--free .pewa-card__list li { padding-left: 4px; }
+.pewa-card__bonus { margin-top: 18px; padding: 12px 14px; background: rgba(229,183,122,.1); border-radius: 8px; font-size: 13px; color: #D8D6CF; line-height: 1.6; }
+.pewa-card__bonus strong { color: #E5B77A; }
+.pewa-side { display: flex; flex-direction: column; gap: 20px; }
+.pewa-types { padding: 24px; background: #0D1423; border: 1px solid rgba(255,255,255,.08); border-radius: 18px; }
+.pewa-types__head { margin: 0 0 14px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #E5B77A; font-weight: 600; }
+.pewa-types__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.pewa-pill { display: inline-flex; align-items: center; justify-content: center; padding: 8px 0; background: #1a2238; color: #D8D6CF; border-radius: 8px; font-weight: 600; font-size: 13px; text-align: center; }
+.pewa-pill--p { background: #e87a78; color: #0D1423; }
+.pewa-pill--e { background: #f0b34a; color: #0D1423; }
+.pewa-pill--w { background: #c14a4a; color: #F6F1E8; }
+.pewa-pill--a { background: #3d6e8c; color: #F6F1E8; }
+.pewa-pill--diamond { background: #E5B77A; color: #0D1423; font-size: 18px; }
+.pewa-types__hint { margin: 12px 0 0; font-size: 12px; color: #9CA0B1; text-align: center; }
+.pewa-proof { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 18px; background: #0D1423; border-radius: 18px; border: 1px solid rgba(255,255,255,.08); }
+.pewa-proof__num { margin: 0; font-family: Georgia, serif; font-size: 24px; color: #E5B77A; text-align: center; line-height: 1.1; font-weight: 600; }
+.pewa-proof__num span { display: block; font-size: 10px; color: #9CA0B1; letter-spacing: .08em; text-transform: uppercase; margin-top: 4px; font-weight: 400; font-family: -apple-system, sans-serif; }
+.pewa-cta { display: block; padding: 16px; background: #E5B77A; color: #1a1109; border-radius: 999px; text-align: center; text-decoration: none; font-weight: 600; font-size: 15px; }
+.pewa-cta:hover { background: #f0c890; }
+.pewa-cta__note { margin: 8px 0 0; font-size: 11px; color: #9CA0B1; text-align: center; letter-spacing: .04em; }
+</style>
+
+
 <section class="section" id="kim-jestem">
   <div class="wrap">
     <div class="section__head">
