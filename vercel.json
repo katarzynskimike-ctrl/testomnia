@@ -32,6 +32,16 @@
     },
     "api/features.js": {
       "maxDuration": 5
+    },
+    "api/polacy/save-lead.js": {
+      "maxDuration": 10
+    },
+    "api/polacy/send-report.js": {
+      "maxDuration": 10,
+      "includeFiles": "api/_lib/**"
+    },
+    "api/polacy/checkout.js": {
+      "maxDuration": 10
     }
   },
   "crons": [
@@ -52,6 +62,15 @@
     },
     {
       "source": "/wielki-test.html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "index, follow"
+        }
+      ]
+    },
+    {
+      "source": "/polacy/(.*)",
       "headers": [
         {
           "key": "X-Robots-Tag",
