@@ -5,78 +5,27 @@
   "trailingSlash": false,
   "cleanUrls": false,
   "functions": {
-    "api/send-report.js": {
-      "maxDuration": 10,
-      "includeFiles": "api/_lib/**"
-    },
-    "api/compass.js": {
-      "maxDuration": 10,
-      "includeFiles": "api/_fonts/**"
-    },
-    "api/admin/data.js": {
-      "maxDuration": 10
-    },
-    "api/admin/pewa-stats.js": {
-      "maxDuration": 10,
-      "includeFiles": "api/_lib/**"
-    },
-    "api/checkout.js": {
-      "maxDuration": 10
-    },
-    "api/imoje-webhook.js": {
-      "maxDuration": 15,
-      "includeFiles": "api/_lib/**"
-    },
-    "api/cron/sequence.js": {
-      "maxDuration": 30
-    },
-    "api/features.js": {
-      "maxDuration": 5
-    }
+    "api/send-report.js": { "maxDuration": 10, "includeFiles": "api/_lib/**" },
+    "api/compass.js": { "maxDuration": 10, "includeFiles": "api/_fonts/**" },
+    "api/admin/data.js": { "maxDuration": 10 },
+    "api/admin/pewa-stats.js": { "maxDuration": 10, "includeFiles": "api/_lib/**" },
+    "api/checkout.js": { "maxDuration": 10 },
+    "api/imoje-webhook.js": { "maxDuration": 15, "includeFiles": "api/_lib/**" },
+    "api/cron/sequence.js": { "maxDuration": 30 },
+    "api/features.js": { "maxDuration": 5 }
   },
   "crons": [
-    {
-      "path": "/api/cron/sequence",
-      "schedule": "0 8 * * *"
-    }
+    { "path": "/api/cron/sequence", "schedule": "0 8 * * *" }
   ],
   "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow, noarchive, nosnippet"
-        }
-      ]
-    },
-    {
-      "source": "/wielki-test.html",
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "index, follow"
-        }
-      ]
-    }
+    { "source": "/(.*)", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, nosnippet" } ] },
+    { "source": "/wielki-test.html", "headers": [ { "key": "X-Robots-Tag", "value": "index, follow" } ] }
   ],
   "redirects": [
-    {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "testomnia.vercel.app"
-        }
-      ],
-      "destination": "https://www.testomnia.pl/:path*",
-      "permanent": true
-    }
+    { "source": "/", "destination": "/test-4-typy-osobowosci.html", "permanent": false },
+    { "source": "/:path*", "has": [ { "type": "host", "value": "testomnia.vercel.app" } ], "destination": "https://www.testomnia.pl/:path*", "permanent": true }
   ],
   "rewrites": [
-    {
-      "source": "/api/compass.png",
-      "destination": "/api/compass"
-    }
+    { "source": "/api/compass.png", "destination": "/api/compass" }
   ]
 }
