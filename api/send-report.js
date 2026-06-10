@@ -60,9 +60,17 @@ async function compassChartMail(counts, total) {
 async function discReport(r) {
   const d = DISC[r.dominant] || DISC.opiekun;
   const counts = r.counts || {};
-  // PEWA classification (13 typów)
+  // PEWA classification (13 typów) — v1.3 z kalibracją osi
   let pewa = null;
-  try { pewa = classifyPewaLegacy(counts); } catch(e) { console.log('classifyPewa failed:', e.message); }
+  try {
+    const inputForPewa = { ...counts };
+    if (r.calibration) {
+      if (typeof r.calibration.axisEmotional === 'number') inputForPewa.axisEmotional = r.calibration.axisEmotional;
+      if (typeof r.calibration.axisSocial    === 'number') inputForPewa.axisSocial    = r.calibration.axisSocial;
+      if (typeof r.calibration.flexibility   === 'number') inputForPewa.flexibility   = r.calibration.flexibility;
+    }
+    pewa = classifyPewaLegacy(inputForPewa);
+  } catch(e) { console.log('classifyPewa failed:', e.message); }
   const total = Object.values(counts).reduce((a,b)=>a+(b||0),0) || 1;
   const order = ['opiekun','inspirator','strateg','ekspert'].sort((a,b)=>(counts[b]||0)-(counts[a]||0));
   const bars = order.map(k=>{const m=DISC[k];const c=counts[k]||0;const p=Math.round((c/total)*100);return `<tr><td style="padding:8px 12px 8px 0;width:140px;vertical-align:middle"><span style="display:inline-block;width:10px;height:10px;background:${m.color};border-radius:2px;margin-right:8px;vertical-align:middle"></span><strong style="color:#F6F1E8">${m.name}</strong><br><span style="font-size:12px;color:#9CA0B1">${m.sub}</span></td><td style="padding:8px 0;width:100%;vertical-align:middle"><div style="background:#080E18;height:10px;border-radius:999px;overflow:hidden"><div style="height:10px;width:${Math.max(2,p)}%;background:${m.color};border-radius:999px"></div></div></td><td style="padding:8px 0 8px 16px;text-align:right;vertical-align:middle;color:#F6F1E8;font-weight:700;white-space:nowrap">${p}% <span style="color:#9CA0B1;font-weight:400;font-size:12px">(${c} pkt)</span></td></tr>`;}).join('');
@@ -152,7 +160,8 @@ export default async function handler(req, res) {
         total: result?.total || 0,
         ip: (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || null,
         userAgent: req.headers['user-agent'] || null,
-        referrer: req.headers['referer'] || null
+        referrer: req.headers['referer'] || null,
+        calibration: result?.calibration || null
       });
       resultId = saved.resultId;
       await logEvent({ type: 'report_requested', email, testSlug: slug, meta: { dominant: result?.dominant } });
